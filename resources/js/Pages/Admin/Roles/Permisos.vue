@@ -32,7 +32,7 @@ const listPermisos = ref(props.array_permisos);
 
 const verificaDisabled = (modulo, accion) => {
     let disabled = false;
-    if (props.role.id == 1 || props.role.id == 2) {
+    if (props.role.id == 1) {
         disabled = true;
     }
     if (props.role.id != 2) {
@@ -65,19 +65,6 @@ const verificaPermiso = (modulo, accion) => {
         return true;
     }
 
-    if (props.role.id == 2) {
-        if (modulo == "Solicitud de productos") {
-            if (accion == "CREAR" || accion == "VER") {
-                return true;
-            }
-        }
-        if (modulo == "Orden de venta") {
-            if (accion == "CREAR" || accion == "VER") {
-                return true;
-            }
-        }
-        return false;
-    }
     let existe = listPermisos.value[modulo].filter(
         (elem) => elem.accion == accion
     );

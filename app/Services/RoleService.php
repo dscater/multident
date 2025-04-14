@@ -15,7 +15,7 @@ class RoleService
 {
 
     private $modulo = "ROLES";
-    private $no_delete_role = [1, 2]; // super administrador|cliente
+    private $no_delete_role = [1]; // super administrador|cliente
 
     public function __construct(private HistorialAccionService $historialAccionService) {}
 

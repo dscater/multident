@@ -23,12 +23,13 @@ class UserStoreRequest extends FormRequest
     {
         return [
             "nombres" => "required|min:2",
-            "apellidos" => "required|min:1",
+            "paterno" => "required|min:1",
+            "materno" => "nullable|min:1",
             "ci" => "required|numeric|digits_between:6,10|unique:users,ci",
             "ci_exp" => "required",
-            "correo" => "required|email|unique:users,correo",
+            "correo" => "nullable|email|unique:users,correo",
             "role_id" => "required",
-            "array_sedes_id" => "required|array|min:1",
+            "sucursal_id" => "required",
             "foto" => "nullable|image|mimes:png,jpg,jpeg,webp|max:4096",
             "acceso" => "required",
         ];
@@ -44,8 +45,9 @@ class UserStoreRequest extends FormRequest
         return [
             "nombres.required" => "Este campo es obligatorio",
             "nombres.min" => "Debes ingresar al menos :min caracteres",
-            "apellidos.required" => "Este campo es obligatorio",
-            "apellidos.min" => "Debes ingresar al menos :min caracteres",
+            "paterno.required" => "Este campo es obligatorio",
+            "paterno.min" => "Debes ingresar al menos :min caracteres",
+            "materno.min" => "Debes ingresar al menos :min caracteres",
             "ci.required" => "Este campo es obligatorio",
             "ci.numeric" => "Debes ingresar un valor númerico",
             "ci.digits_between" => "Debes ingresar un valor entre 6 y 10 digitos",

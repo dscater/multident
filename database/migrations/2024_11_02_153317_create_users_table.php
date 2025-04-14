@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string("usuario", 255)->unique();
             $table->string("nombres", 255);
-            $table->string("apellidos", 255);
+            $table->string("paterno", 255);
+            $table->string("materno", 255)->nullable();
             $table->string("ci")->nullable();
             $table->string("ci_exp", 155)->nullable();
-            $table->string("correo", 255)->unique();
+            $table->string("correo", 255)->nullable();
             $table->string('password');
             $table->unsignedBigInteger("role_id")->nullable();
-            $table->integer("sucurals_todo")->default(0);
+            $table->integer("sucursals_todo")->default(0);
             $table->unsignedInteger("sucursal_id")->nullable();
             $table->string("foto", 255)->nullable();
             $table->date("fecha_registro");

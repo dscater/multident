@@ -5,16 +5,17 @@ namespace App\Services;
 use App\Models\DetalleVenta;
 use App\Services\HistorialAccionService;
 use App\Models\Producto;
-use App\Models\ProductoImagen;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class ProductoService
 {
     private $modulo = "PRODUCTOS";
 
-    public function __construct(private HistorialAccionService $historialAccionService, private ProductoImagenService $productoImagenService) {}
+    public function __construct(private  CargarArchivoService $cargarArchivoService, private HistorialAccionService $historialAccionService) {}
 
     /**
      * Lista de todos los productos
@@ -39,13 +40,12 @@ class ProductoService
      */
     public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $productos = Producto::with(["imagens", "categoria"])
-            ->select("productos.*")
-            ->leftJoin("detalle_ventas", "productos.id", "=", "detalle_ventas.producto_id")
-            ->selectRaw("SUM(detalle_ventas.cantidad) as total_vendido")
+        $productos = Producto::select("productos.*")
+            ->leftJoin("detalle_ordens", "productos.id", "=", "detalle_ordens.producto_id")
+            ->selectRaw("SUM(detalle_ordens.cantidad) as total_vendido")
             ->groupBy("productos.id");
 
-        $productos->where("status", 1);
+        $productos->where("productos.status", 1);
 
         // Filtros exactos
         foreach ($columnsFilter as $key => $value) {
@@ -91,31 +91,24 @@ class ProductoService
     public function crear(array $datos): Producto
     {
         $producto = Producto::create([
-            "categoria_id" => mb_strtoupper($datos["categoria_id"]),
             "nombre" => mb_strtoupper($datos["nombre"]),
             "descripcion" => mb_strtoupper($datos["descripcion"]),
-            "stock_actual" => $datos["stock_actual"],
-            "precio_compra" => $datos["precio_compra"],
-            "precio_venta" => $datos["precio_venta"],
-            "observaciones" => mb_strtoupper($datos["observaciones"]),
-            "publico" => mb_strtoupper($datos["publico"]),
+            "precio_pred" => $datos["precio_pred"],
+            "precio_min" => $datos["precio_min"],
+            "precio_fac" => $datos["precio_fac"],
+            "precio_sf" => $datos["precio_sf"],
+            "stock_maximo" => $datos["stock_maximo"],
             "fecha_registro" => date("Y-m-d"),
         ]);
 
 
-        // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN PRODUCTO", $producto->load(["imagens"]));
-
-        // registrar imagenes
-        if (!empty($datos["imagens"])) {
-            $datos_original = [];
-            foreach ($datos["imagens"] as $key => $imagen) {
-                $datos_original[] =  $this->productoImagenService->guardarImagenProducto($producto, $imagen["file"], $key);
-            }
-
-            // registrar imagens asignadas
-            $this->historialAccionService->registrarAccionRelaciones($this->modulo, "CREACIÓN", "REGISTRÓ LAS IMAGENES DEL PRODUCTO " . $producto->nombre, $datos_original);
+        // cargar foto
+        if ($datos["foto"] && !is_string($datos["foto"])) {
+            $this->cargarFoto($producto, $datos["foto"]);
         }
+
+        // registrar accion
+        $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN PRODUCTO", $producto);
 
         return $producto;
     }
@@ -130,53 +123,25 @@ class ProductoService
     public function actualizar(array $datos, Producto $producto): Producto
     {
         $old_producto = Producto::find($producto->id);
+        Log::debug("AA");
         $producto->update([
-            "categoria_id" => mb_strtoupper($datos["categoria_id"]),
             "nombre" => mb_strtoupper($datos["nombre"]),
             "descripcion" => mb_strtoupper($datos["descripcion"]),
-            "stock_actual" => $datos["stock_actual"],
-            "precio_compra" => $datos["precio_compra"],
-            "precio_venta" => $datos["precio_venta"],
-            "observaciones" => mb_strtoupper($datos["observaciones"]),
-            "publico" => mb_strtoupper($datos["publico"]),
+            "precio_pred" => $datos["precio_pred"],
+            "precio_min" => $datos["precio_min"],
+            "precio_fac" => $datos["precio_fac"],
+            "precio_sf" => $datos["precio_sf"],
+            "stock_maximo" => $datos["stock_maximo"],
         ]);
+
+        // cargar foto
+        if ($datos["foto"] && !is_string($datos["foto"])) {
+            $this->cargarFoto($producto, $datos["foto"]);
+        }
+        Log::debug("B");
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN PRODUCTO", $old_producto, $producto);
-
-        // actualizar imagenes
-        $existe_cambios = false;
-        if (!empty($datos["imagens"])) {
-            foreach ($datos["imagens"] as $key => $imagen) {
-                if ($imagen["id"] == 0) {
-                    $this->productoImagenService->guardarImagenProducto($producto, $imagen["file"], $key);
-                    $existe_cambios = true;
-                }
-            }
-        }
-
-        // imagenes eliminadas
-        if (!empty($datos["eliminados_imagens"])) {
-            foreach ($datos["eliminados_imagens"] as $key => $eliminado) {
-                $productoImagen = ProductoImagen::find($eliminado);
-                if ($productoImagen) {
-                    $this->productoImagenService->eliminarImagenProducto($productoImagen);
-                    $existe_cambios = true;
-                }
-            }
-        }
-
-        if ($existe_cambios) {
-            // registrar imagens asignadas
-            $datos_original = $producto->imagens->map(function ($imagen) {
-                return $imagen->makeHidden($imagen->getAppends())->toArray();
-            });
-
-            $datos_nuevo = $producto->imagens->map(function ($imagen) {
-                return $imagen->makeHidden($imagen->getAppends())->toArray();
-            });
-            $this->historialAccionService->registrarAccionRelaciones($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ LAS IMAGENES DEL PRODUCTO " . $producto->nombre, $datos_original, $datos_nuevo);
-        }
         return $producto;
     }
 
@@ -205,5 +170,23 @@ class ProductoService
         $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN PRODUCTO", $old_producto);
 
         return true;
+    }
+
+    /**
+     * Cargar foto
+     *
+     * @param Producto $producto
+     * @param UploadedFile $foto
+     * @return void
+     */
+    public function cargarFoto(Producto $producto, UploadedFile $foto): void
+    {
+        if ($producto->foto) {
+            \File::delete(public_path("imgs/productos/" . $producto->foto));
+        }
+
+        $nombre = $producto->id . time();
+        $producto->foto = $this->cargarArchivoService->cargarArchivo($foto, public_path("imgs/productos"), $nombre);
+        $producto->save();
     }
 }

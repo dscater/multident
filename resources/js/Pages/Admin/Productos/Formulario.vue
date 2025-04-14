@@ -3,7 +3,6 @@ import { useForm, usePage } from "@inertiajs/vue3";
 import { useProductos } from "@/composables/productos/useProductos";
 import { useAxios } from "@/composables/axios/useAxios";
 import { watch, ref, computed, defineEmits, onMounted, nextTick } from "vue";
-import MiDropZone from "@/Components/MiDropZone.vue";
 const props = defineProps({
     open_dialog: {
         type: Boolean,
@@ -20,6 +19,12 @@ const { axiosGet } = useAxios();
 const accion = ref(props.accion_dialog);
 const dialog = ref(props.open_dialog);
 let form = useForm(oProducto.value);
+const foto = ref(null);
+function cargaArchivo(e, key) {
+    form[key] = null;
+    form[key] = e.target.files[0];
+}
+
 watch(
     () => props.open_dialog,
     async (newValue) => {
@@ -43,16 +48,6 @@ watch(
 const { flash } = usePage().props;
 
 const listPublico = ["HABILITADO", "DESHABILITADO"];
-const listCategorias = ref([]);
-const listSucursals = ref([]);
-
-const detectaArchivos = (files) => {
-    form.imagens = files;
-};
-
-const detectaEliminados = (eliminados) => {
-    form.eliminados_imagens = eliminados;
-};
 
 const tituloDialog = computed(() => {
     return accion.value == 0
@@ -114,12 +109,6 @@ const cerrarDialog = () => {
 };
 
 const cargarListas = () => {
-    cargarCategorias();
-};
-
-const cargarCategorias = async () => {
-    const data = await axiosGet(route("categorias.listado"));
-    listCategorias.value = data.categorias;
 };
 
 onMounted(() => {
@@ -191,155 +180,128 @@ onMounted(() => {
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                <label>Stock actual*</label>
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    :class="{
-                                        'parsley-error':
-                                            form.errors?.stock_actual,
-                                    }"
-                                    v-model="form.stock_actual"
-                                />
-                                <ul
-                                    v-if="form.errors?.stock_actual"
-                                    class="parsley-errors-list filled"
-                                >
-                                    <li class="parsley-required">
-                                        {{ form.errors?.stock_actual }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Precio Compra*</label>
+                                <label>Precio Predeterminado*</label>
                                 <input
                                     type="number"
                                     step="0.01"
                                     class="form-control"
                                     :class="{
                                         'parsley-error':
-                                            form.errors?.precio_compra,
+                                            form.errors?.precio_pred,
                                     }"
-                                    v-model="form.precio_compra"
+                                    v-model="form.precio_pred"
                                 />
                                 <ul
-                                    v-if="form.errors?.precio_compra"
+                                    v-if="form.errors?.precio_pred"
                                     class="parsley-errors-list filled"
                                 >
                                     <li class="parsley-required">
-                                        {{ form.errors?.precio_compra }}
+                                        {{ form.errors?.precio_pred }}
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                <label>Precio Venta*</label>
+                                <label>Precio Mínimo*</label>
                                 <input
                                     type="number"
                                     step="0.01"
                                     class="form-control"
                                     :class="{
                                         'parsley-error':
-                                            form.errors?.precio_venta,
+                                            form.errors?.precio_min,
                                     }"
-                                    v-model="form.precio_venta"
+                                    v-model="form.precio_min"
                                 />
                                 <ul
-                                    v-if="form.errors?.precio_venta"
+                                    v-if="form.errors?.precio_min"
                                     class="parsley-errors-list filled"
                                 >
                                     <li class="parsley-required">
-                                        {{ form.errors?.precio_venta }}
+                                        {{ form.errors?.precio_min }}
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                <label>Observaciones</label>
-                                <el-input
-                                    type="textarea"
+                                <label>Con Factura(Porcentaje)*</label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control"
                                     :class="{
                                         'parsley-error':
-                                            form.errors?.observaciones,
+                                            form.errors?.precio_fac,
                                     }"
-                                    v-model="form.observaciones"
-                                    autosize
-                                >
-                                </el-input>
+                                    v-model="form.precio_fac"
+                                />
                                 <ul
-                                    v-if="form.errors?.observaciones"
+                                    v-if="form.errors?.precio_fac"
                                     class="parsley-errors-list filled"
                                 >
                                     <li class="parsley-required">
-                                        {{ form.errors?.observaciones }}
+                                        {{ form.errors?.precio_fac }}
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                <label>Público*</label>
-                                <el-select
+                                <label>Sin Factura(Porcentaje)*</label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control"
                                     :class="{
-                                        'parsley-error': form.errors?.publico,
+                                        'parsley-error': form.errors?.precio_sf,
                                     }"
-                                    v-model="form.publico"
-                                    placeholder="Público"
-                                    no-data-text="Sin datos"
-                                >
-                                    <el-option
-                                        v-for="item in listPublico"
-                                        :value="item"
-                                        :label="item"
-                                    ></el-option>
-                                </el-select>
+                                    v-model="form.precio_sf"
+                                />
                                 <ul
-                                    v-if="form.errors?.publico"
+                                    v-if="form.errors?.precio_sf"
                                     class="parsley-errors-list filled"
                                 >
                                     <li class="parsley-required">
-                                        {{ form.errors?.publico }}
+                                        {{ form.errors?.precio_sf }}
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                <label>Seleccionar categoría*</label>
-                                <el-select
+                                <label>Stock Máximo*</label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control"
                                     :class="{
                                         'parsley-error':
-                                            form.errors?.categoria_id,
+                                            form.errors?.stock_maximo,
                                     }"
-                                    v-model="form.categoria_id"
-                                    placeholder="Categoría"
-                                    no-data-text="Sin datos"
-                                >
-                                    <el-option
-                                        v-for="item in listCategorias"
-                                        :value="item.id"
-                                        :label="item.nombre"
-                                    ></el-option>
-                                </el-select>
+                                    v-model="form.stock_maximo"
+                                />
                                 <ul
-                                    v-if="form.errors?.categoria_id"
+                                    v-if="form.errors?.stock_maximo"
                                     class="parsley-errors-list filled"
                                 >
                                     <li class="parsley-required">
-                                        {{ form.errors?.categoria_id }}
+                                        {{ form.errors?.stock_maximo }}
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-12 mt-3">
-                                <label class="label">Cargar imagenes</label>
-                                <div class="text-muted">
-                                    Selecciona al menos una imagen
-                                </div>
-                                <MiDropZone
-                                    :files="form.imagens"
-                                    @UpdateFiles="detectaArchivos"
-                                    @addEliminados="detectaEliminados"
-                                ></MiDropZone>
+
+                            <div class="col-md-4 mt-2">
+                                <label>Foto</label>
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    :class="{
+                                        'parsley-error': form.errors?.foto,
+                                    }"
+                                    ref="foto"
+                                    @change="cargaArchivo($event, 'foto')"
+                                />
+
                                 <ul
-                                    v-if="form.errors?.imagens"
+                                    v-if="form.errors?.foto"
                                     class="parsley-errors-list filled"
                                 >
                                     <li class="parsley-required">
-                                        {{ form.errors?.imagens }}
+                                        {{ form.errors?.foto }}
                                     </li>
                                 </ul>
                             </div>

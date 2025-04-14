@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\Modulo;
 use Illuminate\Database\Seeder;
 
@@ -84,62 +85,33 @@ class ModuloTableSeeder extends Seeder
             "descripcion" => "EDITAR LA CONFIGURACIÓN DEL SISTEMA"
         ]);
 
-        // CONFIGURACION DE PAGOS
+        // SUCURSALES
         Modulo::create([
-            "modulo" => "Configuración de pagos",
-            "nombre" => "configuracion_pagos.index",
+            "modulo" => "Sucursales",
+            "nombre" => "sucursals.index",
             "accion" => "VER",
-            "descripcion" => "VER LA LISTA DE CONFIGURACIÓN DE PAGOS"
+            "descripcion" => "VER LA LISTA DE SUCURSALES"
         ]);
 
         Modulo::create([
-            "modulo" => "Configuración de pagos",
-            "nombre" => "configuracion_pagos.create",
+            "modulo" => "Sucursales",
+            "nombre" => "sucursals.create",
             "accion" => "CREAR",
-            "descripcion" => "CREAR CONFIGURACIÓN DE PAGOS"
+            "descripcion" => "CREAR SUCURSALES"
         ]);
 
         Modulo::create([
-            "modulo" => "Configuración de pagos",
-            "nombre" => "configuracion_pagos.edit",
+            "modulo" => "Sucursales",
+            "nombre" => "sucursals.edit",
             "accion" => "EDITAR",
-            "descripcion" => "EDITAR CONFIGURACIÓN DE PAGOS"
+            "descripcion" => "EDITAR SUCURSALES"
         ]);
 
         Modulo::create([
-            "modulo" => "Configuración de pagos",
-            "nombre" => "configuracion_pagos.destroy",
+            "modulo" => "Sucursales",
+            "nombre" => "sucursals.destroy",
             "accion" => "ELIMINAR",
-            "descripcion" => "ELIMINAR CONFIGURACIÓN DE PAGOS"
-        ]);
-
-        // CATEGORIAS
-        Modulo::create([
-            "modulo" => "Categorías",
-            "nombre" => "categorias.index",
-            "accion" => "VER",
-            "descripcion" => "VER LA LISTA DE CATEGORIAS"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Categorías",
-            "nombre" => "categorias.create",
-            "accion" => "CREAR",
-            "descripcion" => "CREAR CATEGORIAS"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Categorías",
-            "nombre" => "categorias.edit",
-            "accion" => "EDITAR",
-            "descripcion" => "EDITAR CATEGORIAS"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Categorías",
-            "nombre" => "categorias.destroy",
-            "accion" => "ELIMINAR",
-            "descripcion" => "ELIMINAR CATEGORIAS"
+            "descripcion" => "ELIMINAR SUCURSALES"
         ]);
 
         // PRODUCTOS
@@ -171,97 +143,252 @@ class ModuloTableSeeder extends Seeder
             "descripcion" => "ELIMINAR PRODUCTOS"
         ]);
 
-        // ORDEN DE VENTA
+        // UBICACIÓN PRODUCTOS
         Modulo::create([
-            "modulo" => "Orden de venta",
+            "modulo" => "Ubicación de Productos",
+            "nombre" => "ubicacion_productos.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE UBICACIÓN DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Ubicación de Productos",
+            "nombre" => "ubicacion_productos.create",
+            "accion" => "CREAR",
+            "descripcion" => "CREAR UBICACIÓN DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Ubicación de Productos",
+            "nombre" => "ubicacion_productos.edit",
+            "accion" => "EDITAR",
+            "descripcion" => "EDITAR UBICACIÓN DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Ubicación de Productos",
+            "nombre" => "ubicacion_productos.destroy",
+            "accion" => "ELIMINAR",
+            "descripcion" => "ELIMINAR UBICACIÓN DE PRODUCTOS"
+        ]);
+
+        // INGRESO DE PRODUCTOS
+        Modulo::create([
+            "modulo" => "Ingreso de Productos",
+            "nombre" => "ingreso_productos.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE INGRESO DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Ingreso de Productos",
+            "nombre" => "ingreso_productos.create",
+            "accion" => "CREAR",
+            "descripcion" => "CREAR INGRESO DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Ingreso de Productos",
+            "nombre" => "ingreso_productos.edit",
+            "accion" => "EDITAR",
+            "descripcion" => "EDITAR INGRESO DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Ingreso de Productos",
+            "nombre" => "ingreso_productos.destroy",
+            "accion" => "ELIMINAR",
+            "descripcion" => "ELIMINAR INGRESO DE PRODUCTOS"
+        ]);
+
+        // SALIDA DE PRODUCTOS
+        Modulo::create([
+            "modulo" => "Salida de Productos",
+            "nombre" => "salida_productos.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE SALIDA DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Salida de Productos",
+            "nombre" => "salida_productos.create",
+            "accion" => "CREAR",
+            "descripcion" => "CREAR SALIDA DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Salida de Productos",
+            "nombre" => "salida_productos.edit",
+            "accion" => "EDITAR",
+            "descripcion" => "EDITAR SALIDA DE PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Salida de Productos",
+            "nombre" => "salida_productos.destroy",
+            "accion" => "ELIMINAR",
+            "descripcion" => "ELIMINAR SALIDA DE PRODUCTOS"
+        ]);
+
+        // STOCK DE PRODUCTOS
+        Modulo::create([
+            "modulo" => "Stock de Productos",
+            "nombre" => "producto_sucursals.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE STOCK DE PRODUCTOS"
+        ]);
+
+        // CLIENTES
+        Modulo::create([
+            "modulo" => "Clientes",
+            "nombre" => "clientes.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE CLIENTES"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Clientes",
+            "nombre" => "clientes.create",
+            "accion" => "CREAR",
+            "descripcion" => "CREAR CLIENTES"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Clientes",
+            "nombre" => "clientes.edit",
+            "accion" => "EDITAR",
+            "descripcion" => "EDITAR CLIENTES"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Clientes",
+            "nombre" => "clientes.destroy",
+            "accion" => "ELIMINAR",
+            "descripcion" => "ELIMINAR CLIENTES"
+        ]);
+
+        // ORDEN DE VENTAS
+        Modulo::create([
+            "modulo" => "Orden de Ventas",
             "nombre" => "orden_ventas.index",
             "accion" => "VER",
             "descripcion" => "VER LA LISTA DE ORDENES DE VENTA"
         ]);
 
         Modulo::create([
-            "modulo" => "Orden de venta",
-            "nombre" => "orden_ventas.todos",
-            "accion" => "TODAS LAS ORDENES DE VENTA",
-            "descripcion" => "VER TODAS LAS ORDENES DE VENTA"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Orden de venta",
-            "nombre" => "orden_ventas.confirmar",
-            "accion" => "CONFIRMAR",
-            "descripcion" => "CONFIRMAR ORDENES DE VENTA"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Orden de venta",
+            "modulo" => "Orden de Ventas",
             "nombre" => "orden_ventas.create",
             "accion" => "CREAR",
-            "descripcion" => "CREAR ORDEN DE VENTA"
+            "descripcion" => "CREAR ORDENES DE VENTA"
         ]);
 
         Modulo::create([
-            "modulo" => "Orden de venta",
+            "modulo" => "Orden de Ventas",
             "nombre" => "orden_ventas.edit",
             "accion" => "EDITAR",
-            "descripcion" => "EDITAR ORDEN DE VENTA"
+            "descripcion" => "EDITAR ORDENES DE VENTA"
         ]);
 
         Modulo::create([
-            "modulo" => "Orden de venta",
+            "modulo" => "Orden de Ventas",
             "nombre" => "orden_ventas.destroy",
             "accion" => "ELIMINAR",
-            "descripcion" => "ELIMINAR ORDEN DE VENTA"
+            "descripcion" => "ELIMINAR ORDENES DE VENTA"
         ]);
 
-        // SOLICITUD PRODUCTOS
+        // NOTIFICACIONES
         Modulo::create([
-            "modulo" => "Solicitud de productos",
-            "nombre" => "solicitud_productos.index",
+            "modulo" => "Notificaciones",
+            "nombre" => "notificacions.index",
             "accion" => "VER",
-            "descripcion" => "VER LA LISTA DE SOLICITUDES DE PRODUCTOS"
+            "descripcion" => "RECIBIR NOTIFICACIONES DE STOCK DE PRODUCTOS"
+        ]);
+
+        // DEVOLUCIONES
+        Modulo::create([
+            "modulo" => "Devoluciones",
+            "nombre" => "devolucions.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE DEVOLUCIONES"
         ]);
 
         Modulo::create([
-            "modulo" => "Solicitud de productos",
-            "nombre" => "solicitud_productos.todos",
-            "accion" => "TODAS LAS SOLICITUDES DE PRODUCTOS",
-            "descripcion" => "VER TODAS LAS SOLICITUDES DE PRODUCTOS"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Solicitud de productos",
-            "nombre" => "solicitud_productos.confirmar",
-            "accion" => "VERIFICAR",
-            "descripcion" => "VERIFICAR SOLICITUDES DE PRODUCTOS"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Solicitud de productos",
-            "nombre" => "solicitud_productos.seguimiento",
-            "accion" => "SEGUIMIENTO",
-            "descripcion" => "SEGUIMIENTO DE SOLICITUDES DE PRODUCTOS"
-        ]);
-
-        Modulo::create([
-            "modulo" => "Solicitud de productos",
-            "nombre" => "solicitud_productos.create",
+            "modulo" => "Devoluciones",
+            "nombre" => "devolucions.create",
             "accion" => "CREAR",
-            "descripcion" => "CREAR SOLICITUD DE PRODUCTO"
+            "descripcion" => "CREAR DEVOLUCIONES"
         ]);
 
         Modulo::create([
-            "modulo" => "Solicitud de productos",
-            "nombre" => "solicitud_productos.edit",
+            "modulo" => "Devoluciones",
+            "nombre" => "devolucions.edit",
             "accion" => "EDITAR",
-            "descripcion" => "EDITAR SOLICITUD DE PRODUCTO"
+            "descripcion" => "EDITAR DEVOLUCIONES"
         ]);
 
         Modulo::create([
-            "modulo" => "Solicitud de productos",
-            "nombre" => "solicitud_productos.destroy",
+            "modulo" => "Devoluciones",
+            "nombre" => "devolucions.destroy",
             "accion" => "ELIMINAR",
-            "descripcion" => "ELIMINAR SOLICITUD DE PRODUCTO"
+            "descripcion" => "ELIMINAR DEVOLUCIONES"
+        ]);
+
+        // PROFORMAS
+        Modulo::create([
+            "modulo" => "Proformas",
+            "nombre" => "proformas.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE PROFORMAS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Proformas",
+            "nombre" => "proformas.create",
+            "accion" => "CREAR",
+            "descripcion" => "CREAR PROFORMAS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Proformas",
+            "nombre" => "proformas.edit",
+            "accion" => "EDITAR",
+            "descripcion" => "EDITAR PROFORMAS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Proformas",
+            "nombre" => "proformas.destroy",
+            "accion" => "ELIMINAR",
+            "descripcion" => "ELIMINAR PROFORMAS"
+        ]);
+
+        // PROMOCIONES
+        Modulo::create([
+            "modulo" => "Promociones",
+            "nombre" => "promocions.index",
+            "accion" => "VER",
+            "descripcion" => "VER LA LISTA DE PROMOCIONES"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Promociones",
+            "nombre" => "promocions.create",
+            "accion" => "CREAR",
+            "descripcion" => "CREAR PROMOCIONES"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Promociones",
+            "nombre" => "promocions.edit",
+            "accion" => "EDITAR",
+            "descripcion" => "EDITAR PROMOCIONES"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Promociones",
+            "nombre" => "promocions.destroy",
+            "accion" => "ELIMINAR",
+            "descripcion" => "ELIMINAR PROMOCIONES"
         ]);
 
         // REPORTES
@@ -274,9 +401,9 @@ class ModuloTableSeeder extends Seeder
 
         Modulo::create([
             "modulo" => "Reportes",
-            "nombre" => "reportes.productos",
-            "accion" => "REPORTE PRODUCTOS",
-            "descripcion" => "GENERAR REPORTES DE PRODUCTOS"
+            "nombre" => "reportes.kardex_productos",
+            "accion" => "REPORTE KARDEX DE PRODUCTOS",
+            "descripcion" => "GENERAR REPORTES DE KARDEX DE PRODUCTOS"
         ]);
 
         Modulo::create([
@@ -288,37 +415,58 @@ class ModuloTableSeeder extends Seeder
 
         Modulo::create([
             "modulo" => "Reportes",
-            "nombre" => "reportes.solicitud_productos",
-            "accion" => "REPORTE DE SOLICITUD DE PRODUCTOS",
-            "descripcion" => "GENERAR REPORTES DE SOLICITUD DE PRODUCTOS"
+            "nombre" => "reportes.stock_productos",
+            "accion" => "REPORTE DE STOCK DE PRODUCTOS",
+            "descripcion" => "GENERAR REPORTES DE STOCK DE PRODUCTOS"
         ]);
 
         Modulo::create([
             "modulo" => "Reportes",
-            "nombre" => "reportes.seguimiento_solicituds",
-            "accion" => "REPORTE DE SEGUIMIENTO DE SOLICITUD DE PRODUCTOS",
-            "descripcion" => "GENERAR REPORTES DE SEGUIMIENTO DE SOLICITUD DE PRODUCTOS"
+            "nombre" => "reportes.ingreso_productos",
+            "accion" => "REPORTE DE INGRESO DE PRODUCTOS",
+            "descripcion" => "GENERAR REPORTES DE INGRESO DE PRODUCTOS"
         ]);
 
         Modulo::create([
             "modulo" => "Reportes",
-            "nombre" => "reportes.g_orden_ventas",
-            "accion" => "REPORTE GRÁFICO DE ORDENES DE VENTAS",
-            "descripcion" => "GENERAR REPORTE GRÁFICO DE ORDENES DE VENTAS"
+            "nombre" => "reportes.salida_productos",
+            "accion" => "REPORTE DE SALIDA DE PRODUCTOS",
+            "descripcion" => "GENERAR REPORTES DE SALIDA DE PRODUCTOS"
         ]);
 
         Modulo::create([
             "modulo" => "Reportes",
-            "nombre" => "reportes.g_solicitud_productos",
-            "accion" => "REPORTE GRÁFICO DE SOLICITUD DE PRODUCTOS",
-            "descripcion" => "GENERAR REPORTE GRÁFICO DE SOLICITUD DE PRODUCTOS"
+            "nombre" => "reportes.devolucions",
+            "accion" => "REPORTE DE DEVOLUCIONES",
+            "descripcion" => "GENERAR REPORTES DE DEVOLUCIONES"
         ]);
 
         Modulo::create([
             "modulo" => "Reportes",
-            "nombre" => "reportes.g_seguimiento_productos",
-            "accion" => "REPORTE GRÁFICO DE SEGUIMIENTO DE SOLICITUD DE PRODUCTOS",
-            "descripcion" => "GENERAR REPORTE GRÁFICO DE SEGUIMIENTO DE SOLICITUD DE PRODUCTOS"
+            "nombre" => "reportes.proformas",
+            "accion" => "REPORTE DE PROFORMAS",
+            "descripcion" => "GENERAR REPORTES DE PROFORMAS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Reportes",
+            "nombre" => "reportes.clientes",
+            "accion" => "REPORTE DE CLIENTES",
+            "descripcion" => "GENERAR REPORTES DE CLIENTES"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Reportes",
+            "nombre" => "reportes.g_cantidad_orden_ventas",
+            "accion" => "REPORTE GRÁFICO DE CANTIDAD DE ORDENES DE VENTAS",
+            "descripcion" => "GENERAR REPORTE GRÁFICO DE CANTIDAD DE ORDENES DE VENTAS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Reportes",
+            "nombre" => "reportes.g_ingresos_orden_ventas",
+            "accion" => "REPORTE GRÁFICO DE INGRESOS POR ORDENES DE VENTAS",
+            "descripcion" => "GENERAR REPORTE GRÁFICO DE INGRESOS POR ORDENES DE VENTAS"
         ]);
     }
 }

@@ -1,24 +1,25 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConfiguracionController;
-use App\Http\Controllers\ConfiguracionPagoController;
+use App\Http\Controllers\DevolucionController;
+use App\Http\Controllers\IngresoProductoController;
 use App\Http\Controllers\InicioController;
-use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\OrdenVentaController;
-use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProformaController;
+use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SedeController;
-use App\Http\Controllers\SolicitudProductoController;
+use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\UbicacionProductoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuarioController;
+use App\Models\ProductoSucursal;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
@@ -57,7 +58,6 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // USUARIOS
     Route::get("usuarios/clientes", [UsuarioController::class, 'clientes'])->name("usuarios.clientes");
     Route::put("usuarios/password/{user}", [UsuarioController::class, 'actualizaPassword'])->name("usuarios.password");
-    Route::get("usuarios/api_clientes", [UsuarioController::class, 'api_clientes'])->name("usuarios.api_clientes");
     Route::get("usuarios/api", [UsuarioController::class, 'api'])->name("usuarios.api");
     Route::get("usuarios/paginado", [UsuarioController::class, 'paginado'])->name("usuarios.paginado");
     Route::get("usuarios/listado", [UsuarioController::class, 'listado'])->name("usuarios.listado");
@@ -82,24 +82,88 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
         ["index", "store", "edit", "show", "update", "destroy"]
     );
 
-    // // CATEGORIAS
-    // Route::get("categorias/api", [CategoriaController::class, 'api'])->name("categorias.api");
-    // Route::get("categorias/paginado", [CategoriaController::class, 'paginado'])->name("categorias.paginado");
-    // Route::get("categorias/listado", [CategoriaController::class, 'listado'])->name("categorias.listado");
-    // Route::resource("categorias", CategoriaController::class)->only(
-    //     ["index", "store", "show", "update", "destroy"]
-    // );
+    // SUCURSALES
+    Route::get("sucursals/api", [SucursalController::class, 'api'])->name("sucursals.api");
+    Route::get("sucursals/paginado", [SucursalController::class, 'paginado'])->name("sucursals.paginado");
+    Route::get("sucursals/listado", [SucursalController::class, 'listado'])->name("sucursals.listado");
+    Route::resource("sucursals", SucursalController::class)->only(
+        ["index", "store", "edit", "show", "update", "destroy"]
+    );
 
-    // // PRODUCTOS
-    // Route::get("productos/api", [ProductoController::class, 'api'])->name("productos.api");
-    // Route::get("productos/paginado", [ProductoController::class, 'paginado'])->name("productos.paginado");
-    // Route::get("productos/listado", [ProductoController::class, 'listado'])->name("productos.listado");
-    // Route::resource("productos", ProductoController::class)->only(
-    //     ["index", "store", "show", "update", "destroy"]
-    // );
+    // PRODUCTOS
+    Route::get("productos/api", [ProductoController::class, 'api'])->name("productos.api");
+    Route::get("productos/paginado", [ProductoController::class, 'paginado'])->name("productos.paginado");
+    Route::get("productos/listado", [ProductoController::class, 'listado'])->name("productos.listado");
+    Route::resource("productos", ProductoController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // UBICACION PRODUCTOS
+    Route::get("ubicacion_productos/api", [UbicacionProductoController::class, 'api'])->name("ubicacion_productos.api");
+    Route::get("ubicacion_productos/paginado", [UbicacionProductoController::class, 'paginado'])->name("ubicacion_productos.paginado");
+    Route::get("ubicacion_productos/listado", [UbicacionProductoController::class, 'listado'])->name("ubicacion_productos.listado");
+    Route::resource("ubicacion_productos", UbicacionProductoController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // INGRESO DE PRODUCTOS
+    Route::get("ingreso_productos/api", [IngresoProductoController::class, 'api'])->name("ingreso_productos.api");
+    Route::get("ingreso_productos/paginado", [IngresoProductoController::class, 'paginado'])->name("ingreso_productos.paginado");
+    Route::get("ingreso_productos/listado", [IngresoProductoController::class, 'listado'])->name("ingreso_productos.listado");
+    Route::resource("ingreso_productos", IngresoProductoController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // SALIDA DE PRODUCTOS
+    Route::get("salida_productos/api", [IngresoProductoController::class, 'api'])->name("salida_productos.api");
+    Route::get("salida_productos/paginado", [IngresoProductoController::class, 'paginado'])->name("salida_productos.paginado");
+    Route::get("salida_productos/listado", [IngresoProductoController::class, 'listado'])->name("salida_productos.listado");
+    Route::resource("salida_productos", IngresoProductoController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // ORDEN DE VENTAS
+    Route::get("orden_ventas/api", [OrdenVentaController::class, 'api'])->name("orden_ventas.api");
+    Route::get("orden_ventas/paginado", [OrdenVentaController::class, 'paginado'])->name("orden_ventas.paginado");
+    Route::get("orden_ventas/listado", [OrdenVentaController::class, 'listado'])->name("orden_ventas.listado");
+    Route::resource("orden_ventas", OrdenVentaController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // DEVOLUCIONES
+    Route::get("devolucions/api", [DevolucionController::class, 'api'])->name("devolucions.api");
+    Route::get("devolucions/paginado", [DevolucionController::class, 'paginado'])->name("devolucions.paginado");
+    Route::get("devolucions/listado", [DevolucionController::class, 'listado'])->name("devolucions.listado");
+    Route::resource("devolucions", DevolucionController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // PROFORMAS
+    Route::get("proformas/api", [ProformaController::class, 'api'])->name("proformas.api");
+    Route::get("proformas/paginado", [ProformaController::class, 'paginado'])->name("proformas.paginado");
+    Route::get("proformas/listado", [ProformaController::class, 'listado'])->name("proformas.listado");
+    Route::resource("proformas", ProformaController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // PROMOCIONES
+    Route::get("promocions/api", [PromocionController::class, 'api'])->name("promocions.api");
+    Route::get("promocions/paginado", [PromocionController::class, 'paginado'])->name("promocions.paginado");
+    Route::get("promocions/listado", [PromocionController::class, 'listado'])->name("promocions.listado");
+    Route::resource("promocions", PromocionController::class)->only(
+        ["index", "store", "show", "update", "destroy"]
+    );
+
+    // PRODUCTO SUCURSAL
+    Route::get("producto_sucursals/api", [ProductoSucursal::class, 'api'])->name("producto_sucursals.api");
+    Route::get("producto_sucursals/paginado", [ProductoSucursal::class, 'paginado'])->name("producto_sucursals.paginado");
+    Route::get("producto_sucursals/listado", [ProductoSucursal::class, 'listado'])->name("producto_sucursals.listado");
+    Route::resource("producto_sucursals", ProductoSucursal::class)->only(
+        ["index"]
+    );
 
     // NOTIFICACIONS
-    // Route::get("notificacions/listadoPorUsuario", [NotificacionController::class, "listadoPorUsuario"])->name("notificacions.listadoPorUsuario");
+    Route::get("notificacions/listadoPorUsuario", [NotificacionController::class, "listadoPorUsuario"])->name("notificacions.listadoPorUsuario");
 
     // REPORTES
     Route::get('reportes/usuarios', [ReporteController::class, 'usuarios'])->name("reportes.usuarios");
@@ -107,23 +171,5 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
 
     Route::get('reportes/productos', [ReporteController::class, 'productos'])->name("reportes.productos");
     Route::get('reportes/r_productos', [ReporteController::class, 'r_productos'])->name("reportes.r_productos");
-
-    Route::get('reportes/orden_ventas', [ReporteController::class, 'orden_ventas'])->name("reportes.orden_ventas");
-    Route::get('reportes/r_orden_ventas', [ReporteController::class, 'r_orden_ventas'])->name("reportes.r_orden_ventas");
-
-    Route::get('reportes/solicitud_productos', [ReporteController::class, 'solicitud_productos'])->name("reportes.solicitud_productos");
-    Route::get('reportes/r_solicitud_productos', [ReporteController::class, 'r_solicitud_productos'])->name("reportes.r_solicitud_productos");
-
-    Route::get('reportes/seguimiento_solicituds', [ReporteController::class, 'seguimiento_solicituds'])->name("reportes.seguimiento_solicituds");
-    Route::get('reportes/r_seguimiento_solicituds', [ReporteController::class, 'r_seguimiento_solicituds'])->name("reportes.r_seguimiento_solicituds");
-
-    Route::get('reportes/g_orden_ventas', [ReporteController::class, 'g_orden_ventas'])->name("reportes.g_orden_ventas");
-    Route::get('reportes/r_g_orden_ventas', [ReporteController::class, 'r_g_orden_ventas'])->name("reportes.r_g_orden_ventas");
-
-    Route::get('reportes/g_solicitud_productos', [ReporteController::class, 'g_solicitud_productos'])->name("reportes.g_solicitud_productos");
-    Route::get('reportes/r_g_solicitud_productos', [ReporteController::class, 'r_g_solicitud_productos'])->name("reportes.r_g_solicitud_productos");
-
-    Route::get('reportes/g_seguimiento_productos', [ReporteController::class, 'g_seguimiento_productos'])->name("reportes.g_seguimiento_productos");
-    Route::get('reportes/r_g_seguimiento_productos', [ReporteController::class, 'r_g_seguimiento_productos'])->name("reportes.r_g_seguimiento_productos");
 });
 require __DIR__ . '/auth.php';

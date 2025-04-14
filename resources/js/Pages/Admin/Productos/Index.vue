@@ -48,7 +48,7 @@ const columns = [
         data: null,
         sortable: false,
         render: function (data, type, row) {
-            return `<img src="${data?.imagens[0].url_imagen}" class="h-30px my-n1 mx-n1"/>`;
+            return `<img src="${data?.url_foto}" class="h-30px my-n1 mx-n1"/>`;
         },
     },
     {
@@ -60,34 +60,36 @@ const columns = [
         data: "descripcion",
     },
     {
-        title: "CATEGORÍA",
-        data: "categoria.nombre",
-    },
-    {
-        title: "STOCK ACTUAL",
-        data: "stock_actual",
-    },
-    {
-        title: "PRECIO COMPRA",
-        data: "precio_compra",
+        title: "PRECIO PREDETERMINADO",
+        data: "precio_pred",
         render: function (data, type, row) {
-            return getFormatoMoneda(row.precio_compra);
+            return getFormatoMoneda(row.precio_pred);
         },
     },
     {
-        title: "PRECIO VENTA",
-        data: "precio_venta",
+        title: "PRECIO MÍNIMO",
+        data: "precio_min",
         render: function (data, type, row) {
-            return getFormatoMoneda(row.precio_venta);
+            return getFormatoMoneda(row.precio_min);
         },
     },
     {
-        title: "PÚBLICO",
-        data: "publico",
+        title: "CON FACTURA %",
+        data: "precio_fac",
+        render: function (data, type, row) {
+            return `${row.precio_fac}%`;
+        },
     },
     {
-        title: "OBSERVACIONES",
-        data: "nombre",
+        title: "SINFACTURA %",
+        data: "precio_sf",
+        render: function (data, type, row) {
+            return `${row.precio_sf}%`;
+        },
+    },
+    {
+        title: "STOCK MÁXIMO",
+        data: "stock_maximo",
     },
     {
         title: "FECHA REGISTRO",
@@ -260,7 +262,6 @@ onBeforeUnmount(() => {
                         <thead>
                             <tr>
                                 <th width="2%"></th>
-                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

@@ -59,7 +59,7 @@ const columns = [
             <button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
             }
 
-            if (data.id != 1 && data.id != 2) {
+            if (data.id != 1) {
                 if (
                     props_page.auth?.user.permisos == "*" ||
                     props_page.auth?.user.permisos.includes("roles.destroy")

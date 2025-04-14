@@ -21,13 +21,15 @@ class User extends Authenticatable
     protected $fillable = [
         "usuario",
         "nombres",
-        "apellidos",
+        "paterno",
+        "materno",
         "ci",
         "ci_exp",
         "correo",
         "password",
         "role_id",
-        "sedes_todo",
+        "sucursals_todo",
+        "sucursal_id",
         "foto",
         "fecha_registro",
         "acceso",
@@ -79,7 +81,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->nombres . ' ' . $this->apellidos;
+        return $this->nombres . ' ' . $this->paterno . ($this->materno ?? ' ' . $this->materno);
     }
 
     public function getFullCiAttribute()
@@ -113,14 +115,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function cliente()
+    public function sucursal()
     {
-        return $this->hasOne(Cliente::class, 'user_id');
-    }
-
-    public function sedes()
-    {
-        return $this->belongsToMany(Sede::class, 'sede_users', 'user_id', 'sede_id')->withTimestamps();
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
     public function notificacions()

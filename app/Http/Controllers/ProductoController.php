@@ -106,50 +106,6 @@ class ProductoController extends Controller
     }
 
     /**
-     * Listado de productos por cantidad para mostrar en el portal
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function productosInicioPortal(Request $request): JsonResponse
-    {
-        $tomar = 9;
-        if ($request->tomar && $request->tomar != '') {
-            $tomar = $request->tomar;
-        }
-
-        $productos = Producto::with(["imagens"])
-            ->where("status", 1)
-            ->where("publico", "HABILITADO");
-
-
-        if ($request->categoria_id && $request->categoria_id != '') {
-            $productos->where("categoria_id", $request->categoria_id);
-        }
-
-        $productos = $productos->orderBy("id", "desc")->get()->take($tomar);
-
-        return response()->JSON($productos);
-    }
-
-
-    /**
-     * Lista 6 productos mas vendidos/populares
-     *
-     * @return JsonResponse
-     */
-    public function populares(): JsonResponse
-    {
-        $productos = Producto::with(["imagens", "categoria"])
-            ->select("productos.*")
-            ->leftJoin("detalle_ventas", "productos.id", "=", "detalle_ventas.producto_id")
-            ->selectRaw("SUM(detalle_ventas.cantidad) as total_vendido")
-            ->groupBy("productos.id");
-        $productos = $productos->orderBy("total_vendido", "desc")->get()->take(6);
-        return response()->JSON($productos);
-    }
-
-    /**
      * Registrar un nuevo producto
      *
      * @param ProductoStoreRequest $request
@@ -179,7 +135,7 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto): JsonResponse
     {
-        return response()->JSON($producto->load(["imagens"]));
+        return response()->JSON($producto);
     }
 
     public function update(Producto $producto, ProductoUpdateRequest $request)

@@ -55,6 +55,10 @@ const columns = [
         },
     },
     {
+        title: "USUARIO",
+        data: "usuario",
+    },
+    {
         title: "NOMBRE COMPLETO",
         data: "full_name",
     },
@@ -71,8 +75,15 @@ const columns = [
         data: "role.nombre",
     },
     {
-        title: "SEDE(S)",
-        data: "nom_sedes",
+        title: "SUCURSAl",
+        data: null,
+        render: function (data, type, row) {
+            if (row.sucursals_todo == 1) {
+                return `<span>TODOS</span>`;
+            } else {
+                return `<span>${row.sucursal.nombre}</span>`;
+            }
+        },
     },
     {
         title: "ACCESO",
@@ -157,7 +168,9 @@ const accionesRow = () => {
         }).then(async (result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                let respuesta = await axiosDelete(route("usuarios.destroy", id));
+                let respuesta = await axiosDelete(
+                    route("usuarios.destroy", id)
+                );
                 if (respuesta && respuesta.sw) {
                     updateDatatable();
                 }
@@ -274,6 +287,9 @@ onBeforeUnmount(() => {
                             <tr>
                                 <th width="2%"></th>
                                 <th width="2%"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

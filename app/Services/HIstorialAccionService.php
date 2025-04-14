@@ -17,12 +17,18 @@ class HistorialAccionService
      * @param string $descripcion
      * @return void
      */
-    public function registrarAccion(string $modulo, string $accion, string $descripcion = "", Model $modelo, Model $modelo_update = null): void
+    public function registrarAccion(string $modulo, string $accion, string $descripcion = "", Model $modelo, Model $modelo_update = null, array $relaciones = []): void
     {
         $user = Auth::user();
         $user_id = $user->id;
         $this->descripcion .= $user->usuario . " " . $descripcion;
-        $datos_original = $modelo->makeHidden($modelo->getAppends())->toArray();
+
+        if (!empty($relaciones)) {
+            $datos_original = $modelo->loadMissing($relaciones)->makeHidden($modelo->getAppends())->toArray();
+        } else {
+            $datos_original = $modelo->makeHidden($modelo->getAppends())->toArray();
+        }
+
         $datos = [
             "user_id" => $user_id,
             "accion" => $accion,
@@ -33,39 +39,39 @@ class HistorialAccionService
         ];
 
         if ($modelo_update) {
+            $existe_cambios = false;
+            //cambios en el modelo
             if ($modelo_update->wasChanged()) {
+                $existe_cambios = true;
+            }
+
+            //cambios en sus relaciones
+            foreach ($relaciones as $relacion) {
+                if($modelo[$relacion]){
+                    $antes = $modelo[$relacion]->toArray();
+                    $despues = $modelo_update[$relacion]->toArray();
+                    // Log::debug($antes);
+                    // Log::debug($despues);
+                    if ($antes !== $despues) {
+                        $existe_cambios = true;
+                        break;
+                    }
+                }
+            }
+
+            // Log::debug($existe_cambios);
+            if ($existe_cambios && $modelo_update) {
                 // actualizacion
-                $datos["datos_nuevo"] = $modelo_update ? $modelo_update->makeHidden($modelo_update->getAppends())->toArray() : null;
+                if (!empty($relaciones)) {
+                    $datos["datos_nuevo"] = $modelo_update->loadMissing($relaciones)->makeHidden($modelo_update->getAppends())->toArray();
+                } else {
+                    $datos["datos_nuevo"] = $modelo_update->makeHidden($modelo_update->getAppends())->toArray();
+                }
                 $this->crearAccion($datos);
             }
         } else {
             $this->crearAccion($datos);
         }
-    }
-
-    /**
-     * Registrar acciones de relaciones de un modelo
-     *
-     * @param string $modulo
-     * @param string $accion
-     * @param string $descripcion
-     * @param [type] $datos_original
-     * @param [type] $datos_nuevo
-     * @return void
-     */
-    public function registrarAccionRelaciones(string $modulo, string $accion, string $descripcion, $datos_original, $datos_nuevo = null): void
-    {
-        $user = Auth::user();
-        $this->descripcion = $user->usuario . " " . $descripcion;
-
-        $this->crearAccion([
-            "user_id" => $user->id,
-            "accion" => $accion,
-            "descripcion" => $this->descripcion,
-            "datos_original" => $datos_original,
-            'datos_nuevo' => $datos_nuevo,
-            "modulo" => $modulo,
-        ]);
     }
 
     private function crearAccion(array $datos): void

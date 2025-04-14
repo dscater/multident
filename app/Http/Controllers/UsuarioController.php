@@ -67,15 +67,14 @@ class UsuarioController extends Controller
         $page = ($start / $length) + 1; // Cálculo de la página actual
         $search = $request->input('search');
 
-        $usuarios = User::with(["role"])
-            ->selectRaw("users.*, CONCAT(users.nombres,' ',users.apellidos) as full_name")
+        $usuarios = User::with(["role", "sucursal"])
+            ->selectRaw("users.*, CONCAT(users.nombres,' ',users.paterno,' ',users.materno) as full_name")
             ->join("roles", "roles.id", "=", "users.role_id")
-            ->where("users.id", "!=", 1)
-            ->where("users.role_id", "!=", 2);
+            ->where("users.id", "!=", 1);
         if ($search && trim($search) != '') {
             $usuarios->where("roles.nombre", "LIKE", "%$search%");
             $usuarios->orWhereRaw("users.usuario LIKE ?", ["%$search%"]);
-            $usuarios->orWhereRaw("CONCAT(users.nombres,' ',users.apellidos) LIKE ?", ["%$search%"]);
+            $usuarios->orWhereRaw("CONCAT(users.nombres,' ',users.paterno,' ',users.materno) LIKE ?", ["%$search%"]);
         }
 
         // order
@@ -113,15 +112,15 @@ class UsuarioController extends Controller
         $page = ($start / $length) + 1; // Cálculo de la página actual
         $search = $request->input('search');
 
-        $usuarios = User::with(["role", "cliente"])
-            ->selectRaw("users.*, CONCAT(users.nombres,' ',users.apellidos) as full_name")
+        $usuarios = User::with(["role", "sucursal"])
+            ->selectRaw("users.*, CONCAT(users.nombres,' ',users.paterno,' ',users.materno) as full_name")
             ->join("roles", "roles.id", "=", "users.role_id")
             ->where("users.id", "!=", 1)
             ->where("users.role_id", "=", 2);
         if ($search && trim($search) != '') {
             $usuarios->where("roles.nombre", "LIKE", "%$search%");
             $usuarios->orWhereRaw("users.usuario LIKE ?", ["%$search%"]);
-            $usuarios->orWhereRaw("CONCAT(users.nombres,' ',users.apellidos) LIKE ?", ["%$search%"]);
+            $usuarios->orWhereRaw("CONCAT(users.nombres,' ',users.paterno,' ',users.materno) LIKE ?", ["%$search%"]);
         }
 
         // order
@@ -152,7 +151,7 @@ class UsuarioController extends Controller
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = User::with(["role"])->where("id", "!=", 1);
+        $usuarios = User::with(["role", "sucursal"])->where("id", "!=", 1);
 
         if (trim($search) != "") {
             $usuarios->where("nombre", "LIKE", "%$search%");
@@ -193,7 +192,7 @@ class UsuarioController extends Controller
 
     public function show(User $user)
     {
-        return response()->JSON($user->load(["cliente"]));
+        return response()->JSON($user->load(["sucursal"]));
     }
 
     public function actualizaAcceso(User $user, Request $request)

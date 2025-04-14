@@ -25,26 +25,8 @@ if (props_page.configuracion != null) {
         id: 0,
         nombre_sistema: "",
         alias: "",
+        razon_social: "",
         logo: "",
-        fono: "",
-        dir: "",
-        conf_correos: {
-            host: "smtp.hostinger.com",
-            correo: "mensaje@emsytsrl.com",
-            driver: "smtp",
-            nombre: "unibienes",
-            puerto: "587",
-            password: "8Z@d>&kj^y",
-            encriptado: "tls",
-        },
-        conf_moneda: {
-            abrev: "Bs",
-            moneda: "Bolivianos",
-        },
-        conf_captcha: {
-            claveSitio: "AAAAAAA",
-            claveBackend: "BBBBBBB",
-        },
     });
 }
 
@@ -123,25 +105,14 @@ onMounted(() => {});
                         }}</span>
                     </div>
                     <div class="col-md-4 form-group mb-3">
-                        <label for="">Teléfono/Celular Principal*</label>
+                        <label for="">Razón Social*</label>
                         <input
                             type="text"
-                            v-model="form.fono"
+                            v-model="form.razon_social"
                             class="form-control"
                         />
-                        <span class="text-danger" v-if="form.errors?.fono">{{
-                            form.errors.fono
-                        }}</span>
-                    </div>
-                    <div class="col-md-4 form-group mb-3">
-                        <label for="">Dirección*</label>
-                        <el-input
-                            type="textarea"
-                            v-model="form.dir"
-                            autosize
-                        ></el-input>
-                        <span class="text-danger" v-if="form.errors?.dir">{{
-                            form.errors.dir
+                        <span class="text-danger" v-if="form.errors?.razon_social">{{
+                            form.errors.razon_social
                         }}</span>
                     </div>
                     <div class="col-md-4 form-group mb-3">
@@ -164,198 +135,6 @@ onMounted(() => {});
                             form.errors.logo
                         }}</span>
                     </div>
-                </div>
-                <div class="row">
-                    <h4>Servidor de correos</h4>
-                    <template v-if="form.conf_correos">
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Host*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_correos.host"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_correos.host']
-                                "
-                                >{{ form.errors["conf_correos.host"] }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Puerto*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_correos.puerto"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_correos.puerto']
-                                "
-                                >{{ form.errors["conf_correos.puerto"] }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Encriptado*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_correos.encriptado"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_correos.encriptado']
-                                "
-                                >{{
-                                    form.errors["conf_correos.encriptado"]
-                                }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Correo*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_correos.correo"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_correos.correo']
-                                "
-                                >{{ form.errors["conf_correos.correo"] }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Nombre*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_correos.nombre"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_correos.nombre']
-                                "
-                                >{{ form.errors["conf_correos.nombre"] }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Password*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_correos.password"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_correos.password']
-                                "
-                                >{{
-                                    form.errors["conf_correos.password"]
-                                }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Driver*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_correos.driver"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_correos.driver']
-                                "
-                                >{{ form.errors["conf_correos.driver"] }}</span
-                            >
-                        </div>
-                    </template>
-                </div>
-                <div class="row">
-                    <h4>Moneda</h4>
-                    <template v-if="form.conf_moneda">
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Seleccionar moneda*</label>
-                            <select
-                                class="form-control"
-                                v-model="form.conf_moneda.moneda"
-                            >
-                                <option value="">- Seleccione -</option>
-                                <option value="Bolivianos">Bolivianos</option>
-                                <option value="Dólares">Dólares</option>
-                            </select>
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_moneda.moneda']
-                                "
-                                >{{ form.errors["conf_moneda.moneda"] }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Abreviatura*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_moneda.abrev"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_moneda.abrev']
-                                "
-                                >{{ form.errors["conf_moneda.abrev"] }}</span
-                            >
-                        </div>
-                    </template>
-                </div>
-                <div class="row">
-                    <h4>Captcha</h4>
-                    <template v-if="form.conf_captcha">
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Clave Sitio Web*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_captcha.claveSitio"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_captcha.claveSitio']
-                                "
-                                >{{
-                                    form.errors["conf_captcha.claveSitio"]
-                                }}</span
-                            >
-                        </div>
-                        <div class="col-md-4 form-group mb-3">
-                            <label for="">Clave Backend*</label>
-                            <input
-                                class="form-control"
-                                v-model="form.conf_captcha.claveBackend"
-                            />
-                            <span
-                                class="text-danger"
-                                v-if="
-                                    form.errors &&
-                                    form.errors['conf_captcha.claveBackend']
-                                "
-                                >{{
-                                    form.errors["conf_captcha.claveBackend"]
-                                }}</span
-                            >
-                        </div>
-                    </template>
                 </div>
             </div>
             <div

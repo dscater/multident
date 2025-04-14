@@ -1,7 +1,7 @@
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import { useCategorias } from "@/composables/categorias/useCategorias";
+import { useCategorias } from "@/composables/sucursals/useSucursals";
 import { useAxios } from "@/composables/axios/useAxios";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";

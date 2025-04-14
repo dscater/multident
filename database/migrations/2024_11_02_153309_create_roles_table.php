@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("nombre", 255);
             $table->integer("permisos")->default(0);
             $table->integer("usuarios")->default(1);
+            $table->integer("status")->default(1);
             $table->timestamps();
         });
     }

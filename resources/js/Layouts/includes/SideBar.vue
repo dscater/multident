@@ -524,13 +524,10 @@ const logout = () => {
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('orden_ventas.index') ||
-                        user_logeado.permisos.includes(
-                            'solicitud_productos.index'
-                        )
+                        user_logeado.permisos.includes('orden_ventas.index')
                     "
                 >
-                    SOLICITUDES
+                    OPERACIONES
                 </div>
                 <div
                     v-if="
@@ -552,30 +549,6 @@ const logout = () => {
                     </Link>
                 </div>
                 <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'solicitud_productos.index'
-                        )
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'solicitud_productos.index'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('solicitud_productos.index')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-clipboard-list"></i>
-                        </div>
-                        <div class="menu-text">Solicitud de Productos</div>
-                    </Link>
-                </div>
-                <div
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
@@ -587,7 +560,8 @@ const logout = () => {
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('productos.index')
+                        user_logeado.permisos.includes('productos.index')||
+                        user_logeado.permisos.includes('sucursals.index')
                     "
                     class="menu-item"
                     :class="[
@@ -604,18 +578,18 @@ const logout = () => {
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('categorias.index')
+                        user_logeado.permisos.includes('sucursals.index')
                     "
                     class="menu-item"
                     :class="[
-                        route_current == 'categorias.index' ? 'active' : 'none',
+                        route_current == 'sucursals.index' ? 'active' : '',
                     ]"
                 >
-                    <Link :href="route('categorias.index')" class="menu-link">
+                    <Link :href="route('sucursals.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
-                        <div class="menu-text">Categorías</div>
+                        <div class="menu-text">Sucursales</div>
                     </Link>
                 </div>
                 <div
@@ -689,17 +663,7 @@ const logout = () => {
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('reportes.usuarios') ||
-                        user_logeado.permisos.includes('reportes.productos') ||
-                        user_logeado.permisos.includes(
-                            'reportes.orden_ventas'
-                        ) ||
-                        user_logeado.permisos.includes(
-                            'reportes.solicitud_productos'
-                        ) ||
-                        user_logeado.permisos.includes(
-                            'reportes.seguimiento_solicituds'
-                        )
+                        user_logeado.permisos.includes('reportes.usuarios')
                     "
                 >
                     REPORTES
@@ -744,100 +708,10 @@ const logout = () => {
                         <div class="menu-text">Productos</div>
                     </Link>
                 </div>
-
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('reportes.orden_ventas')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.orden_ventas'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.orden_ventas')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-file-alt"></i>
-                        </div>
-                        <div class="menu-text">Ordenes de ventas</div>
-                    </Link>
-                </div>
-
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.solicitud_productos'
-                        )
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.solicitud_productos'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.solicitud_productos')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-file-alt"></i>
-                        </div>
-                        <div class="menu-text">Solicitud de Productos</div>
-                    </Link>
-                </div>
-
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.seguimiento_solicituds'
-                        )
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.seguimiento_solicituds'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.seguimiento_solicituds')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-file-alt"></i>
-                        </div>
-                        <div class="menu-text">
-                            Seguimiento de Solicitud de Productos
-                        </div>
-                    </Link>
-                </div>
-
-                <div
-                    class="menu-header"
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'reportes.g_orden_ventas'
-                        ) ||
-                        user_logeado.permisos.includes(
-                            'reportes.g_solicitud_productos'
-                        ) ||
-                        user_logeado.permisos.includes(
-                            'reportes.g_seguimiento_productos'
-                        )
-                    "
-                >
+                <div class="menu-header" v-if="user_logeado.permisos == '*'">
                     GRÁFICAS
                 </div>
-                <div
+                <!-- <div
                     v-if="user_logeado.permisos == '*'"
                     class="menu-item"
                     :class="[
@@ -855,73 +729,8 @@ const logout = () => {
                         </div>
                         <div class="menu-text">Ordenes de venta</div>
                     </Link>
-                </div>
-                <div
-                    v-if="user_logeado.permisos == '*'"
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.g_solicitud_productos'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.g_solicitud_productos')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-chart-pie"></i>
-                        </div>
-                        <div class="menu-text">Solicitud de productos</div>
-                    </Link>
-                </div>
-                <div
-                    v-if="user_logeado.permisos == '*'"
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.g_seguimiento_productos'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link
-                        :href="route('reportes.g_seguimiento_productos')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-chart-pie"></i>
-                        </div>
-                        <div class="menu-text">
-                            Seguimiento de Solicitud de productos
-                        </div>
-                    </Link>
-                </div>
-
+                </div> -->
                 <div class="menu-header">OTROS</div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes(
-                            'configuracion_pagos.index'
-                        )
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'configuracion_pagos.index'
-                            ? 'active'
-                            : '',
-                    ]"
-                >
-                    <Link
-                        :href="route('configuracion_pagos.index')"
-                        class="menu-link"
-                    >
-                        <div class="menu-icon">
-                            <i class="fa fa-cog"></i>
-                        </div>
-                        <div class="menu-text">Configuración de Pagos</div>
-                    </Link>
-                </div>
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("fonos", 600)->nullable();
             $table->unsignedBigInteger("user_id");
             $table->date("fecha_registro");
+            $table->integer("status")->default(1);
             $table->timestamps();
 
             $table->foreign("user_id")->on("users")->references("id");

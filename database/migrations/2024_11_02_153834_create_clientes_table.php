@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('cel')->nullable();
             $table->string('descripcion', 800)->nullable();
             $table->date("fecha_registro");
+            $table->integer("status")->default(1);
             $table->timestamps();
         });
     }

@@ -24,20 +24,8 @@ class ConfiguracionRequest extends FormRequest
         return [
             "nombre_sistema" => "required",
             "alias" => "required",
+            "razon_social" => "required",
             "logo" => "required",
-            "fono" => "required",
-            "dir" => "required",
-            "conf_correos.host" => "required",
-            "conf_correos.correo" => "required",
-            "conf_correos.driver" => "required",
-            "conf_correos.nombre" => "required",
-            "conf_correos.puerto" => "required",
-            "conf_correos.password" => "required",
-            "conf_correos.encriptado" => "required",
-            "conf_moneda.abrev" => "required",
-            "conf_moneda.moneda" => "required",
-            "conf_captcha.claveSitio" => "required",
-            "conf_captcha.claveBackend" => "required",
         ];
     }
 
@@ -51,20 +39,8 @@ class ConfiguracionRequest extends FormRequest
         return [
             "nombre_sistema.required" => "Debes completar este campo",
             "alias.required" => "Debes completar este campo",
+            "razon_social.required" => "Debes completar este campo",
             "logo.required" => "Debes completar este campo",
-            "fono.required" => "Debes completar este campo",
-            "dir.required" => "Debes completar este campo",
-            "conf_correos.host.required" => "Debes completar este campo",
-            "conf_correos.correo.required" => "Debes completar este campo",
-            "conf_correos.driver.required" => "Debes completar este campo",
-            "conf_correos.nombre.required" => "Debes completar este campo",
-            "conf_correos.puerto.required" => "Debes completar este campo",
-            "conf_correos.password.required" => "Debes completar este campo",
-            "conf_correos.encriptado.required" => "Debes completar este campo",
-            "conf_moneda.abrev.required" => "Debes completar este campo",
-            "conf_moneda.moneda.required" => "Debes completar este campo",
-            "conf_captcha.claveSitio.required" => "Debes completar este campo",
-            "conf_captcha.claveBackend.required" => "Debes completar este campo",
         ];
     }
 }

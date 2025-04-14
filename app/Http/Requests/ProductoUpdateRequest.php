@@ -23,42 +23,46 @@ class ProductoUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "categoria_id" => "required",
             "nombre" => "required|min:2",
-            "descripcion" => "required|min:10",
-            "stock_actual" => "required|int|min:0",
-            "precio_compra" => "required|numeric|min:0",
-            "precio_venta" => "required|numeric|min:0",
-            "observaciones" => "nullable|min:4",
-            "publico" => "required",
-            "imagens" => ["required", "array", "min:1", "max:5", new ProductoImagensRule],
-            "eliminados_imagens" => "nullable"
+            "descripcion" => "required|min:2",
+            "precio_pred" => "required|numeric|min:1",
+            "precio_min" => "required|numeric|min:1",
+            "precio_fac" => "required|numeric|min:0",
+            "precio_sf" => "required|numeric|min:0",
+            "stock_maximo" => "required|int|min:1",
+            "foto" => "nullable|image|mimes:png,jpg,jpeg,webp|max:4096",
         ];
     }
 
     public function messages(): array
     {
         return [
-            "categoria_id.required" => "Debes  seleccionar una categoría",
             "nombre.required" => "Debes completar este campo",
             "nombre.min" => "Debes ingresar al menos :min caracteres",
             "descripcion.required" => "Debes completar este campo",
             "descripcion.min" => "Debes ingresar al menos :min caracteres",
-            "stock_actual.required" => "Debes completar este campo",
-            "stock_actual.int" => "Debes ingresar un valor entero",
-            "stock_actual.min" => "Debes ingresar al menos :min",
-            "precio_compra.required" => "Debes completar este campo",
-            "precio_compra.numeric" => "Debes ingresar un valor númerico",
-            "precio_compra.min" => "Debes ingresar al menos :min",
-            "precio_venta.required" => "Debes completar este campo",
-            "precio_venta.numeric" => "Debes ingresar un valor númerico",
-            "precio_venta.min" => "Debes ingresar al menos :min",
-            "observaciones.required" => "Debes completar este campo",
-            "observaciones.min" => "Debes ingresar al menos :min caracteres",
-            "publico.required" => "Debes seleccionar un valor",
-            "imagens.required" => "Debes cargar al menos 1 imagen",
-            "imagens.min" => "Debes cargar al menos :min imagen",
-            "imagens.max" => "Solo puedes cargar :max imagenes",
+            "precio_pred.required" => "Debes completar este campo",
+            "precio_min.required" => "Debes completar este campo",
+            "precio_fac.required" => "Debes completar este campo",
+            "precio_sf.required" => "Debes completar este campo",
+
+            "precio_pred.numeric" => "Debes ingresar un valor númerico",
+            "precio_min.numeric" => "Debes ingresar un valor númerico",
+            "precio_fac.numeric" => "Debes ingresar un valor númerico",
+            "precio_sf.numeric" => "Debes ingresar un valor númerico",
+
+            "precio_pred.min" => "Debes ingresar al menos :min",
+            "precio_min.min" => "Debes ingresar al menos :min",
+            "precio_fac.min" => "Debes ingresar al menos :min",
+            "precio_sf.min" => "Debes ingresar al menos :min",
+
+            "stock_maximo.required" => "Debes completar este campo",
+            "stock_maximo.min" => "Debes ingresar al menos :min",
+            "stock_maximo.int" => "Debes ingresar un valor entero",
+
+            "foto.image" => "Debes cargar una imagen",
+            "foto.mimes" => "Solo puedes enviar formatos png,jpg,jpeg,webp",
+            "foto.max" => "No puedes cargar una imagen con mas de 4096KB",
         ];
     }
 }
