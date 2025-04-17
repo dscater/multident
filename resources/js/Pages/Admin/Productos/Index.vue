@@ -24,6 +24,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
 // import { useMenu } from "@/composables/useMenu";
 import Formulario from "./Formulario.vue";
+import Relacion from "./Relacion.vue";
 import { useFormater } from "@/composables/useFormater";
 const { getFormatoMoneda } = useFormater();
 // const { mobile, identificaDispositivo } = useMenu();
@@ -101,11 +102,13 @@ const columns = [
         render: function (data, type, row) {
             let buttons = ``;
 
+            buttons += `<button class="mx-0 rounded-0 btn btn-primary relacion" data-id="${row.id}"><i class="fa fa-random"></i></button>`;
+
             if (
                 props_page.auth?.user.permisos == "*" ||
                 props_page.auth?.user.permisos.includes("productos.edit")
             ) {
-                buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
+                buttons += `<button class="mx-1 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
             }
 
             if (
@@ -126,8 +129,12 @@ const columns = [
     },
 ];
 const loading = ref(false);
+// modal 1
 const accion_dialog = ref(0);
 const open_dialog = ref(false);
+// modal 2
+const accion_dialog_relacion = ref(0);
+const open_dialog_relacion = ref(false);
 
 const agregarRegistro = () => {
     limpiarProducto();
@@ -136,6 +143,17 @@ const agregarRegistro = () => {
 };
 
 const accionesRow = () => {
+    // relacion
+    $("#table-producto").on("click", "button.relacion", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        axios.get(route("productos.show", id)).then((response) => {
+            setProducto(response.data);
+            accion_dialog_relacion.value = 1;
+            open_dialog_relacion.value = true;
+        });
+    });
+
     // editar
     $("#table-producto").on("click", "button.editar", function (e) {
         e.preventDefault();
@@ -146,6 +164,7 @@ const accionesRow = () => {
             open_dialog.value = true;
         });
     });
+
     // eliminar
     $("#table-producto").on("click", "button.eliminar", function (e) {
         e.preventDefault();
@@ -292,4 +311,11 @@ onBeforeUnmount(() => {
         @envio-formulario="updateDatatable"
         @cerrar-dialog="open_dialog = false"
     ></Formulario>
+
+    <Relacion
+        :open_dialog="open_dialog_relacion"
+        :accion_dialog="accion_dialog_relacion"
+        @envio-formulario="updateDatatable"
+        @cerrar-dialog="open_dialog_relacion = false"
+    ></Relacion>
 </template>

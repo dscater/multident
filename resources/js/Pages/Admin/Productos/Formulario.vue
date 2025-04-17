@@ -51,8 +51,8 @@ const listPublico = ["HABILITADO", "DESHABILITADO"];
 
 const tituloDialog = computed(() => {
     return accion.value == 0
-        ? `<i class="fa fa-plus"></i> Nueva Categoría`
-        : `<i class="fa fa-edit"></i> Editar Categoría`;
+        ? `<i class="fa fa-plus"></i> Nueva Producto`
+        : `<i class="fa fa-edit"></i> Editar Producto`;
 });
 
 const enviarFormulario = () => {

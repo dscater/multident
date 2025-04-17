@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class ProductoRelacion extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "producto_id",
+        "producto_relacion",
+    ];
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
+
+    public function producto_relacion()
+    {
+        return $this->belongsTo(Producto::class, 'producto_relacion');
+    }
 }

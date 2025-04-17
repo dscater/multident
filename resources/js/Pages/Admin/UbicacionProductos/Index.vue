@@ -1,7 +1,7 @@
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import { useConfiguracionPagos } from "@/composables/configuracionPagos/useConfiguracionPagos";
+import { useUbicacionProductos } from "@/composables/ubicacion_productos/useUbicacionProductos";
 import { useAxios } from "@/composables/axios/useAxios";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
@@ -17,8 +17,7 @@ onMounted(() => {
     }, 300);
 });
 
-const { setConfiguracionPago, limpiarConfiguracionPago } =
-    useConfiguracionPagos();
+const { setUbicacionProducto, limpiarUbicacionProducto } = useUbicacionProductos();
 const { axiosDelete } = useAxios();
 
 const columns = [
@@ -27,23 +26,12 @@ const columns = [
         data: "id",
     },
     {
-        title: "NOMBRE DE BANCO",
-        data: "nombre_banco",
+        title: "LUGAR",
+        data: "lugar",
     },
     {
-        title: "TITULAR DE LA CUENTA",
-        data: "titular_cuenta",
-    },
-    {
-        title: "NÚMERO DE CUENTA",
-        data: "nro_cuenta",
-    },
-    {
-        title: "IMAGEN QR",
-        data: null,
-        render: function (data, type, row) {
-            return `<img src="${data?.url_imagen_qr}" class="h-100px my-n1 mx-n1"/>`;
-        },
+        title: "NRO. FILA",
+        data: "numero_filas",
     },
     {
         title: "FECHA DE REGISTRO",
@@ -57,24 +45,20 @@ const columns = [
 
             if (
                 props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes(
-                    "configuracion_pagos.edit"
-                )
+                props_page.auth?.user.permisos.includes("ubicacion_productos.edit")
             ) {
                 buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
             }
 
             if (
                 props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes(
-                    "configuracion_pagos.destroy"
-                )
+                props_page.auth?.user.permisos.includes("ubicacion_productos.destroy")
             ) {
                 buttons += ` <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}"
-                 data-nombre="${row.nombre_banco}|${row.titular_cuenta}|${row.nro_cuenta}"
+                 data-nombre="${row.lugar} | ${row.numero_filas}"
                  data-url="${route(
-                     "configuracion_pagos.destroy",
+                     "ubicacion_productos.destroy",
                      row.id
                  )}"><i class="fa fa-trash"></i></button>`;
             }
@@ -88,24 +72,26 @@ const accion_dialog = ref(0);
 const open_dialog = ref(false);
 
 const agregarRegistro = () => {
-    limpiarConfiguracionPago();
+    limpiarUbicacionProducto();
     accion_dialog.value = 0;
     open_dialog.value = true;
 };
 
 const accionesRow = () => {
+    
     // editar
-    $("#table-configuracionPago").on("click", "button.editar", function (e) {
+    $("#table-ubicacion_producto").on("click", "button.editar", function (e) {
         e.preventDefault();
         let id = $(this).attr("data-id");
-        axios.get(route("configuracion_pagos.show", id)).then((response) => {
-            setConfiguracionPago(response.data);
+        axios.get(route("ubicacion_productos.show", id)).then((response) => {
+            setUbicacionProducto(response.data);
             accion_dialog.value = 1;
             open_dialog.value = true;
         });
     });
+
     // eliminar
-    $("#table-configuracionPago").on("click", "button.eliminar", function (e) {
+    $("#table-ubicacion_producto").on("click", "button.eliminar", function (e) {
         e.preventDefault();
         let nombre = $(this).attr("data-nombre");
         let id = $(this).attr("data-id");
@@ -121,7 +107,7 @@ const accionesRow = () => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 let respuesta = await axiosDelete(
-                    route("configuracion_pagos.destroy", id)
+                    route("ubicacion_productos.destroy", id)
                 );
                 if (respuesta && respuesta.sw) {
                     updateDatatable();
@@ -142,9 +128,9 @@ const updateDatatable = () => {
 
 onMounted(async () => {
     datatable = initDataTable(
-        "#table-configuracionPago",
+        "#table-ubicacion_producto",
         columns,
-        route("configuracion_pagos.api")
+        route("ubicacion_productos.api")
     );
     input_search = document.querySelector('input[type="search"]');
 
@@ -171,16 +157,16 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-    <Head title="Configuración de Pagos"></Head>
+    <Head title="Ubicación de Productos"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Configuración de Pagos</li>
+        <li class="breadcrumb-item active">Ubicación de Productos</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Configuración de Pagos</h1>
+    <h1 class="page-header">Ubicación de Productos</h1>
     <!-- END page-header -->
 
     <div class="row">
@@ -194,7 +180,7 @@ onBeforeUnmount(() => {
                             v-if="
                                 props_page.auth?.user.permisos == '*' ||
                                 props_page.auth?.user.permisos.includes(
-                                    'configuracion_pagos.create'
+                                    'ubicacion_productos.create'
                                 )
                             "
                             type="button"
@@ -213,19 +199,17 @@ onBeforeUnmount(() => {
                 <!-- BEGIN panel-body -->
                 <div class="panel-body">
                     <table
-                        id="table-configuracionPago"
+                        id="table-ubicacion_producto"
                         width="100%"
                         class="table table-striped table-bordered align-middle text-nowrap tabla_datos"
                     >
                         <thead>
                             <tr>
-                                <th width="2%"></th>
+                                <th width="5%"></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th></th>
-                                <th></th>
-                                <th width="2%"></th>
+                                <th width="5%"></th>
                             </tr>
                         </thead>
                         <div class="loading_table" v-show="loading_table">

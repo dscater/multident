@@ -22,7 +22,20 @@ class Producto extends Model
         "status",
     ];
 
-    protected $appends = ["url_foto", "foto_b64", "fecha_registro_t"];
+    protected $appends = ["url_foto", "foto_b64", "fecha_registro_t", "monto_cf", "monto_sf"];
+
+    public function getMontoCFAttribute()
+    {
+        $incremento = 1 + ($this->precio_fac / 100);
+        $monto = round((float)$this->precio_pred * $incremento, 2);
+        return $monto;
+    }
+    public function getMontoSFAttribute()
+    {
+        $decremento = 1 - ($this->precio_sf / 100);
+        $monto = round((float)$this->precio_pred * $decremento, 2);
+        return $monto;
+    }
 
     public function getUrlFotoAttribute()
     {
@@ -52,5 +65,10 @@ class Producto extends Model
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_id');
+    }
+
+    public function producto_relacions()
+    {
+        return $this->hasMany(ProductoRelacion::class, 'producto_id');
     }
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\IngresoProductoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\OrdenVentaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProductoRelacionController;
+use App\Http\Controllers\ProductoSucursalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProformaController;
 use App\Http\Controllers\PromocionController;
@@ -93,10 +95,19 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // PRODUCTOS
     Route::get("productos/api", [ProductoController::class, 'api'])->name("productos.api");
     Route::get("productos/paginado", [ProductoController::class, 'paginado'])->name("productos.paginado");
+    Route::get("productos/listadoSinProducto", [ProductoController::class, 'listadoSinProducto'])->name("productos.listadoSinProducto");
     Route::get("productos/listado", [ProductoController::class, 'listado'])->name("productos.listado");
     Route::resource("productos", ProductoController::class)->only(
         ["index", "store", "show", "update", "destroy"]
     );
+
+    // PRODUCTO SUCURSAL
+    Route::get("producto_sucursals/getStockProductoSucursal", [ProductoSucursalController::class, 'getStockProductoSucursal'])->name("producto_sucursals.getStockProductoSucursal");
+
+    // RELACION PRODUCTOS
+    Route::get("producto_relacions/listadoPorProducto/{producto}", [ProductoRelacionController::class, 'listadoPorProducto'])->name("producto_relacions.listadoPorProducto");
+    Route::post("producto_relacions/store/{producto}", [ProductoRelacionController::class, 'store'])->name("productos.relacion");
+    Route::delete("producto_relacions/destroy/{producto_relacion}", [ProductoRelacionController::class, 'destroy'])->name("productos_relacion.destroy");
 
     // UBICACION PRODUCTOS
     Route::get("ubicacion_productos/api", [UbicacionProductoController::class, 'api'])->name("ubicacion_productos.api");

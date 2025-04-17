@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\DetalleVenta;
 use App\Services\HistorialAccionService;
 use App\Models\Producto;
+use App\Models\ProductoRelacion;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -25,6 +26,18 @@ class ProductoService
     public function listado(): Collection
     {
         $productos = Producto::select("productos.*")->where("status", 1)->get();
+        return $productos;
+    }
+
+    /**
+     * Listar productos que no sean el $producto_id
+     *
+     * @param integer $producto_id
+     * @return Collection
+     */
+    public function listadoSinProducto(int $producto_id): Collection
+    {
+        $productos = Producto::select("productos.*")->where("status", 1)->where("id", "!=", $producto_id)->get();
         return $productos;
     }
 
@@ -160,6 +173,23 @@ class ProductoService
                 'error' =>  "No es posible eliminar este registro porque esta siendo utilizado por otros registros",
             ]);
         }
+
+        // verificar usos
+        $usos = ProductoRelacion::where("producto_id", $producto->id)->get();
+        if (count($usos) > 0) {
+            throw ValidationException::withMessages([
+                'error' =>  "No es posible eliminar este registro porque esta siendo utilizado por otros registros",
+            ]);
+        }
+
+        // verificar usos
+        $usos = ProductoRelacion::where("producto_relacion", $producto->id)->get();
+        if (count($usos) > 0) {
+            throw ValidationException::withMessages([
+                'error' =>  "No es posible eliminar este registro porque esta siendo utilizado por otros registros",
+            ]);
+        }
+
 
         // no eliminar productos predeterminados para el funcionamiento del sistema
         $old_producto = Producto::find($producto->id);

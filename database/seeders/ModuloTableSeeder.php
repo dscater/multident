@@ -138,6 +138,13 @@ class ModuloTableSeeder extends Seeder
 
         Modulo::create([
             "modulo" => "Productos",
+            "nombre" => "productos.relacion",
+            "accion" => "RELACIÓN PRODUCTOS",
+            "descripcion" => "RELACIONAR CON OTROS PRODUCTOS"
+        ]);
+
+        Modulo::create([
+            "modulo" => "Productos",
             "nombre" => "productos.destroy",
             "accion" => "ELIMINAR",
             "descripcion" => "ELIMINAR PRODUCTOS"

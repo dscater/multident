@@ -30,6 +30,19 @@ class ProductoController extends Controller
     }
 
     /**
+     * Página index
+     *
+     * @return Response
+     */
+    public function listadoSinProducto(Request $request): JsonResponse
+    {
+        return response()->JSON([
+            "productos" => $this->productoService->listadoSinProducto($request->producto_id ?? 0)
+        ]);
+    }
+
+
+    /**
      * Listado de productos
      *
      * @return JsonResponse
