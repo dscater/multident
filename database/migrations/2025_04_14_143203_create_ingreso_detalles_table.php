@@ -20,12 +20,12 @@ return new class extends Migration
             $table->date("fecha_vencimiento")->nullable();
             $table->text("descripcion")->nullable();
             $table->date("fecha_registro")->nullable();
+            $table->integer("status")->default(1);
             $table->timestamps();
 
             $table->foreign("ingreso_producto_id")->on("ingreso_productos")->references("id");
             $table->foreign("producto_id")->on("productos")->references("id");
             $table->foreign("ubicacion_producto_id")->on("ubicacion_productos")->references("id");
-
         });
     }
 

@@ -71,4 +71,9 @@ class Producto extends Model
     {
         return $this->hasMany(ProductoRelacion::class, 'producto_id');
     }
+
+    public function producto_sucursals()
+    {
+        return $this->hasMany(ProductoSucursal::class, 'producto_id');
+    }
 }

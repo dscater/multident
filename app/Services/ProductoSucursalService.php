@@ -9,19 +9,47 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductoSucursalService
 {
-    public function __construct(private HistorialAccionService $historialAccionService) {}
+    /**
+     * Incrementar el stock del producto sucursal
+     *
+     * @param Producto $producto
+     * @param float $cantidad
+     * @param integer $sucursal_id
+     * @return void
+     */
+    public function incrementarStock(Producto $producto, float $cantidad, int $sucursal_id): void
+    {
+        $sucursal_producto = ProductoSucursal::where("producto_id", $producto->id)
+            ->where("sucursal_id", $sucursal_id)
+            ->get()->first();
+        if (!$sucursal_producto) {
+            $producto->producto_sucursals()->create([
+                "sucursal_id" => $sucursal_id,
+                "stock_actual" => $cantidad,
+            ]);
+        } else {
+            $sucursal_producto->stock_actual = (float)$sucursal_producto->stock_actual + $cantidad;
+            $sucursal_producto->save();
+        }
+    }
+
 
     /**
-     * Obtener el stock por producto y sucursal
+     * Decrementar el stock de un producto sucursal
      *
-     * @param integer $producto_id
+     * @param Producto $producto
+     * @param float $cantidad
      * @param integer $sucursal_id
-     * @return ProductoSucursal
+     * @return void
      */
-    public function stockPorProductoSucursal(int $producto_id, int $sucursal_id): ProductoSucursal
+    public function decrementarStock(Producto $producto, float $cantidad, int $sucursal_id): void
     {
-        $producto_sucursal = ProductoSucursal::with(["producto"])->where("sucursal_id", $sucursal_id)
-            ->where("producto_id", $producto_id)->get()->first();
-        return $producto_sucursal;
+        $sucursal_producto = ProductoSucursal::where("producto_id", $producto->id)
+            ->where("sucursal_id", $sucursal_id)
+            ->get()->first();
+        if ($sucursal_producto) {
+            $sucursal_producto->stock_actual = (float)$sucursal_producto->stock_actual - $cantidad;
+            $sucursal_producto->save();
+        }
     }
 }

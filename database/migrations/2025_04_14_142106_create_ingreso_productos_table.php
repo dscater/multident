@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("sucursal_id");
             $table->date("fecha_registro")->nullable();
             $table->string("descripcion");
-            $table->integer("status");
+            $table->integer("status")->default(1);
             $table->timestamps();
 
             $table->foreign("sucursal_id")->on("sucursals")->references("id");

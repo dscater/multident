@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
@@ -30,7 +31,7 @@ class ProductoController extends Controller
     }
 
     /**
-     * Página index
+     * Lista de productos a excepcion de producto_id
      *
      * @return Response
      */
@@ -55,47 +56,6 @@ class ProductoController extends Controller
     }
 
     /**
-     * Obtener registro de productos paginado
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function productosPaginadoPortal(Request $request): JsonResponse
-    {
-        $perPage = $request->perPage;
-        $page = (int)($request->input("page", 1));
-        $search = (string)$request->input("search", "");
-        $precioDesde = $request->precioDesde;
-        $precioHasta = $request->precioHasta;
-        $categoria_id = $request->categoria_id;
-        $orderByCol = $request->orderByCol;
-        $desc = $request->desc;
-
-        $columnsSerachLike = ["nombre", "descripcion"];
-        $columnsFilter = [
-            "categoria_id" => $categoria_id,
-            "publico" => "HABILITADO",
-        ];
-        $columnsBetweenFilter = [
-            "precio_venta" => [$precioDesde, $precioHasta]
-        ];
-
-        $arrayOrderBy = [];
-        if ($orderByCol && $desc) {
-            $arrayOrderBy = [
-                [$orderByCol, $desc]
-            ];
-        }
-
-        $productos = $this->productoService->listadoPaginado($perPage, $page, $search, $columnsSerachLike, $columnsFilter, $columnsBetweenFilter, $arrayOrderBy);
-        return response()->JSON([
-            "total" => $productos->total(),
-            "productos" => $productos->items(),
-            "lastPage" => $productos->lastPage()
-        ]);
-    }
-
-    /**
      * Endpoint para obtener la lista de productos paginado para data table
      *
      * @param Request $request
@@ -108,7 +68,13 @@ class ProductoController extends Controller
         $page = (int)(($start / $length) + 1); // Cálculo de la página actual
         $search = (string)$request->input('search', '');
 
-        $productos = $this->productoService->listadoPaginado($length, $page, $search);
+        $columnsSerachLike = [
+            "nombre",
+            "descripcion",
+            "fecha_registro"
+        ];
+
+        $productos = $this->productoService->listadoPaginado($length, $page, $search, $columnsSerachLike);
 
         return response()->JSON([
             'data' => $productos->items(),

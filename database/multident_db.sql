@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 17-04-2025 a las 22:12:12
+-- Tiempo de generación: 18-04-2025 a las 17:11:53
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -200,6 +200,7 @@ CREATE TABLE `ingreso_detalles` (
   `fecha_vencimiento` date DEFAULT NULL,
   `descripcion` text COLLATE utf8mb4_unicode_ci,
   `fecha_registro` date DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -215,7 +216,36 @@ CREATE TABLE `ingreso_productos` (
   `sucursal_id` bigint UNSIGNED NOT NULL,
   `fecha_registro` date DEFAULT NULL,
   `descripcion` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` int NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `kardex_productos`
+--
+
+CREATE TABLE `kardex_productos` (
+  `id` bigint UNSIGNED NOT NULL,
+  `sucursal_id` bigint UNSIGNED NOT NULL,
+  `tipo_registro` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `registro_id` bigint UNSIGNED DEFAULT NULL,
+  `modulo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `producto_id` bigint UNSIGNED NOT NULL,
+  `detalle` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `precio` decimal(24,2) DEFAULT NULL,
+  `tipo_is` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cantidad_ingreso` double DEFAULT NULL,
+  `cantidad_salida` double DEFAULT NULL,
+  `cantidad_saldo` double NOT NULL,
+  `cu` decimal(24,2) NOT NULL,
+  `monto_ingreso` decimal(24,2) DEFAULT NULL,
+  `monto_salida` decimal(24,2) DEFAULT NULL,
+  `monto_saldo` decimal(24,2) NOT NULL,
+  `fecha` date NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -259,7 +289,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2025_04_14_142644_create_detalle_proformas_table', 2),
 (21, '2025_04_14_142651_create_promocions_table', 2),
 (22, '2025_04_14_143203_create_ingreso_detalles_table', 2),
-(23, '2025_04_14_143810_create_producto_sucursals_table', 2);
+(23, '2025_04_14_143810_create_producto_sucursals_table', 2),
+(24, '2025_04_18_101317_create_kardex_productos_table', 3);
 
 -- --------------------------------------------------------
 
@@ -727,6 +758,14 @@ ALTER TABLE `ingreso_productos`
   ADD KEY `ingreso_productos_sucursal_id_foreign` (`sucursal_id`);
 
 --
+-- Indices de la tabla `kardex_productos`
+--
+ALTER TABLE `kardex_productos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kardex_productos_producto_id_foreign` (`producto_id`),
+  ADD KEY `kardex_productos_sucursal_id_foreign` (`sucursal_id`);
+
+--
 -- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
@@ -890,10 +929,16 @@ ALTER TABLE `ingreso_productos`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `kardex_productos`
+--
+ALTER TABLE `kardex_productos`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `modulos`
@@ -1031,6 +1076,13 @@ ALTER TABLE `ingreso_detalles`
 --
 ALTER TABLE `ingreso_productos`
   ADD CONSTRAINT `ingreso_productos_sucursal_id_foreign` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursals` (`id`);
+
+--
+-- Filtros para la tabla `kardex_productos`
+--
+ALTER TABLE `kardex_productos`
+  ADD CONSTRAINT `kardex_productos_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`),
+  ADD CONSTRAINT `kardex_productos_sucursal_id_foreign` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursals` (`id`);
 
 --
 -- Filtros para la tabla `notificacion_users`

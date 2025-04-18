@@ -122,7 +122,7 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     Route::get("ingreso_productos/paginado", [IngresoProductoController::class, 'paginado'])->name("ingreso_productos.paginado");
     Route::get("ingreso_productos/listado", [IngresoProductoController::class, 'listado'])->name("ingreso_productos.listado");
     Route::resource("ingreso_productos", IngresoProductoController::class)->only(
-        ["index", "store", "show", "update", "destroy"]
+        ["index", "create", "edit", "store", "show", "update", "destroy"]
     );
 
     // SALIDA DE PRODUCTOS

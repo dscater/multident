@@ -62,7 +62,10 @@ class ProductoService
 
         // Filtros exactos
         foreach ($columnsFilter as $key => $value) {
-            if (!is_null($value)) {
+            if (!is_null($value) && trim($value) != '') {
+                if ($key == 'fecha_registro') {
+                    $value = date("Y-m-d", strtotime($value));
+                }
                 $productos->where("productos.$key", $value);
             }
         }
@@ -78,6 +81,16 @@ class ProductoService
         if (!empty($search) && !empty($columnsSerachLike)) {
             $productos->where(function ($query) use ($search, $columnsSerachLike) {
                 foreach ($columnsSerachLike as $col) {
+                    if ($col == 'fecha_registro') {
+                        $array_fecha = explode("/", $search);
+                        $array_fecha = array_reverse($array_fecha);
+                        if (count($array_fecha) > 0) {
+                            $search = "";
+                            foreach ($array_fecha as $key => $text) {
+                                $search .= $text . ($key < count($array_fecha) - 1 ? '-' : '');
+                            }
+                        }
+                    }
                     $query->orWhere("productos.$col", "LIKE", "%$search%");
                 }
             });

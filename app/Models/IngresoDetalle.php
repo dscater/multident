@@ -18,4 +18,39 @@ class IngresoDetalle extends Model
         "descripcion",
         "fecha_registro",
     ];
+
+    protected $appends = ["fecha_registro_t", "fecha_vencimiento_t"];
+
+    public function getFechaVencimientoTAttribute()
+    {
+        if (!$this->fecha_vencimiento) {
+            return "";
+        }
+        return date("d/m/Y", strtotime($this->fecha_vencimiento));
+    }
+
+    public function getFechaRegistroTAttribute()
+    {
+        if (!$this->fecha_registro) {
+            return "";
+        }
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
+
+    // RELACIONES
+
+    public function ingreso_producto()
+    {
+        return $this->belongsTo(IngresoProducto::class, 'ingreso_producto_id');
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
+
+    public function ubicacion_producto()
+    {
+        return $this->belongsTo(UbicacionProducto::class, 'ubicacion_producto_id');
+    }
 }
