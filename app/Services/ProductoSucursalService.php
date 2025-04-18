@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\ProductoSucursal;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class ProductoSucursalService
 {

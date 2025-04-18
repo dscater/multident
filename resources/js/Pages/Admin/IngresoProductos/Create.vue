@@ -43,38 +43,22 @@ onBeforeUnmount(() => {});
 
     <div class="row">
         <div class="col-md-12">
-            <!-- BEGIN panel -->
-            <div class="panel panel-inverse">
-                <!-- BEGIN panel-heading -->
-                <div class="panel-heading">
-                    <h4 class="panel-title btn-nuevo">
-                        <Link
-                            v-if="
-                                props_page.auth?.user.permisos == '*' ||
-                                props_page.auth?.user.permisos.includes(
-                                    'ingreso_productos.index'
-                                )
-                            "
-                            type="button"
-                            class="btn btn-secondary"
-                            :href="route('ingreso_productos.index')"
-                        >
-                            <i class="fa fa-arrow-left"></i> Volver
-                        </Link>
-                    </h4>
-                    <!-- <panel-toolbar
-                        :mostrar_loading="loading"
-                        @loading="updateDatatable"
-                    /> -->
-                </div>
-                <!-- END panel-heading -->
-                <!-- BEGIN panel-body -->
-                <div class="panel-body">
-                    <Formulario></Formulario>
-                </div>
-                <!-- END panel-body -->
-            </div>
-            <!-- END panel -->
+            <h4 class="panel-title btn-nuevo">
+                <Link
+                    v-if="
+                        props_page.auth?.user.permisos == '*' ||
+                        props_page.auth?.user.permisos.includes(
+                            'ingreso_productos.index'
+                        )
+                    "
+                    type="button"
+                    class="btn btn-secondary"
+                    :href="route('ingreso_productos.index')"
+                >
+                    <i class="fa fa-arrow-left"></i> Volver
+                </Link>
+            </h4>
+            <Formulario></Formulario>
         </div>
     </div>
 </template>

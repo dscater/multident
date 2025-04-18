@@ -26,6 +26,9 @@ class IngresoDetalleRule implements ValidationRule
                 if (trim('' . $arraProd["cantidad"]) == '') {
                     $fail("Debes ingresar la cantidad del producto $producto->nombre");
                 }
+                if ((float)$arraProd["cantidad"] <= 0) {
+                    $fail("La cantidad del $producto->nombre no puede ser menor o igual a 0");
+                }
                 if (trim('' . $arraProd["ubicacion_producto_id"]) == '') {
                     $fail("Debes indicar la ubicación del producto $producto->nombre");
                 }

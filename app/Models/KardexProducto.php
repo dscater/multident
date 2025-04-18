@@ -12,7 +12,7 @@ class KardexProducto extends Model
     protected $fillable  = [
         "sucursal_id",
         "tipo_registro",
-        "is_id",
+        "registro_id",
         "modulo",
         "producto_id",
         "detalle",

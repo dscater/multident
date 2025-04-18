@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("sucursal_id");
             $table->unsignedBigInteger("producto_id");
-            $table->unsignedBigInteger("stock_actual");
+            $table->double("stock_actual");
             $table->timestamps();
         });
     }

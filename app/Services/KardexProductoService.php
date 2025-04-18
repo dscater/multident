@@ -53,7 +53,7 @@ class KardexProductoService
                 'tipo_is' => 'INGRESO',
                 'cantidad_ingreso' => $cantidad,
                 'cantidad_saldo' => (float)$ultimo->cantidad_saldo + (float)$cantidad,
-                'cu' => $producto->precio_pred_pred,
+                'cu' => $producto->precio_pred,
                 'monto_ingreso' => $monto,
                 'monto_saldo' => (float)$ultimo->monto_saldo + $monto,
                 'fecha' => $fecha_actual,
@@ -63,7 +63,7 @@ class KardexProductoService
             KardexProducto::create([
                 "sucursal_id" => $sucursal_id,
                 'tipo_registro' => $tipo_registro, //INGRESO, EGRESO, VENTA,etc...
-                'registro_id' => $registro_id,
+                'registro_id' => $registro_id != 0 ? $registro_id : NULL,
                 "modulo" => $modulo,
                 'producto_id' => $producto->id,
                 'detalle' => $detalle,
@@ -122,14 +122,14 @@ class KardexProductoService
             'tipo_is' => 'EGRESO',
             'cantidad_salida' => $cantidad,
             'cantidad_saldo' => (float)$ultimo->cantidad_saldo - (float)$cantidad,
-            'cu' => $producto->precio_pred_pred,
+            'cu' => $producto->precio_pred,
             'monto_salida' => $monto,
             'monto_saldo' => (float)$ultimo->monto_saldo - $monto,
             'fecha' => $fecha_actual,
         ]);
 
         // DECREMENTAR STOCK
-        Producto::decrementarStock($producto, $cantidad, $sucursal_id);
+        $this->productoSucursalService->decrementarStock($producto, $cantidad, $sucursal_id);
     }
 
     // 

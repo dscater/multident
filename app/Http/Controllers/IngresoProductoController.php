@@ -121,28 +121,10 @@ class IngresoProductoController extends Controller
 
     public function update(IngresoProducto $ingreso_producto, IngresoProductoUpdateRequest $request)
     {
-        $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
-            $old_ingreso_producto = clone $ingreso_producto;
-
-            // descontar el stock
-            Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad);
-
-            $datos_original = HistorialAccion::getDetalleRegistro($ingreso_producto, "ingreso_productos");
-            $ingreso_producto->update(array_map('mb_strtoupper', $request->all()));
-            // INCREMENTAR STOCK
-            Producto::incrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad);
-
-            // actualizar kardex
-            $kardex = KardexProducto::where("producto_id", $ingreso_producto->producto_id)
-                ->where("tipo_registro", "INGRESO")
-                ->where("registro_id", $ingreso_producto->id)
-                ->get()->first();
-            KardexProducto::actualizaRegistrosKardex($kardex->id, $kardex->producto_id);
-
-            // registrar accion
-            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN INGRESO DE PRODUCTO", $old_ingreso_producto, $ingreso_producto);
+            // actualizar el IngresoProducto
+            $this->ingresoProductoService->actualizar($request->validated(), $ingreso_producto);
 
             DB::commit();
             return redirect()->route("ingreso_productos.index")->with("bien", "Registro actualizado");
@@ -157,47 +139,8 @@ class IngresoProductoController extends Controller
     {
         DB::beginTransaction();
         try {
-            $old_ingreso_producto = clone $ingreso_producto;
-
-            $eliminar_kardex = KardexProducto::where("tipo_registro", "INGRESO")
-                ->where("registro_id", $ingreso_producto->id)
-                ->where("producto_id", $ingreso_producto->producto_id)
-                ->get()
-                ->first();
-
-            $id_kardex = $eliminar_kardex->id;
-            $id_producto = $eliminar_kardex->producto_id;
-            $eliminar_kardex->delete();
-
-            $anterior = KardexProducto::where("producto_id", $id_producto)
-                ->where("id", "<", $id_kardex)
-                ->get()
-                ->last();
-            $actualiza_desde = null;
-            if ($anterior) {
-                $actualiza_desde = $anterior;
-            } else {
-                // comprobar si existen registros posteriorres al actualizado
-                $siguiente = KardexProducto::where("producto_id", $id_producto)
-                    ->where("id", ">", $id_kardex)
-                    ->get()->first();
-                if ($siguiente)
-                    $actualiza_desde = $siguiente;
-            }
-
-            if ($actualiza_desde) {
-                // actualizar a partir de este registro los sgtes. registros
-                KardexProducto::actualizaRegistrosKardex($actualiza_desde->id, $actualiza_desde->producto_id);
-            }
-
-            // descontar el stock
-            Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad);
-
-            $ingreso_producto->delete();
-
-            // registrar accion
-            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN INGRESO DE PRODUCTO", $old_ingreso_producto);
-
+            // eliminar IngresoProducto
+            $this->ingresoProductoService->eliminar($ingreso_producto);
             DB::commit();
             return response()->JSON([
                 'sw' => true,

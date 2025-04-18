@@ -17,6 +17,7 @@ class IngresoDetalle extends Model
         "fecha_vencimiento",
         "descripcion",
         "fecha_registro",
+        "status"
     ];
 
     protected $appends = ["fecha_registro_t", "fecha_vencimiento_t"];

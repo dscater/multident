@@ -36,7 +36,8 @@ class IngresoProductoService
     {
         $productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])->select("ingreso_productos.*")
             ->leftJoin("ingreso_detalles", "ingreso_productos.id", "=", "ingreso_detalles.ingreso_producto_id")
-            ->leftJoin("productos", "productos.id", "=", "ingreso_detalles.producto_id");
+            ->leftJoin("productos", "productos.id", "=", "ingreso_detalles.producto_id")
+            ->groupBy("ingreso_productos.id");
 
         $productos->where("ingreso_productos.status", 1);
 
@@ -117,13 +118,16 @@ class IngresoProductoService
      */
     public function actualizar(array $datos, IngresoProducto $ingreso_producto): IngresoProducto
     {
-        $old_ingreso_producto = IngresoProducto::find($ingreso_producto->id);
+        $old_ingreso_producto = clone $ingreso_producto;
+        $old_ingreso_producto->loadMissing('ingreso_detalles');
+
         $ingreso_producto->update([
-            "nombre" => mb_strtoupper($datos["nombre"])
+            "sucursal_id" => mb_strtoupper($datos["sucursal_id"]),
+            "descripcion" => "",
         ]);
 
         // ingreso_detalles
-        $this->ingresoDetalleService->crearActualizarIngresoDetalles[$datos["ingreso_detalles"]];
+        $this->ingresoDetalleService->crearActualizarIngresoDetalles($ingreso_producto, $datos["ingreso_detalles"], $ingreso_producto->sucursal_id, $old_ingreso_producto->sucursal_id, $datos["eliminados"] ?? []);
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN INGRESO DE PRODUCTOS", $old_ingreso_producto, $ingreso_producto, ["ingreso_detalles"]);
@@ -139,13 +143,17 @@ class IngresoProductoService
      */
     public function eliminar(IngresoProducto $ingreso_producto): bool
     {
-        // no eliminar ingreso_productos predeterminados para el funcionamiento del sistema
-        $old_ingreso_producto = IngresoProducto::find($ingreso_producto->id);
+        $old_ingreso_producto = clone $ingreso_producto;
+        $old_ingreso_producto->loadMissing('ingreso_detalles');
+
         $ingreso_producto->status = 0;
         $ingreso_producto->save();
 
+        // eliminar ingreso_detalles
+        $this->ingresoDetalleService->eliminarIngresoDetalles($ingreso_producto, $ingreso_producto->ingreso_detalles);
+
         // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN INGRESO DE PRODUCTOS", $old_ingreso_producto);
+        $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN INGRESO DE PRODUCTOS", $old_ingreso_producto, $ingreso_producto, ["ingreso_detalles"]);
 
         return true;
     }

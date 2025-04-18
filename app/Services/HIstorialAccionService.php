@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\HistorialAccion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class HistorialAccionService
 {
@@ -50,8 +51,8 @@ class HistorialAccionService
                 if($modelo[$relacion]){
                     $antes = $modelo[$relacion]->toArray();
                     $despues = $modelo_update[$relacion]->toArray();
-                    // Log::debug($antes);
-                    // Log::debug($despues);
+                    Log::debug($antes);
+                    Log::debug($despues);
                     if ($antes !== $despues) {
                         $existe_cambios = true;
                         break;
