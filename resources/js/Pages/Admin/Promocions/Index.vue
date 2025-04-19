@@ -1,32 +1,13 @@
-<script>
-const breadbrums = [
-    {
-        title: "Inicio",
-        disabled: false,
-        url: route("inicio"),
-        name_url: "inicio",
-    },
-    {
-        title: "Productos",
-        disabled: false,
-        url: "",
-        name_url: "",
-    },
-];
-</script>
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import { useProductos } from "@/composables/productos/useProductos";
+import { usePromocions } from "@/composables/promocions/usePromocions";
 import { useAxios } from "@/composables/axios/useAxios";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
 // import { useMenu } from "@/composables/useMenu";
 import Formulario from "./Formulario.vue";
-import Relacion from "./Relacion.vue";
-import { useFormater } from "@/composables/useFormater";
-const { getFormatoMoneda } = useFormater();
 // const { mobile, identificaDispositivo } = useMenu();
 const { props: props_page } = usePage();
 const { setLoading } = useApp();
@@ -36,64 +17,36 @@ onMounted(() => {
     }, 300);
 });
 
-const { setProducto, limpiarProducto } = useProductos();
+const { setPromocion, limpiarPromocion } = usePromocions();
 const { axiosDelete } = useAxios();
 
 const columns = [
     {
-        title: "",
+        title: "NRO.",
         data: "id",
     },
     {
-        title: "",
-        data: null,
-        sortable: false,
-        render: function (data, type, row) {
-            return `<img src="${data?.url_foto}" class="h-30px my-n1 mx-n1"/>`;
-        },
+        title: "PRODUCTO",
+        data: "producto.nombre",
     },
     {
-        title: "NOMBRE PRODUCTO",
-        data: "nombre",
+        title: "% DESCUENTO",
+        data: "porcentaje",
     },
     {
-        title: "DESCRIPCIÓN DEL PRODUCTO",
+        title: "FECHA INICIO",
+        data: "fecha_ini_t",
+    },
+    {
+        title: "FECHA FINAL",
+        data: "fecha_fin_t",
+    },
+    {
+        title: "DESCRIPCIÓN",
         data: "descripcion",
     },
     {
-        title: "PRECIO PREDETERMINADO",
-        data: "precio_pred",
-        render: function (data, type, row) {
-            return getFormatoMoneda(row.precio_pred);
-        },
-    },
-    {
-        title: "PRECIO MÍNIMO",
-        data: "precio_min",
-        render: function (data, type, row) {
-            return getFormatoMoneda(row.precio_min);
-        },
-    },
-    {
-        title: "CON FACTURA %",
-        data: "precio_fac",
-        render: function (data, type, row) {
-            return `${row.monto_cf}<br/><small>${row.precio_fac}%</small>`;
-        },
-    },
-    {
-        title: "SINFACTURA %",
-        data: "precio_sf",
-        render: function (data, type, row) {
-            return `${row.monto_sf}<br/><small>${row.precio_sf}%</small>`;
-        },
-    },
-    {
-        title: "STOCK MÁXIMO",
-        data: "stock_maximo",
-    },
-    {
-        title: "FECHA REGISTRO",
+        title: "FECHA DE REGISTRO",
         data: "fecha_registro_t",
     },
     {
@@ -102,24 +55,22 @@ const columns = [
         render: function (data, type, row) {
             let buttons = ``;
 
-            buttons += `<button class="mx-0 rounded-0 btn btn-primary relacion" data-id="${row.id}"><i class="fa fa-random"></i></button>`;
-
             if (
                 props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes("productos.edit")
+                props_page.auth?.user.permisos.includes("promocions.edit")
             ) {
-                buttons += `<button class="mx-1 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
+                buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
             }
 
             if (
                 props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes("productos.destroy")
+                props_page.auth?.user.permisos.includes("promocions.destroy")
             ) {
                 buttons += ` <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}"
-                 data-nombre="${row.nombre}"
+                 data-nombre="${row.producto.nombre}|${row.porcentaje}%"
                  data-url="${route(
-                     "productos.destroy",
+                     "promocions.destroy",
                      row.id
                  )}"><i class="fa fa-trash"></i></button>`;
             }
@@ -129,44 +80,28 @@ const columns = [
     },
 ];
 const loading = ref(false);
-// modal 1
 const accion_dialog = ref(0);
 const open_dialog = ref(false);
-// modal 2
-const accion_dialog_relacion = ref(0);
-const open_dialog_relacion = ref(false);
 
 const agregarRegistro = () => {
-    limpiarProducto();
+    limpiarPromocion();
     accion_dialog.value = 0;
     open_dialog.value = true;
 };
 
 const accionesRow = () => {
-    // relacion
-    $("#table-producto").on("click", "button.relacion", function (e) {
-        e.preventDefault();
-        let id = $(this).attr("data-id");
-        axios.get(route("productos.show", id)).then((response) => {
-            setProducto(response.data);
-            accion_dialog_relacion.value = 1;
-            open_dialog_relacion.value = true;
-        });
-    });
-
     // editar
-    $("#table-producto").on("click", "button.editar", function (e) {
+    $("#table-promocion").on("click", "button.editar", function (e) {
         e.preventDefault();
         let id = $(this).attr("data-id");
-        axios.get(route("productos.show", id)).then((response) => {
-            setProducto(response.data);
+        axios.get(route("promocions.show", id)).then((response) => {
+            setPromocion(response.data);
             accion_dialog.value = 1;
             open_dialog.value = true;
         });
     });
-
     // eliminar
-    $("#table-producto").on("click", "button.eliminar", function (e) {
+    $("#table-promocion").on("click", "button.eliminar", function (e) {
         e.preventDefault();
         let nombre = $(this).attr("data-nombre");
         let id = $(this).attr("data-id");
@@ -182,7 +117,7 @@ const accionesRow = () => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 let respuesta = await axiosDelete(
-                    route("productos.destroy", id)
+                    route("promocions.destroy", id)
                 );
                 if (respuesta && respuesta.sw) {
                     updateDatatable();
@@ -202,11 +137,7 @@ const updateDatatable = () => {
 };
 
 onMounted(async () => {
-    datatable = initDataTable(
-        "#table-producto",
-        columns,
-        route("productos.api")
-    );
+    datatable = initDataTable("#table-promocion", columns, route("promocions.api"));
     input_search = document.querySelector('input[type="search"]');
 
     // Agregar un evento 'keyup' al input de búsqueda con debounce
@@ -232,16 +163,16 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-    <Head title="Productos"></Head>
+    <Head title="Promociones"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Productos</li>
+        <li class="breadcrumb-item active">Promociones</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Productos</h1>
+    <h1 class="page-header">Promociones</h1>
     <!-- END page-header -->
 
     <div class="row">
@@ -255,7 +186,7 @@ onBeforeUnmount(() => {
                             v-if="
                                 props_page.auth?.user.permisos == '*' ||
                                 props_page.auth?.user.permisos.includes(
-                                    'productos.create'
+                                    'promocions.create'
                                 )
                             "
                             type="button"
@@ -274,16 +205,13 @@ onBeforeUnmount(() => {
                 <!-- BEGIN panel-body -->
                 <div class="panel-body">
                     <table
-                        id="table-producto"
+                        id="table-promocion"
                         width="100%"
                         class="table table-striped table-bordered align-middle text-nowrap tabla_datos"
                     >
                         <thead>
                             <tr>
-                                <th width="2%"></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th width="5%"></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -311,11 +239,4 @@ onBeforeUnmount(() => {
         @envio-formulario="updateDatatable"
         @cerrar-dialog="open_dialog = false"
     ></Formulario>
-
-    <Relacion
-        :open_dialog="open_dialog_relacion"
-        :accion_dialog="accion_dialog_relacion"
-        @envio-formulario="updateDatatable"
-        @cerrar-dialog="open_dialog_relacion = false"
-    ></Relacion>
 </template>

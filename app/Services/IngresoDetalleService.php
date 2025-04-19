@@ -72,6 +72,18 @@ class IngresoDetalleService
                     $kardex = $kardex->get()->first();
 
                     $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $sucursal->id);
+
+                    if ($old_sucursal != 0 && ($old_sucursal != $sucursal->id)) {
+                        // actualizar kardex
+                        $kardex = KardexProducto::where("producto_id", $ingreso_detalle->producto_id)
+                            ->where("tipo_registro", "INGRESO DE PRODUCTO")
+                            ->where("modulo", "IngresoDetalle")
+                            ->where("registro_id", $ingreso_detalle->id)
+                            ->where("sucursal_id", $old_sucursal);
+                        $kardex = $kardex->get()->first();
+
+                        $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $old_sucursal);
+                    }
                 }
             }
         }

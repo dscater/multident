@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\IngresoDetalleRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IngresoProductoStoreRequest extends FormRequest
+class SalidaProductoUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +23,9 @@ class IngresoProductoStoreRequest extends FormRequest
     {
         return [
             'sucursal_id' => 'required',
-            "ingreso_detalles" => ["required", "array", "min:1", new IngresoDetalleRule]
+            "producto_id" => "required",
+            "cantidad" => "required|numeric|min:1",
+            "descripcion" => "nullable|string|min:2"
         ];
     }
 
@@ -32,8 +33,12 @@ class IngresoProductoStoreRequest extends FormRequest
     {
         return [
             "sucursal_id.required" => "Este campo es obligatorio",
-            "ingreso_detalles.required" => "Debes agregar al menos 1 producto",
-            "ingreso_detalles.min" => "Debes agregar al menos :min producto",
+            "producto_id.required" => "Este campo es obligatorio",
+            "cantidad.required" => "Este campo es obligatorio",
+            "cantidad.numeric" => "Debes ingresar un valor númerico",
+            "cantidad.min" => "Debes ingresar al menos :min",
+            "descripcion.string" => "Debes ingresar un texto",
+            "descripcion.min" => "Debes ingresar al menos :min carácteres",
         ];
     }
 }

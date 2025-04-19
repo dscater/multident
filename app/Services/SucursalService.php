@@ -75,7 +75,6 @@ class SucursalService
             "direccion" => mb_strtoupper($datos["direccion"]),
             "fonos" => mb_strtoupper($datos["fonos"]),
             "user_id" => $datos["user_id"],
-            "fecha_registro" => date("Y-m-d")
         ]);
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UNA SUCURSAL", $old_sucursal, $sucursal);

@@ -7,6 +7,7 @@ use App\Models\IngresoProducto;
 use App\Models\Producto;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -18,7 +19,13 @@ class IngresoProductoService
 
     public function listado(): Collection
     {
-        $ingreso_productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])->select("ingreso_productos.*")->where("status", 1)->get();
+        $ingreso_productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])->select("ingreso_productos.*");
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+
+        $ingreso_productos = $ingreso_productos->where("status", 1)->get();
         return $ingreso_productos;
     }
 
@@ -34,30 +41,34 @@ class IngresoProductoService
      */
     public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])->select("ingreso_productos.*")
+        $ingreso_productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])->select("ingreso_productos.*")
             ->leftJoin("ingreso_detalles", "ingreso_productos.id", "=", "ingreso_detalles.ingreso_producto_id")
             ->leftJoin("productos", "productos.id", "=", "ingreso_detalles.producto_id")
             ->groupBy("ingreso_productos.id");
 
-        $productos->where("ingreso_productos.status", 1);
+        $ingreso_productos->where("ingreso_productos.status", 1);
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
+        }
 
         // Filtros exactos
         foreach ($columnsFilter as $key => $value) {
             if (!is_null($value) && trim($value) != '') {
-                $productos->where("ingreso_productos.$key", $value);
+                $ingreso_productos->where("ingreso_productos.$key", $value);
             }
         }
 
         // Filtros por rango
         foreach ($columnsBetweenFilter as $key => $value) {
             if (isset($value[0], $value[1])) {
-                $productos->whereBetween("ingreso_productos.$key", $value);
+                $ingreso_productos->whereBetween("ingreso_productos.$key", $value);
             }
         }
 
         // Búsqueda en múltiples columnas con LIKE
         if (!empty($search) && !empty($columnsSerachLike)) {
-            $productos->where(function ($query) use ($search, $columnsSerachLike) {
+            $ingreso_productos->where(function ($query) use ($search, $columnsSerachLike) {
                 foreach ($columnsSerachLike as $col) {
                     if ($col == 'fecha_registro') {
                         $array_fecha = explode("/", $search);
@@ -77,12 +88,12 @@ class IngresoProductoService
         // Ordenamiento
         foreach ($orderBy as $value) {
             if (isset($value[0], $value[1])) {
-                $productos->orderBy($value[0], $value[1]);
+                $ingreso_productos->orderBy($value[0], $value[1]);
             }
         }
 
-        $productos = $productos->paginate($length, ['*'], 'page', $page);
-        return $productos;
+        $ingreso_productos = $ingreso_productos->paginate($length, ['*'], 'page', $page);
+        return $ingreso_productos;
     }
 
 

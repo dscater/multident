@@ -1,7 +1,7 @@
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import { useIngresoProductos } from "@/composables/ingreso_productos/useIngresoProductos";
+import { useSalidaProductos } from "@/composables/salida_productos/useSalidaProductos";
 import { useAxios } from "@/composables/axios/useAxios";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
@@ -11,7 +11,7 @@ import Formulario from "./Formulario.vue";
 // const { mobile, identificaDispositivo } = useMenu();
 const { props: props_page } = usePage();
 const props = defineProps({
-    ingreso_producto: {
+    salida_producto: {
         type: Object,
         default: null,
     },
@@ -23,8 +23,8 @@ onMounted(() => {
     }, 300);
 });
 
-const { setIngresoProducto, oIngresoProducto } = useIngresoProductos();
-setIngresoProducto(props.ingreso_producto);
+const { setSalidaProducto, oSalidaProducto } = useSalidaProductos();
+setSalidaProducto(props.salida_producto);
 const { axiosDelete } = useAxios();
 
 onMounted(async () => {
@@ -32,21 +32,21 @@ onMounted(async () => {
 onBeforeUnmount(() => {});
 </script>
 <template>
-    <Head title="Ingreso de Productos"></Head>
+    <Head title="Salida de Productos"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
         <li class="breadcrumb-item">
-            <Link :href="route('ingreso_productos.index')"
-                >Ingreso de Productos</Link
+            <Link :href="route('salida_productos.index')"
+                >Salida de Productos</Link
             >
         </li>
         <li class="breadcrumb-item active">Editar</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Ingreso de Productos</h1>
+    <h1 class="page-header">Salida de Productos</h1>
     <!-- END page-header -->
 
     <div class="row">
@@ -60,12 +60,12 @@ onBeforeUnmount(() => {});
                             v-if="
                                 props_page.auth?.user.permisos == '*' ||
                                 props_page.auth?.user.permisos.includes(
-                                    'ingreso_productos.index'
+                                    'salida_productos.index'
                                 )
                             "
                             type="button"
                             class="btn btn-secondary"
-                            :href="route('ingreso_productos.index')"
+                            :href="route('salida_productos.index')"
                         >
                             <i class="fa fa-arrow-left"></i> Volver
                         </Link>

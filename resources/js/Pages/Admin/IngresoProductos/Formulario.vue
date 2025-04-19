@@ -3,6 +3,7 @@ import { useForm, usePage } from "@inertiajs/vue3";
 import { useIngresoProductos } from "@/composables/ingreso_productos/useIngresoProductos";
 import { useAxios } from "@/composables/axios/useAxios";
 import { watch, ref, computed, defineEmits, onMounted, nextTick } from "vue";
+const { props: props_page } = usePage();
 const props = defineProps({
     open_dialog: {
         type: Boolean,
@@ -25,6 +26,11 @@ const agregarProducto = ref({
 });
 
 const enviarFormulario = () => {
+    // form.sucursal_id =
+    //     props_page.auth?.user.sucursals_todo == 0
+    //         ? props_page.auth?.user.sucursal_id
+    //         : "";
+
     let url =
         form["_method"] == "POST"
             ? route("ingreso_productos.store")
@@ -181,6 +187,10 @@ const cargarProductos = async () => {
 };
 
 onMounted(() => {
+    form.sucursal_id =
+        props_page.auth?.user.sucursals_todo == 0
+            ? props_page.auth?.user.sucursal_id
+            : form.sucursal_id;
     cargarListas();
 });
 </script>
@@ -285,7 +295,10 @@ onMounted(() => {
                                     Productos agregados
                                 </h4>
                             </div>
-                            <div class="col-md-12 form-group">
+                            <div
+                                class="col-md-12 form-group"
+                                v-if="props_page.auth?.user.sucursals_todo == 1"
+                            >
                                 <label>Seleccionar Sucursal*</label>
                                 <el-select
                                     class="w-100"
@@ -316,7 +329,12 @@ onMounted(() => {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-12 mt-2">
+                            <div class="col-12">
+                                <h5 class="w-100 text-center">
+                                    {{ props_page.auth?.user.sucursal?.nombre }}
+                                </h5>
+                            </div>
+                            <div class="col-12 mt-2 mb-0">
                                 <table class="table table-bordered">
                                     <thead class="bg-primary">
                                         <tr>
@@ -354,74 +372,94 @@ onMounted(() => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr
-                                            v-for="(
-                                                item, index
-                                            ) in form.ingreso_detalles"
+                                        <template
+                                            v-if="
+                                                form.ingreso_detalles.length > 0
+                                            "
                                         >
-                                            <td>
-                                                {{ item.producto.nombre }}
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="number"
-                                                    step="1"
-                                                    class="form-control"
-                                                    placeholder="Cantidad"
-                                                    v-model="item.cantidad"
-                                                />
-                                            </td>
-                                            <td>
-                                                <el-select
-                                                    class="w-100"
-                                                    clearable
-                                                    placeholder="- Seleccionar Ubicación -"
-                                                    no-data-text="Sin datos"
-                                                    filterable
-                                                    v-model="
-                                                        item.ubicacion_producto_id
-                                                    "
-                                                >
-                                                    <el-option
-                                                        v-for="item in listUbicacionProductos"
-                                                        :key="item.id"
-                                                        :value="item.id"
-                                                        :label="`${item.lugar}|${item.numero_filas}`"
+                                            <tr
+                                                v-for="(
+                                                    item, index
+                                                ) in form.ingreso_detalles"
+                                            >
+                                                <td>
+                                                    {{ item.producto.nombre }}
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        step="1"
+                                                        class="form-control"
+                                                        placeholder="Cantidad"
+                                                        v-model="item.cantidad"
                                                     />
-                                                </el-select>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="date"
-                                                    class="form-control"
-                                                    v-model="
-                                                        item.fecha_vencimiento
-                                                    "
-                                                />
-                                            </td>
-                                            <td>
-                                                <el-input
-                                                    type="textarea"
-                                                    v-model="item.descripcion"
-                                                    autosize
-                                                ></el-input>
-                                            </td>
-                                            <td>
-                                                <button
-                                                    class="btn btn-danger btn-sm"
-                                                    @click.prevent="
-                                                        eliminarDetalle(index)
-                                                    "
+                                                </td>
+                                                <td>
+                                                    <el-select
+                                                        class="w-100"
+                                                        clearable
+                                                        placeholder="- Seleccionar Ubicación -"
+                                                        no-data-text="Sin datos"
+                                                        filterable
+                                                        v-model="
+                                                            item.ubicacion_producto_id
+                                                        "
+                                                    >
+                                                        <el-option
+                                                            v-for="item in listUbicacionProductos"
+                                                            :key="item.id"
+                                                            :value="item.id"
+                                                            :label="`${item.lugar}|${item.numero_filas}`"
+                                                        />
+                                                    </el-select>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="date"
+                                                        class="form-control"
+                                                        v-model="
+                                                            item.fecha_vencimiento
+                                                        "
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <el-input
+                                                        type="textarea"
+                                                        v-model="
+                                                            item.descripcion
+                                                        "
+                                                        autosize
+                                                    ></el-input>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        class="btn btn-danger btn-sm"
+                                                        @click.prevent="
+                                                            eliminarDetalle(
+                                                                index
+                                                            )
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="fa fa-trash"
+                                                        ></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="5" class="text-center">
+                                                <strong
+                                                    >No se agrego ningún
+                                                    producto</strong
                                                 >
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <ul
                                     v-if="form.errors?.ingreso_detalles"
-                                    class="parsley-errors-list filled mb-2"
+                                    class="parsley-errors-list filled mt-0"
                                 >
                                     <li class="parsley-required">
                                         {{ form.errors?.ingreso_detalles }}
@@ -429,7 +467,7 @@ onMounted(() => {
                                 </ul>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-2">
                             <div class="col-md-4">
                                 <button
                                     type="button"

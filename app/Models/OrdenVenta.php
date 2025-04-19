@@ -24,6 +24,7 @@ class OrdenVenta extends Model
         "status",
         "fecha_orden",
         "fecha_confirmacion",
+        "status"
     ];
 
     protected $appends = ["fecha_orden_t", "fecha_confirmacion_t", "total", "url_comprobante"];

@@ -15,6 +15,7 @@ use App\Http\Controllers\ProformaController;
 use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SalidaProductoController;
 use App\Http\Controllers\SedeController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UbicacionProductoController;
@@ -72,8 +73,12 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     );
 
     // CLIENTES
+    Route::get("clientes/api", [ClienteController::class, 'api'])->name("clientes.api");
+    Route::get("clientes/paginado", [ClienteController::class, 'paginado'])->name("clientes.paginado");
     Route::get("clientes/listado", [ClienteController::class, 'listado'])->name("clientes.listado");
-    Route::put("clientes/update/{cliente}", [ClienteController::class, 'update'])->name("clientes.update");
+    Route::resource("clientes", ClienteController::class)->only(
+        ["index", "store", "edit", "show", "update", "destroy"]
+    );
 
     // ROLES
     Route::get("roles/api", [RoleController::class, 'api'])->name("roles.api");
@@ -126,11 +131,11 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     );
 
     // SALIDA DE PRODUCTOS
-    Route::get("salida_productos/api", [IngresoProductoController::class, 'api'])->name("salida_productos.api");
-    Route::get("salida_productos/paginado", [IngresoProductoController::class, 'paginado'])->name("salida_productos.paginado");
-    Route::get("salida_productos/listado", [IngresoProductoController::class, 'listado'])->name("salida_productos.listado");
-    Route::resource("salida_productos", IngresoProductoController::class)->only(
-        ["index", "store", "show", "update", "destroy"]
+    Route::get("salida_productos/api", [SalidaProductoController::class, 'api'])->name("salida_productos.api");
+    Route::get("salida_productos/paginado", [SalidaProductoController::class, 'paginado'])->name("salida_productos.paginado");
+    Route::get("salida_productos/listado", [SalidaProductoController::class, 'listado'])->name("salida_productos.listado");
+    Route::resource("salida_productos", SalidaProductoController::class)->only(
+        ["index", "create", "store", "edit", "show", "update", "destroy"]
     );
 
     // ORDEN DE VENTAS

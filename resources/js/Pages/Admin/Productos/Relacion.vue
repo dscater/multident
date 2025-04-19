@@ -231,7 +231,8 @@ onMounted(() => {});
                                         name=""
                                         id=""
                                         class="form-control"
-                                        @change="cargarProductos"
+                                        @change="cargarRelaciones"
+                                        v-model="sucursal_id"
                                     >
                                         <option value="">
                                             - Seleccionar Sucursal -
@@ -320,14 +321,6 @@ onMounted(() => {});
                         @click="cerrarDialog()"
                         ><i class="fa fa-times"></i> Cerrar</a
                     >
-                    <button
-                        type="button"
-                        @click="enviarFormulario()"
-                        class="btn btn-primary"
-                    >
-                        <i class="fa fa-save"></i>
-                        Guardar
-                    </button>
                 </div>
             </div>
         </div>

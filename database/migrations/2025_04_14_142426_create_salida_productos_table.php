@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double("cantidad");
             $table->string("descripcion", 800);
             $table->date("fecha_registro");
-            $table->integer("status");
+            $table->integer("status")->default(1);
             $table->timestamps();
 
             $table->foreign("sucursal_id")->on("sucursals")->references("id");

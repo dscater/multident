@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\ProductoRelacion;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class ProductoRelacionService
 {
@@ -21,7 +22,6 @@ class ProductoRelacionService
      */
     public function listadoPorProducto(int $producto_id, int $sucursal_id = 0): Collection
     {
-
         if ($sucursal_id != 0) {
             $producto_relacions = ProductoRelacion::with('producto_relacion')
                 ->select('producto_relacions.*', 'producto_sucursals.stock_actual')

@@ -10,12 +10,13 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
-        "user_id",
         "nombres",
         "apellidos",
+        "ci",
         "cel",
-        "correo",
+        "descripcion",
         "fecha_registro",
+        "status",
     ];
 
     protected $appends = ["fecha_registro_t", "full_name"];
@@ -27,10 +28,5 @@ class Cliente extends Model
     public function getFullNameAttribute()
     {
         return $this->nombres . ' ' . $this->apellidos;
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -524,7 +524,11 @@ const logout = () => {
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('orden_ventas.index')
+                        user_logeado.permisos.includes('orden_ventas.index') ||
+                        user_logeado.permisos.includes(
+                            'ingreso_productos.index'
+                        ) ||
+                        user_logeado.permisos.includes('salida_productos.index')
                     "
                 >
                     OPERACIONES
@@ -551,16 +555,23 @@ const logout = () => {
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('ingreso_productos.index')
+                        user_logeado.permisos.includes(
+                            'ingreso_productos.index'
+                        )
                     "
                     class="menu-item"
                     :class="[
-                        route_current == 'ingreso_productos.index'
+                        route_current == 'ingreso_productos.index' ||
+                        route_current == 'ingreso_productos.create' ||
+                        route_current == 'ingreso_productos.edit'
                             ? 'active'
                             : 'none',
                     ]"
                 >
-                    <Link :href="route('ingreso_productos.index')" class="menu-link">
+                    <Link
+                        :href="route('ingreso_productos.index')"
+                        class="menu-link"
+                    >
                         <div class="menu-icon">
                             <i class="fa fa-list-alt"></i>
                         </div>
@@ -568,10 +579,36 @@ const logout = () => {
                     </Link>
                 </div>
                 <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('salida_productos.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'salida_productos.index' ||
+                        route_current == 'salida_productos.create' ||
+                        route_current == 'salida_productos.edit'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('salida_productos.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div class="menu-text">Salida de Productos</div>
+                    </Link>
+                </div>
+                <div
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('productos.index')
+                        user_logeado.permisos.includes('productos.index') ||
+                        user_logeado.permisos.includes('sucursals.index') ||
+                        user_logeado.permisos.includes('clientes.index')
                     "
                 >
                     ADMINISTRACIÓN
@@ -579,8 +616,39 @@ const logout = () => {
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('productos.index')||
-                        user_logeado.permisos.includes('sucursals.index')
+                        user_logeado.permisos.includes('clientes.index')
+                    "
+                    class="menu-item"
+                    :class="[route_current == 'clientes.index' ? 'active' : '']"
+                >
+                    <Link :href="route('clientes.index')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Clientes</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('promocions.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'promocions.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link :href="route('promocions.index')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Promociones</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('productos.index')
                     "
                     class="menu-item"
                     :class="[
@@ -589,7 +657,7 @@ const logout = () => {
                 >
                     <Link :href="route('productos.index')" class="menu-link">
                         <div class="menu-icon">
-                            <i class="fa fa-table"></i>
+                            <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Productos</div>
                     </Link>
@@ -614,16 +682,23 @@ const logout = () => {
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('ubicacion_productos.index')
+                        user_logeado.permisos.includes(
+                            'ubicacion_productos.index'
+                        )
                     "
                     class="menu-item"
                     :class="[
-                        route_current == 'ubicacion_productos.index' ? 'active' : '',
+                        route_current == 'ubicacion_productos.index'
+                            ? 'active'
+                            : '',
                     ]"
                 >
-                    <Link :href="route('ubicacion_productos.index')" class="menu-link">
+                    <Link
+                        :href="route('ubicacion_productos.index')"
+                        class="menu-link"
+                    >
                         <div class="menu-icon">
-                            <i class="fa fa-list"></i>
+                            <i class="fa fa-table"></i>
                         </div>
                         <div class="menu-text">Ubicación de Productos</div>
                     </Link>
@@ -654,25 +729,6 @@ const logout = () => {
                             <i class="fa fa-users"></i>
                         </div>
                         <div class="menu-text">Usuarios</div>
-                    </Link>
-                </div>
-                <div
-                    v-if="
-                        user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('clientes.index')
-                    "
-                    class="menu-item"
-                    :class="[
-                        route_current == 'usuarios.clientes'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link :href="route('usuarios.clientes')" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fa fa-user-friends"></i>
-                        </div>
-                        <div class="menu-text">Clientes</div>
                     </Link>
                 </div>
                 <div

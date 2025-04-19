@@ -23,8 +23,6 @@ use Inertia\Inertia;
 
 class IngresoProductoController extends Controller
 {
-    private $modulo = "INGRESO DE PRODUCTOS";
-
     public function __construct(private HistorialAccionService $historialAccionService, private IngresoProductoService $ingresoProductoService) {}
 
     /**
