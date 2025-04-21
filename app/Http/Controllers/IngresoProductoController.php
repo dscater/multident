@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IngresoProductoStoreRequest;
 use App\Http\Requests\IngresoProductoUpdateRequest;
-use App\Models\HistorialAccion;
 use App\Models\IngresoProducto;
-use App\Models\KardexProducto;
-use App\Models\Producto;
 use App\Services\HistorialAccionService;
 use App\Services\IngresoProductoService;
 use Illuminate\Http\Request;

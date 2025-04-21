@@ -1,236 +1,222 @@
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import { useCategorias } from "@/composables/sucursals/useSucursals";
+import { useOrdenVentas } from "@/composables/orden_ventas/useOrdenVentas";
 import { useAxios } from "@/composables/axios/useAxios";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import MiPaginacion from "@/Components/MiPaginacion.vue";
-import VerificacionOrdenVenta from "@/Components/VerificacionOrdenVenta.vue";
-
-const props = defineProps({
-    codigo: {
-        type: String,
-        default: "",
-    },
-});
-
+import PanelToolbar from "@/Components/PanelToolbar.vue";
+// import { useMenu } from "@/composables/useMenu";
+// const { mobile, identificaDispositivo } = useMenu();
 const { props: props_page } = usePage();
 const { setLoading } = useApp();
-onMounted(() => {});
-
-const { axiosGet, axiosDelete } = useAxios();
-const modalVerificacion = ref(false);
-const oOrdenVenta = ref(null);
-const paramsOrdenesVenta = ref({
-    perPage: 12,
-    page: 1,
-    search: props.codigo,
-    estado_orden: "PENDIENTE",
-    fecha: "",
-    orderByCol: "id",
-    desc: "desc",
-});
-const paginacionOrdenVentas = ref({
-    totalData: 0,
-    perPage: paramsOrdenesVenta.value.perPage,
-    currentPage: paramsOrdenesVenta.value.page,
-    lastPage: 0,
+onMounted(() => {
+    setTimeout(() => {
+        setLoading(false);
+    }, 300);
 });
 
-const listEstados = ref([
-    { value: "", label: "Todos" },
-    { value: "PENDIENTE", label: "Pendientes" },
-    { value: "RECHAZADO", label: "Rechazados" },
-    { value: "CONFIRMADO", label: "Confirmados" },
-]);
-const listOrdenVentas = ref([]);
+const { setOrdenVenta, limpiarOrdenVenta } = useOrdenVentas();
+const { axiosDelete } = useAxios();
 
-const cargarOrdenVentas = async () => {
-    modalVerificacion.value = false;
-    const data = await axiosGet(
-        route("orden_ventas.paginado"),
-        paramsOrdenesVenta.value
-    );
-    listOrdenVentas.value = data.ordenVentas;
-    paginacionOrdenVentas.value.totalData = data.total;
-    paginacionOrdenVentas.value.currentPage = paramsOrdenesVenta.value.page;
-    paginacionOrdenVentas.value.lastPage = data.lastPage;
-};
-const updatePageOrdenVenta = (value) => {
-    paramsOrdenesVenta.value.page = value;
-    if (paramsOrdenesVenta.value.page < 0) paramsOrdenesVenta.value.page = 1;
-    if (paramsOrdenesVenta.value.page > paginacionOrdenVentas.value.totalData)
-        paramsOrdenesVenta.value.page = paginacionOrdenVentas.value.lastPage;
-    cargarOrdenVentas();
+const columns = [
+    {
+        title: "",
+        data: "id",
+    },
+    {
+        title: "SUCURSAL",
+        data: "sucursal.nombre",
+    },
+    {
+        title: "TOTAL PRODUCTOS INGRESADOS",
+        data: null,
+        render: function (data, type, row) {
+            return row.ingreso_detalles.length;
+        },
+    },
+    {
+        title: "FECHA DE REGISTRO",
+        data: "fecha_registro_t",
+    },
+    {
+        title: "ACCIONES",
+        data: null,
+        render: function (data, type, row) {
+            let buttons = ``;
+
+            if (
+                props_page.auth?.user.permisos == "*" ||
+                props_page.auth?.user.permisos.includes(
+                    "orden_ventas.edit"
+                )
+            ) {
+                buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
+            }
+
+            if (
+                props_page.auth?.user.permisos == "*" ||
+                props_page.auth?.user.permisos.includes(
+                    "orden_ventas.destroy"
+                )
+            ) {
+                buttons += ` <button class="mx-0 rounded-0 btn btn-danger eliminar"
+                 data-id="${row.id}"
+                 data-nombre="${row.sucursal.nombre} | ${row.fecha_registro_t} | ${row.ingreso_detalles.length}"
+                 data-url="${route(
+                     "orden_ventas.destroy",
+                     row.id
+                 )}"><i class="fa fa-trash"></i></button>`;
+            }
+
+            return buttons;
+        },
+    },
+];
+const loading = ref(false);
+
+const agregarRegistro = () => {
+    limpiarOrdenVenta();
 };
 
-const intervalSearch = ref(null);
-const buscarOrden = () => {
-    clearInterval(intervalSearch.value);
-    intervalSearch.value = setTimeout(async () => {
-        await cargarOrdenVentas();
-    }, 400);
+const accionesRow = () => {
+    // editar
+    $("#table-orden_venta").on("click", "button.editar", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        router.get(route("orden_ventas.edit", id));
+    });
+    // eliminar
+    $("#table-orden_venta").on("click", "button.eliminar", function (e) {
+        e.preventDefault();
+        let nombre = $(this).attr("data-nombre");
+        let id = $(this).attr("data-id");
+        Swal.fire({
+            title: "¿Quierés eliminar este registro?",
+            html: `<strong>${nombre}</strong>`,
+            showCancelButton: true,
+            confirmButtonColor: "#B61431",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            denyButtonText: `No, cancelar`,
+        }).then(async (result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                let respuesta = await axiosDelete(
+                    route("orden_ventas.destroy", id)
+                );
+                if (respuesta && respuesta.sw) {
+                    updateDatatable();
+                }
+            }
+        });
+    });
 };
 
-const abreModalVerificacion = (item) => {
-    oOrdenVenta.value = item;
-    modalVerificacion.value = true;
+var datatable = null;
+var input_search = null;
+var debounceTimeout = null;
+const loading_table = ref(false);
+const datatableInitialized = ref(false);
+const updateDatatable = () => {
+    datatable.ajax.reload();
 };
-const cierreVerificacion = () => {
-    oOrdenVenta.value = null;
-    modalVerificacion.value = false;
-};
+
 onMounted(async () => {
-    cargarOrdenVentas();
+    datatable = initDataTable(
+        "#table-orden_venta",
+        columns,
+        route("orden_ventas.api")
+    );
+    input_search = document.querySelector('input[type="search"]');
+
+    // Agregar un evento 'keyup' al input de búsqueda con debounce
+    input_search.addEventListener("keyup", () => {
+        loading_table.value = true;
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            datatable.search(input_search.value).draw(); // Realiza la búsqueda manualmente
+            loading_table.value = false;
+        }, 500);
+    });
+
+    datatableInitialized.value = true;
+    accionesRow();
 });
-onBeforeUnmount(() => {});
+onBeforeUnmount(() => {
+    if (datatable) {
+        datatable.clear();
+        datatable.destroy(false); // Destruye la instancia del DataTable
+        datatable = null;
+        datatableInitialized.value = false;
+    }
+});
 </script>
 <template>
-    <Head title="Ordenes de venta"></Head>
+    <Head title="Ordenes de Venta"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Ordenes de venta</li>
+        <li class="breadcrumb-item active">Ordenes de Venta</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Ordenes de venta</h1>
+    <h1 class="page-header">Ordenes de Venta</h1>
     <!-- END page-header -->
 
-    <div class="row mb-1">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-2 col-md-3">
-                            <label>Estado</label>
-                            <select
-                                v-model="paramsOrdenesVenta.estado_orden"
-                                class="form-select"
-                                @change="cargarOrdenVentas"
-                            >
-                                <option
-                                    v-for="item in listEstados"
-                                    :value="item.value"
-                                >
-                                    {{ item.label }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-md-3">
-                            <label>Fecha de Orden</label>
-                            <input
-                                type="date"
-                                class="form-control"
-                                @keyup="buscarOrden"
-                                v-model="paramsOrdenesVenta.fecha"
-                            />
-                        </div>
-                        <div class="col-lg-2 col-md-3">
-                            <label>Buscar</label>
-                            <input
-                                type="text"
-                                v-model="paramsOrdenesVenta.search"
-                                class="form-control"
-                                placeholder="Código"
-                                @keyup="buscarOrden"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
-        <div class="col-lg-3 col-md-4" v-for="item in listOrdenVentas">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-4 text-right">
-                            <strong>Código:</strong>
-                        </div>
-                        <div class="col-8">{{ item.codigo }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 text-right">
-                            <strong>Nombre(s):</strong>
-                        </div>
-                        <div class="col-8">{{ item.cliente.nombres }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 text-right">
-                            <strong>Apellidos(s):</strong>
-                        </div>
-                        <div class="col-8">{{ item.cliente.apellidos }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 text-right">
-                            <strong>Correo:</strong>
-                        </div>
-                        <div class="col-8">{{ item.cliente.correo }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 text-right">
-                            <strong>Celular:</strong>
-                        </div>
-                        <div class="col-8">{{ item.cliente.cel }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 text-right">
-                            <strong>Estado:</strong>
-                        </div>
-                        <div class="col-8 text-left">
-                            <span
-                                class="badge"
-                                :class="{
-                                    'bg-secondary':
-                                        item.estado_orden == 'PENDIENTE',
-                                    'bg-success':
-                                        item.estado_orden == 'CONFIRMADO',
-                                    'bg-danger':
-                                        item.estado_orden == 'RECHAZADO',
-                                }"
-                                >{{ item.estado_orden }}</span
-                            >
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 text-right">
-                            <strong>Fecha:</strong>
-                        </div>
-                        <div class="col-8">{{ item.fecha_orden_t }}</div>
-                    </div>
-                </div>
-                <div class="card-footer bg-white">
-                    <div class="col-12 d-flex justify-content-end gap-1">
-                        <button
-                            class="btn btn-sm btn-info"
-                            @click="abreModalVerificacion(item)"
+        <div class="col-md-12">
+            <!-- BEGIN panel -->
+            <div class="panel panel-inverse">
+                <!-- BEGIN panel-heading -->
+                <div class="panel-heading">
+                    <h4 class="panel-title btn-nuevo">
+                        <Link
+                            v-if="
+                                props_page.auth?.user.permisos == '*' ||
+                                props_page.auth?.user.permisos.includes(
+                                    'orden_ventas.create'
+                                )
+                            "
+                            type="button"
+                            class="btn btn-primary"
+                            :href="route('orden_ventas.create')"
                         >
-                            <i class="fa fa-list"></i>
-                        </button>
-                    </div>
+                            <i class="fa fa-plus"></i> Nuevo
+                        </Link>
+                    </h4>
+                    <!-- <panel-toolbar
+                        :mostrar_loading="loading"
+                        @loading="updateDatatable"
+                    /> -->
                 </div>
+                <!-- END panel-heading -->
+                <!-- BEGIN panel-body -->
+                <div class="panel-body">
+                    <table
+                        id="table-orden_venta"
+                        width="100%"
+                        class="table table-striped table-bordered align-middle text-nowrap tabla_datos"
+                    >
+                        <thead>
+                            <tr>
+                                <th width="5%"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th width="5%"></th>
+                            </tr>
+                        </thead>
+                        <div class="loading_table" v-show="loading_table">
+                            Cargando...
+                        </div>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <!-- END panel-body -->
             </div>
+            <!-- END panel -->
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col-12">
-            <MiPaginacion
-                class="justify-content-center mb-0"
-                :totalData="paginacionOrdenVentas.totalData"
-                :currentPage="paginacionOrdenVentas.currentPage"
-                :perPage="paginacionOrdenVentas.perPage"
-                @updatePage="updatePageOrdenVenta"
-            />
-        </div>
-    </div>
-    <VerificacionOrdenVenta
-        :orden-venta="oOrdenVenta"
-        :open_dialog="modalVerificacion"
-        @cerrar-dialog="cierreVerificacion"
-        @envio-formulario="cargarOrdenVentas"
-    ></VerificacionOrdenVenta>
 </template>

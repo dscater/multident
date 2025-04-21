@@ -549,7 +549,7 @@ const logout = () => {
                         <div class="menu-icon">
                             <i class="fa fa-list-alt"></i>
                         </div>
-                        <div class="menu-text">Ordenes de venta</div>
+                        <div class="menu-text">Ordenes de Venta</div>
                     </Link>
                 </div>
                 <div

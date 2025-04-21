@@ -10,43 +10,26 @@ class OrdenVenta extends Model
     use HasFactory;
 
     protected $fillable = [
-        "codigo",
         "nro",
+        "sucursal_id",
         "cliente_id",
-        "nombre_cliente",
-        "apellidos_cliente",
-        "cel",
-        "estado_orden",
-        "estado_pago",
-        "configuracion_pago_id",
-        "comprobante",
-        "observacion",
+        "nit_ci",
+        "factura",
+        "tipo_pago",
+        "fecha_registro",
         "status",
-        "fecha_orden",
-        "fecha_confirmacion",
-        "status"
     ];
 
-    protected $appends = ["fecha_orden_t", "fecha_confirmacion_t", "total", "url_comprobante"];
-
-    public function getUrlComprobanteAttribute()
-    {
-        return asset("imgs/ordenVentas/" . $this->comprobante);
-    }
+    protected $appends = ["fecha_registro_t", "total"];
 
     public function getTotalAttribute()
     {
-        return $this->detalleVenta->sum("subtotal");
+        return $this->detalle_ordens->sum("subtotal");
     }
 
-    public function getFechaOrdenTAttribute()
+    public function getFechaRegistroTAttribute()
     {
         return date("d/m/Y", strtotime($this->fecha_orden));
-    }
-
-    public function getFechaConfirmacionTAttribute()
-    {
-        return $this->fecha_confirmacion ? date("d/m/Y", strtotime($this->fecha_confirmacion)) : '';
     }
 
     public function cliente()
@@ -54,8 +37,8 @@ class OrdenVenta extends Model
         return $this->belongsTo(Cliente::class, 'cliente_id');
     }
 
-    public function detalleVenta()
+    public function detalle_ordens()
     {
-        return $this->hasMany(DetalleVenta::class, 'orden_venta_id');
+        return $this->hasMany(DetalleOrden::class, 'orden_venta_id')->where("status", 1);
     }
 }

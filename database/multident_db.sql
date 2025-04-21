@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 19-04-2025 a las 17:01:22
+-- Tiempo de generación: 21-04-2025 a las 15:49:35
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -82,6 +82,7 @@ CREATE TABLE `detalle_ordens` (
   `orden_venta_id` bigint UNSIGNED NOT NULL,
   `producto_id` bigint UNSIGNED NOT NULL,
   `promocion_id` bigint UNSIGNED DEFAULT NULL,
+  `promocion_descuento` double(8,2) NOT NULL DEFAULT '0.00',
   `cantidad` double NOT NULL,
   `precio` decimal(24,2) NOT NULL,
   `subtotal` decimal(24,2) NOT NULL,
@@ -486,6 +487,7 @@ CREATE TABLE `orden_ventas` (
   `nro` bigint NOT NULL,
   `sucursal_id` bigint UNSIGNED NOT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
+  `nit_ci` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `factura` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tipo_pago` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_registro` date DEFAULT NULL,
