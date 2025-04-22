@@ -89,6 +89,7 @@ class OrdenVentaController extends Controller
         DB::beginTransaction();
         try {
             // crear el OrdenVenta
+            // Log::debug($request->validated());
             $this->ordenVentaService->crear($request->validated());
             DB::commit();
             return redirect()->route("orden_ventas.index")->with("bien", "Registro realizado");
@@ -110,7 +111,7 @@ class OrdenVentaController extends Controller
      */
     public function edit(OrdenVenta $orden_venta): InertiaResponse
     {
-        $orden_venta = $orden_venta->load(["ingreso_detalles.producto"]);
+        $orden_venta = $orden_venta->load(["detalle_ordens.producto"]);
         return Inertia::render("Admin/OrdenVentas/Edit", compact('orden_venta'));
     }
 

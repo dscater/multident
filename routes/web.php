@@ -107,7 +107,7 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     );
 
     // PRODUCTO SUCURSAL
-    Route::get("producto_sucursals/getStockProductoSucursal", [ProductoSucursalController::class, 'getStockProductoSucursal'])->name("producto_sucursals.getStockProductoSucursal");
+    Route::get("producto_sucursals/getProductoSucursal", [ProductoSucursalController::class, 'getProductoSucursal'])->name("producto_sucursals.getProductoSucursal");
 
     // RELACION PRODUCTOS
     Route::get("producto_relacions/listadoPorProducto/{producto}", [ProductoRelacionController::class, 'listadoPorProducto'])->name("producto_relacions.listadoPorProducto");

@@ -81,4 +81,31 @@ class ProductoSucursalService
 
         return $resultado;
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param integer $producto_id
+     * @param integer $sucursal_id
+     * @return ProductoSucursal
+     */
+    public function getProductoSucursal(int $producto_id, int $sucursal_id): ProductoSucursal
+    {
+        $producto_sucursal = ProductoSucursal::where("producto_id", $producto_id)
+            ->where("sucursal_id", $sucursal_id)
+            ->get()->first();
+
+        if (!$producto_sucursal) {
+            if ($producto_id == 0 || $sucursal_id == 0) {
+                throw new Exception("Debes seleccionar la sucursal y el producto");
+            }
+            $producto_sucursal = ProductoSucursal::create([
+                "sucursal_id" => $sucursal_id,
+                "producto_id" => $producto_id,
+                "stock_actual" => 0,
+            ]);
+        }
+
+        return $producto_sucursal->load(["producto"]);
+    }
 }

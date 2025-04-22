@@ -29,12 +29,17 @@ class OrdenVenta extends Model
 
     public function getFechaRegistroTAttribute()
     {
-        return date("d/m/Y", strtotime($this->fecha_orden));
+        return date("d/m/Y", strtotime($this->fecha_registro));
     }
 
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
     public function detalle_ordens()

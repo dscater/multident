@@ -21,19 +21,32 @@ const { axiosDelete } = useAxios();
 
 const columns = [
     {
-        title: "",
-        data: "id",
+        title: "NRO.",
+        data: "nro",
     },
     {
         title: "SUCURSAL",
         data: "sucursal.nombre",
     },
     {
-        title: "TOTAL PRODUCTOS INGRESADOS",
-        data: null,
-        render: function (data, type, row) {
-            return row.ingreso_detalles.length;
-        },
+        title: "CLIENTE",
+        data: "cliente.full_name",
+    },
+    {
+        title: "NIT/C.I.",
+        data: "nit_ci",
+    },
+    {
+        title: "FACTURA",
+        data: "factura",
+    },
+    {
+        title: "TIPO DE PAGO",
+        data: "tipo_pago",
+    },
+    {
+        title: "TOTAL",
+        data: "total",
     },
     {
         title: "FECHA DE REGISTRO",
@@ -47,22 +60,20 @@ const columns = [
 
             if (
                 props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes(
-                    "orden_ventas.edit"
-                )
+                props_page.auth?.user.permisos.includes("orden_ventas.edit")
             ) {
                 buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
             }
 
             if (
                 props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes(
-                    "orden_ventas.destroy"
-                )
+                props_page.auth?.user.permisos.includes("orden_ventas.destroy")
             ) {
                 buttons += ` <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}"
-                 data-nombre="${row.sucursal.nombre} | ${row.fecha_registro_t} | ${row.ingreso_detalles.length}"
+                 data-nombre="${row.sucursal.nombre} | ${
+                    row.fecha_registro_t
+                } | ${row.cliente.full_name}"
                  data-url="${route(
                      "orden_ventas.destroy",
                      row.id
@@ -202,6 +213,10 @@ onBeforeUnmount(() => {
                         <thead>
                             <tr>
                                 <th width="5%"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

@@ -8,26 +8,27 @@ use App\Models\Producto;
 use App\Models\Sucursal;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class DetalleOrdenService
 {
     public function __construct(private ProductoSucursalService $productoSucursalService, private KardexProductoService $kardexProductoService) {}
 
     /**
-     * Guardar detalle de venta (carrito)
+     * Guardar detalle de venta (detalle_ordens)
      *
      * @param OrdenVenta $ordenVenta
-     * @param array $carrito
+     * @param array $detalle_ordens
      * @return void
      */
-    public function registrarDetalle(OrdenVenta $ordenVenta, array $carrito, int $sucursal_id, int $old_sucursal = 0): void
+    public function registrarDetalle(OrdenVenta $ordenVenta, array $detalle_ordens, int $sucursal_id, int $old_sucursal = 0): void
     {
         $sucursal = Sucursal::findOrFail($sucursal_id);
         if (!$sucursal) {
             throw new Exception("Ocurrió un error, no se encontró la sucursal");
         }
 
-        foreach ($carrito as $item) {
+        foreach ($detalle_ordens as $item) {
             $arraProd = $item;
             $cantidad = (float)$item["cantidad"];
             $producto = Producto::findOrFail($item["producto_id"]);
@@ -37,6 +38,7 @@ class DetalleOrdenService
                 "promocion_id" => $arraProd["promocion_id"],
                 "promocion_descuento" => $arraProd["promocion_descuento"],
                 "cantidad" => $cantidad,
+                "precio_reg" => $arraProd["precio_reg"],
                 "precio" => $arraProd["precio"],
                 "subtotal" => $arraProd["subtotal"],
             ];
@@ -83,7 +85,6 @@ class DetalleOrdenService
         if (!$sucursal) {
             throw new Exception("Ocurrió un error, no se encontró la sucursal");
         }
-
         if (count($id_eliminados) > 0) {
             foreach ($id_eliminados as $detalle_orden_id) {
                 $detalle_orden = DetalleOrden::find($detalle_orden_id);

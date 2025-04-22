@@ -53,7 +53,7 @@ class OrdenVentaService
         array $columnsBetweenFilter = [],
         array $orderBy = []
     ): LengthAwarePaginator {
-        $ordenVentas = OrdenVenta::with(["cliente", "detalle_ordens.producto"])
+        $ordenVentas = OrdenVenta::with(["cliente", "sucursal", "detalle_ordens.producto"])
             ->select("orden_ventas.*", \DB::raw("SUM(detalle_ordens.cantidad) AS total_vendido"))
             ->leftJoin("detalle_ordens", "orden_ventas.id", "=", "detalle_ordens.orden_venta_id")
             ->groupBy("orden_ventas.id")
@@ -106,13 +106,14 @@ class OrdenVentaService
             "nro" => $numero,
             "sucursal_id" => $datos["sucursal_id"],
             "cliente_id" => $cliente->id,
+            "nit_ci" => $datos["nit_ci"],
             "factura" => $datos["factura"],
             "tipo_pago" => $datos["tipo_pago"],
             "fecha_registro" => date("Y-m-d"),
         ]);
 
-        // registrar Detalle(carrito)
-        $this->detalleOrdenService->registrarDetalle($ordenVenta, $datos["carrito"], $ordenVenta->sucursal_id);
+        // registrar Detalle(detalle_ordens)
+        $this->detalleOrdenService->registrarDetalle($ordenVenta, $datos["detalle_ordens"], $ordenVenta->sucursal_id);
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UNA ORDEN DE VENTA", $ordenVenta, null, ["detalle_ordens"]);
@@ -131,23 +132,22 @@ class OrdenVentaService
     {
         $old_ordenVenta = clone $ordenVenta;
         $old_ordenVenta->loadMissing('detalle_ordens');
-
+        $cliente = Cliente::findOrFail($datos["cliente_id"]);
         $ordenVenta->update([
-            "categoria_id" => mb_strtoupper($datos["categoria_id"]),
-            "nombre" => mb_strtoupper($datos["nombre"]),
-            "descripcion" => mb_strtoupper($datos["descripcion"]),
-            "stock_actual" => $datos["stock_actual"],
-            "precio_compra" => $datos["precio_compra"],
-            "precio_venta" => $datos["precio_venta"],
-            "observaciones" => mb_strtoupper($datos["observaciones"]),
-            "publico" => mb_strtoupper($datos["publico"]),
+            // "sucursal_id" => $datos["sucursal_id"],
+            "cliente_id" => $cliente->id,
+            "nit_ci" => $datos["nit_ci"],
+            "factura" => $datos["factura"],
+            "tipo_pago" => $datos["tipo_pago"],
         ]);
 
-        // registrar Detalle(carrito)
-        $this->detalleOrdenService->registrarDetalle($ordenVenta, $datos["carrito"], $ordenVenta->sucursal_id);
+        // registrar Detalle(detalle_ordens)
+        $this->detalleOrdenService->registrarDetalle($ordenVenta, $datos["detalle_ordens"], $ordenVenta->sucursal_id);
 
-        // eliminados
-        $this->detalleOrdenService->eliminarDetalleOrdens($datos["eliminados"], $ordenVenta->sucursal_id, $old_ordenVenta->sucursal_id);
+        if (isset($datos["eliminados"])) {
+            // eliminados
+            $this->detalleOrdenService->eliminarDetalleOrdens($datos["eliminados"], $ordenVenta->sucursal_id, $old_ordenVenta->sucursal_id);
+        }
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UNA ORDEN DE VENTA", $old_ordenVenta, $ordenVenta, ["detalle_ordens"]);
@@ -174,6 +174,11 @@ class OrdenVentaService
         $old_ordenVenta->loadMissing('detalle_ordens');
         $ordenVenta->status = 0;
         $ordenVenta->save();
+
+        // eliminar detalles
+        $id_eliminados = $ordenVenta->detalle_ordens->pluck("id")->toArray();
+        $this->detalleOrdenService->eliminarDetalleOrdens($id_eliminados, $ordenVenta->sucursal_id);
+
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UNA ORDEN DE VENTA", $old_ordenVenta);
 

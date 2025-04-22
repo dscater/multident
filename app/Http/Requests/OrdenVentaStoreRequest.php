@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\OrdenVentaCarritoRule;
+use App\Rules\OrdenVentaDetalleRule;
 use App\Rules\TokenCaptchaRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,26 +25,27 @@ class OrdenVentaStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "sucursal_id" => "required",
             "cliente_id" => "required",
-            "configuracion_pago_id" => "required",
-            "token_captcha" => ["required", new TokenCaptchaRule],
-            'carrito' => ["required", "array", "min:1", new OrdenVentaCarritoRule],
-            "comprobante" => ["required", "file", "mimes:pdf,png,jpg,jpeg,webp", "max:8192"]
+            "nit_ci" => "required|string|min:1",
+            "factura" => "required",
+            "tipo_pago" => "required",
+            'detalle_ordens' => ["required", "array", "min:1", new OrdenVentaDetalleRule],
         ];
     }
 
     public function messages(): array
     {
         return [
-            "cliente_id.required" => "No es posible realizar el registro debido a que no es un usuario valido",
-            "token_captcha" => "Debes marcar la casilla No soy un robot",
-            "carrito.required" => "Debes agregar al menos 1 producto al carrito",
-            "carrito.array" => "Formato incorrecto del carrito este debe ser un array de datos",
-            "carrito.min" => "Debes ingresar al menos :min productos",
-            "comprobante.required" => "Debes el comprobante del pago",
-            "comprobante.file" => "Debes cargar el comprobante de pago",
-            "comprobante.mimes" => "Solo puedes cargar archivos de tipo: pdf,png,jpg,jpeg,webp",
-            "comprobante.max" => "El archivo no puede pesar mas de 8MB",
+            "sucursal_id.required" => "No se identifico la Sucursal",
+            "cliente_id.required" => "Debes seleccionar un cliente",
+            "nit_ci.required" => "Debes ingresar el NIT/C.I.",
+            "nit_ci.min" => "Debes ingresar un valor NIT/C.I. o poner 0",
+            "factura.required" => "Debes indicar si es con factura o no",
+            "tipo_pago.required" => "Debes seleccionar el tipo de pago",
+            "detalle_ordens.required" => "Debes agregar al menos 1 producto",
+            "detalle_ordens.array" => "Formato incorrecto del detalle_ordens este debe ser un array de datos",
+            "detalle_ordens.min" => "Debes ingresar al menos :min productos",
         ];
     }
 }
