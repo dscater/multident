@@ -18,6 +18,7 @@ onMounted(() => {
 });
 
 const { setOrdenVenta, limpiarOrdenVenta } = useOrdenVentas();
+limpiarOrdenVenta();
 const { axiosDelete } = useAxios();
 
 onMounted(async () => {});

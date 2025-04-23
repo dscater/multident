@@ -23,7 +23,7 @@ class ProductoRelacionService
     public function listadoPorProducto(int $producto_id, int $sucursal_id = 0): Collection
     {
         if ($sucursal_id != 0) {
-            $producto_relacions = ProductoRelacion::with('producto_relacion')
+            $producto_relacions = ProductoRelacion::with(['o_producto_relacion'])
                 ->select('producto_relacions.*', 'producto_sucursals.stock_actual')
                 ->leftJoin('producto_sucursals', function ($join) use ($sucursal_id) {
                     $join->on('producto_sucursals.producto_id', '=', 'producto_relacions.producto_relacion')
@@ -32,7 +32,7 @@ class ProductoRelacionService
                 ->where('producto_relacions.producto_id', $producto_id)
                 ->get();
         } else {
-            $producto_relacions = ProductoRelacion::with(["producto_relacion"])->where("producto_id", $producto_id)->get();
+            $producto_relacions = ProductoRelacion::with(["o_producto_relacion"])->where("producto_id", $producto_id)->get();
         }
 
         return $producto_relacions;

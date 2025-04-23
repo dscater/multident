@@ -90,7 +90,11 @@ class OrdenVentaController extends Controller
         try {
             // crear el OrdenVenta
             // Log::debug($request->validated());
-            $this->ordenVentaService->crear($request->validated());
+            $orden_venta = $this->ordenVentaService->crear($request->validated());
+
+            // Guardar el ID en sesión
+            session(['venta_id' => $orden_venta->id]);
+
             DB::commit();
             return redirect()->route("orden_ventas.index")->with("bien", "Registro realizado");
         } catch (\Exception $e) {
@@ -102,6 +106,11 @@ class OrdenVentaController extends Controller
     }
 
     public function show(OrdenVenta $orden_venta) {}
+
+    public function generarPdf(OrdenVenta $orden_venta)
+    {
+        return $this->ordenVentaService->generarPdf($orden_venta);
+    }
 
 
     /**
@@ -120,7 +129,9 @@ class OrdenVentaController extends Controller
         DB::beginTransaction();
         try {
             // actualizar el OrdenVenta
-            $this->ordenVentaService->actualizar($request->validated(), $orden_venta);
+            $orden_venta = $this->ordenVentaService->actualizar($request->validated(), $orden_venta);
+            // Guardar el ID en sesión
+            session(['venta_id' => $orden_venta->id]);
 
             DB::commit();
             return redirect()->route("orden_ventas.index")->with("bien", "Registro actualizado");

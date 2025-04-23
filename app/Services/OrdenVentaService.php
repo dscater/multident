@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\ValidationException;
+use App\library\numero_a_letras\src\NumeroALetras;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use PDF;
 
 class OrdenVentaService
 {
@@ -28,7 +32,14 @@ class OrdenVentaService
      */
     public function listado(): Collection
     {
-        $orden_ventas = OrdenVenta::select("orden_ventas.*")->where("status", 1)->get();
+        $orden_ventas = OrdenVenta::select("orden_ventas.*");
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $orden_ventas->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+
+        $orden_ventas->where("status", 1);
+        $orden_ventas = $orden_ventas->get();
         return $orden_ventas;
     }
 
@@ -58,6 +69,10 @@ class OrdenVentaService
             ->leftJoin("detalle_ordens", "orden_ventas.id", "=", "detalle_ordens.orden_venta_id")
             ->groupBy("orden_ventas.id")
             ->where("orden_ventas.status", 1);
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $ordenVentas->where("sucursal_id", Auth::user()->sucursal_id);
+        }
 
         // Filtros exactos
         foreach ($columnsFilter as $key => $value) {
@@ -104,6 +119,7 @@ class OrdenVentaService
         $cliente = Cliente::findOrFail($datos["cliente_id"]);
         $ordenVenta = OrdenVenta::create([
             "nro" => $numero,
+            "user_id" => Auth::user()->id,
             "sucursal_id" => $datos["sucursal_id"],
             "cliente_id" => $cliente->id,
             "nit_ci" => $datos["nit_ci"],
@@ -199,5 +215,27 @@ class OrdenVentaService
         }
 
         return $nro;
+    }
+
+    public function generarPdf(OrdenVenta $ordenVenta)
+    {
+        $convertir = new NumeroALetras();
+        $array_monto = explode('.', number_format($ordenVenta->total, 2, ".", ""));
+        $literal = $convertir->convertir($array_monto[0]);
+        $literal .= " " . $array_monto[1] . "/100." . " BOLIVIANOS";
+
+        $nro_factura = (int)$ordenVenta->nro;
+        if ($nro_factura < 10) {
+            $nro_factura = '000' . $nro_factura;
+        } else if ($nro_factura < 100) {
+            $nro_factura = '00' . $nro_factura;
+        } else if ($nro_factura < 1000) {
+            $nro_factura = '0' . $nro_factura;
+        }
+
+        $customPaper = [0, 0, 270.0, 700.0]; // [top, left, bottom, right]
+
+        $pdf = PDF::loadView('reportes.ordenVenta', compact('ordenVenta', 'literal', 'nro_factura'))->setPaper($customPaper, 'portrait');
+        return $pdf->stream('OrdenVenta.pdf');
     }
 }

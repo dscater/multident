@@ -3,6 +3,7 @@ import { useForm, usePage } from "@inertiajs/vue3";
 import { useOrdenVentas } from "@/composables/orden_ventas/useOrdenVentas";
 import { useAxios } from "@/composables/axios/useAxios";
 import { watch, ref, computed, defineEmits, onMounted, nextTick } from "vue";
+import Relacion from "./Relacion.vue";
 const { props: props_page } = usePage();
 const props = defineProps({
     open_dialog: {
@@ -30,6 +31,9 @@ const agregarProducto = ref({
     subtotal: 0,
 });
 
+const open_dialog_relacion = ref(false);
+const accion_dialog_relacion = ref(0);
+
 const enviarFormulario = () => {
     // form.sucursal_id =
     //     props_page.auth?.user.sucursals_todo == 0
@@ -47,6 +51,10 @@ const enviarFormulario = () => {
         onSuccess: () => {
             dialog.value = false;
             const flash = usePage().props.flash;
+            const venta_id = usePage().props.venta_id;
+            if (venta_id) {
+                window.open(route("orden_ventas.generarPdf", venta_id), "_blank");
+            }
 
             Swal.fire({
                 icon: "success",
@@ -428,6 +436,20 @@ const cargarProductos = async () => {
     listProductos.value = data.productos;
 };
 
+//RELACION PRODUCTOS
+const abrirRelacionProducto = () => {
+    if (infoProductoSucursal.value) {
+        open_dialog_relacion.value = true;
+    }
+};
+
+const seleccionarProductoRelacion = (producto_id) => {
+    open_dialog_relacion.value = false;
+    accion_dialog_relacion.value = 0;
+    agregarProducto.value.producto_id = producto_id;
+    getInfoProducto();
+};
+
 onMounted(() => {
     form.sucursal_id =
         props_page.auth?.user.sucursals_todo == 0
@@ -438,6 +460,14 @@ onMounted(() => {
 </script>
 
 <template>
+    <Relacion
+        :open_dialog="open_dialog_relacion"
+        :accion_dialog="accion_dialog_relacion"
+        :producto="infoProductoSucursal?.producto"
+        :id-sucursal="infoProductoSucursal?.sucursal_id"
+        @envio-formulario="seleccionarProductoRelacion"
+        @cerrar-dialog="open_dialog_relacion = false"
+    ></Relacion>
     <form>
         <div class="row">
             <div class="col-md-6">
@@ -676,6 +706,7 @@ onMounted(() => {
                                     filterable
                                     v-model="form.sucursal_id"
                                     @change="getInfoProducto"
+                                    :disabled="form.detalle_ordens.length > 0"
                                 >
                                     <el-option
                                         v-for="item in listSucursals"
@@ -779,6 +810,9 @@ onMounted(() => {
                                                     <button
                                                         class="btn btn-primary btn-sm"
                                                         title="Relación"
+                                                        @click.prevent="
+                                                            abrirRelacionProducto
+                                                        "
                                                     >
                                                         <i
                                                             class="fa fa-random"

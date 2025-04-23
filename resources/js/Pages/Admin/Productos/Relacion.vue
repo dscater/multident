@@ -164,11 +164,11 @@ onMounted(() => {});
                                     </p>
                                     <p>
                                         <strong>C/F: </strong
-                                        >{{ oProducto.precio_fac }}
+                                        >{{ oProducto.monto_cf }}
                                     </p>
                                     <p>
                                         <strong>S/F: </strong
-                                        >{{ oProducto.precio_sf }}
+                                        >{{ oProducto.monto_sf }}
                                     </p>
                                     <p>
                                         <strong>Descripción: </strong
@@ -268,23 +268,22 @@ onMounted(() => {});
                                 <tbody>
                                     <tr v-for="item in listProductoRelacions">
                                         <td>
-                                            {{ item.producto_relacion.nombre }}
+                                            {{ item.o_producto_relacion.nombre }}
                                         </td>
                                         <td>
                                             {{
-                                                item.producto_relacion
+                                                item.o_producto_relacion
                                                     .precio_pred
                                             }}
                                         </td>
                                         <td>
                                             {{
-                                                item.producto_relacion
-                                                    .monto_cf
+                                                item.o_producto_relacion.monto_cf
                                             }}
                                         </td>
                                         <td>
                                             {{
-                                                item.producto_relacion.monto_sf
+                                                item.o_producto_relacion.monto_sf
                                             }}
                                         </td>
                                         <td>

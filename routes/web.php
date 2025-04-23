@@ -140,6 +140,7 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
 
     // ORDENES DE VENTA
     Route::get("orden_ventas/api", [OrdenVentaController::class, 'api'])->name("orden_ventas.api");
+    Route::get("orden_ventas/generarPdf/{orden_venta}", [OrdenVentaController::class, 'generarPdf'])->name("orden_ventas.generarPdf");
     Route::get("orden_ventas/paginado", [OrdenVentaController::class, 'paginado'])->name("orden_ventas.paginado");
     Route::get("orden_ventas/listado", [OrdenVentaController::class, 'listado'])->name("orden_ventas.listado");
     Route::resource("orden_ventas", OrdenVentaController::class)->only(

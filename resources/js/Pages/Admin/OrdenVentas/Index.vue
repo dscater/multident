@@ -60,6 +60,13 @@ const columns = [
 
             if (
                 props_page.auth?.user.permisos == "*" ||
+                props_page.auth?.user.permisos.includes("orden_ventas.index")
+            ) {
+                buttons += `<button class="mx-1 rounded-0 btn btn-primary pdf" data-id="${row.id}"><i class="fa fa-print"></i></button>`;
+            }
+
+            if (
+                props_page.auth?.user.permisos == "*" ||
                 props_page.auth?.user.permisos.includes("orden_ventas.edit")
             ) {
                 buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
@@ -91,6 +98,12 @@ const agregarRegistro = () => {
 };
 
 const accionesRow = () => {
+    // pdf
+    $("#table-orden_venta").on("click", "button.pdf", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        window.open(route("orden_ventas.generarPdf", id), "_blank");
+    });
     // editar
     $("#table-orden_venta").on("click", "button.editar", function (e) {
         e.preventDefault();

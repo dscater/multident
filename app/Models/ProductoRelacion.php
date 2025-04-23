@@ -19,7 +19,7 @@ class ProductoRelacion extends Model
         return $this->belongsTo(Producto::class, 'producto_id');
     }
 
-    public function producto_relacion()
+    public function o_producto_relacion()
     {
         return $this->belongsTo(Producto::class, 'producto_relacion');
     }

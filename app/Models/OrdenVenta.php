@@ -11,6 +11,7 @@ class OrdenVenta extends Model
 
     protected $fillable = [
         "nro",
+        "user_id",
         "sucursal_id",
         "cliente_id",
         "nit_ci",
@@ -20,7 +21,21 @@ class OrdenVenta extends Model
         "status",
     ];
 
-    protected $appends = ["fecha_registro_t", "total"];
+    protected $appends = ["fecha_registro_t", "total", "fecha", "hora", "url_pdf"];
+
+    public function getUrlPdfAttribute()
+    {
+        return route("orden_ventas.generarPdf", $this->id);
+    }
+
+    public function getFechaAttribute()
+    {
+        return $this->created_at ? $this->created_at->format('d/m/Y') : null;
+    }
+    public function getHoraAttribute()
+    {
+        return $this->created_at ? $this->created_at->format('H:i:s') : null;
+    }
 
     public function getTotalAttribute()
     {
@@ -35,6 +50,11 @@ class OrdenVenta extends Model
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function sucursal()
