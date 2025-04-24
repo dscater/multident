@@ -108,7 +108,8 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
 
     // PRODUCTO SUCURSAL
     Route::get("producto_sucursals/getProductoSucursal", [ProductoSucursalController::class, 'getProductoSucursal'])->name("producto_sucursals.getProductoSucursal");
-
+    Route::get("producto_sucursals/getProductoSucursales", [ProductoSucursalController::class, 'getProductoSucursales'])->name("producto_sucursals.getProductoSucursales");
+    
     // RELACION PRODUCTOS
     Route::get("producto_relacions/listadoPorProducto/{producto}", [ProductoRelacionController::class, 'listadoPorProducto'])->name("producto_relacions.listadoPorProducto");
     Route::post("producto_relacions/store/{producto}", [ProductoRelacionController::class, 'store'])->name("productos.relacion");

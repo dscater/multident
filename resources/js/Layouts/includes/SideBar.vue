@@ -603,6 +603,30 @@ const logout = () => {
                     </Link>
                 </div>
                 <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('devolucions.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'devolucions.index' ||
+                        route_current == 'devolucions.create' ||
+                        route_current == 'devolucions.edit'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('devolucions.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div class="menu-text">Devoluciones</div>
+                    </Link>
+                </div>
+                <div
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||

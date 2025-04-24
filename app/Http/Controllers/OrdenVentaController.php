@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrdenVentaStoreRequest;
 use App\Http\Requests\OrdenVentaUpdateRequest;
+use App\Models\DetalleOrden;
 use App\Models\OrdenVenta;
 use App\Services\HistorialAccionService;
 use App\Services\OrdenVentaService;
@@ -105,7 +106,21 @@ class OrdenVentaController extends Controller
         }
     }
 
-    public function show(OrdenVenta $orden_venta) {}
+    public function show(OrdenVenta $orden_venta, Request $request)
+    {
+        $detalle_ordens = [];
+        if (isset($request->detalle_orden_id)) {
+            $detalle_ordens = DetalleOrden::where("status", 1)
+                ->where("orden_venta_id", $orden_venta->id)
+                ->orWhere("id", $request->detalle_orden_id)
+                ->get();
+        }
+
+        return response()->JSON([
+            "orden_venta" => $orden_venta->load(["detalle_ordens.producto"]),
+            "detalle_ordens" => $detalle_ordens
+        ]);
+    }
 
     public function generarPdf(OrdenVenta $orden_venta)
     {

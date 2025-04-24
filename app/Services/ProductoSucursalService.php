@@ -83,7 +83,7 @@ class ProductoSucursalService
     }
 
     /**
-     * Undocumented function
+     * Obtener un producto de una sucursal
      *
      * @param integer $producto_id
      * @param integer $sucursal_id
@@ -107,5 +107,31 @@ class ProductoSucursalService
         }
 
         return $producto_sucursal->load(["producto"]);
+    }
+
+
+    /**
+     * Buscar produto en las sucursales
+     *
+     * @param string $search
+     * @return Collection
+     */
+    public function buscarProductoSucursales(string $search = "", bool $orderStock = false): Collection
+    {
+        $producto_sucursals = ProductoSucursal::with(["producto", "sucursal"])
+            ->select("producto_sucursals.*")
+            ->join("productos", "productos.id", "=", "producto_sucursals.producto_id")
+            ->where("stock_actual", ">", 0);
+
+        if ($search) {
+            $producto_sucursals->where("productos.nombre", "LIKE", "%$search%");
+        }
+
+        if ($orderStock) {
+            $producto_sucursals->orderBy("stock_actual", "desc");
+        }
+        $producto_sucursals = $producto_sucursals->get();
+
+        return $producto_sucursals;
     }
 }

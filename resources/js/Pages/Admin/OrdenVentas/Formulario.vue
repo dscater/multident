@@ -4,6 +4,7 @@ import { useOrdenVentas } from "@/composables/orden_ventas/useOrdenVentas";
 import { useAxios } from "@/composables/axios/useAxios";
 import { watch, ref, computed, defineEmits, onMounted, nextTick } from "vue";
 import Relacion from "./Relacion.vue";
+import ProductoSucursal from "./ProductoSucursal.vue";
 const { props: props_page } = usePage();
 const props = defineProps({
     open_dialog: {
@@ -14,8 +15,6 @@ const props = defineProps({
 
 const { oOrdenVenta, limpiarOrdenVenta } = useOrdenVentas();
 const { axiosGet } = useAxios();
-const accion = ref(props.accion_dialog);
-const dialog = ref(props.open_dialog);
 let form = useForm(oOrdenVenta.value);
 const infoProductoSucursal = ref(null);
 const infoPromocion = ref(null);
@@ -33,6 +32,9 @@ const agregarProducto = ref({
 
 const open_dialog_relacion = ref(false);
 const accion_dialog_relacion = ref(0);
+
+const open_dialog_producto_sucursal = ref(false);
+const accion_dialog_producto_sucursal = ref(0);
 
 const enviarFormulario = () => {
     // form.sucursal_id =
@@ -53,7 +55,10 @@ const enviarFormulario = () => {
             const flash = usePage().props.flash;
             const venta_id = usePage().props.venta_id;
             if (venta_id) {
-                window.open(route("orden_ventas.generarPdf", venta_id), "_blank");
+                window.open(
+                    route("orden_ventas.generarPdf", venta_id),
+                    "_blank"
+                );
             }
 
             Swal.fire({
@@ -450,6 +455,11 @@ const seleccionarProductoRelacion = (producto_id) => {
     getInfoProducto();
 };
 
+//PRODUCTOS SUCURSAL
+const openProductoSucursal = () => {
+    open_dialog_producto_sucursal.value = true;
+};
+
 onMounted(() => {
     form.sucursal_id =
         props_page.auth?.user.sucursals_todo == 0
@@ -468,6 +478,12 @@ onMounted(() => {
         @envio-formulario="seleccionarProductoRelacion"
         @cerrar-dialog="open_dialog_relacion = false"
     ></Relacion>
+    <ProductoSucursal
+        :open_dialog="open_dialog_producto_sucursal"
+        :accion_dialog="accion_dialog_producto_sucursal"
+        @envio-formulario="console.log('.')"
+        @cerrar-dialog="open_dialog_producto_sucursal = false"
+    ></ProductoSucursal>
     <form>
         <div class="row">
             <div class="col-md-6">
@@ -850,6 +866,7 @@ onMounted(() => {
                         <div class="row mt-2">
                             <div class="col-md-6 mx-auto">
                                 <button
+                                    type="button"
                                     class="btn btn-sm btn-outline-primary w-100"
                                     @click.prevent="agregarProductoTabla"
                                 >
@@ -860,7 +877,11 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="col-12 mt-2">
-                    <button class="btn btn-warning w-100">
+                    <button
+                        type="button"
+                        class="btn btn-warning w-100"
+                        @click.prevent="openProductoSucursal"
+                    >
                         <i class="fa fa-search"></i> Buscar productos por
                         sucursal
                     </button>
