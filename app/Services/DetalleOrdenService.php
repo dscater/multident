@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 class DetalleOrdenService
 {
-    public function __construct(private ProductoSucursalService $productoSucursalService, private KardexProductoService $kardexProductoService) {}
+    public function __construct(private ProductoSucursalService $productoSucursalService, private KardexProductoService $kardexProductoService, private DetalleUsoService $detalleUsoService, private NotificacionService $notificacionService) {}
 
     /**
      * Guardar detalle de venta (detalle_ordens)
@@ -53,6 +53,11 @@ class DetalleOrdenService
 
                     //registrar kardex
                     $this->kardexProductoService->registroEgreso("ORDEN DE VENTA", $producto, $cantidad, $producto->precio_pred, "VENTA DE PRODUCTO", $sucursal->id, "DetalleOrden", $detalle_orden->id);
+
+                    $this->detalleUsoService->registrarUsos($detalle_orden);
+
+                    //verificar notificacion
+                    $this->notificacionService->verificaNotificacionProducto((int)$producto->id, (int)$sucursal->id);
                 } else {
                     throw new Exception("Stock insuficiente del producto $producto->nombre; su stock actual es de $resStock[1]");
                 }
@@ -60,13 +65,24 @@ class DetalleOrdenService
                 // por modificacion
                 $detalle_orden = DetalleOrden::find($item["id"]);
                 if ($detalle_orden) {
+                    $this->detalleUsoService->eliminarUsos($detalle_orden);
                     //registrar kardex por modificacion
                     $this->kardexProductoService->registroIngreso($old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "ORDEN DE VENTA", $producto, $detalle_orden->cantidad, $producto->precio_pred, "POR MODIFICACIÓN DE ORDEN DE VENTA", "DetalleOrden", $detalle_orden->id);
                     //actualizar
-                    $detalle_orden->update($datos);
+                    //validar stock
+                    $resStock = $this->productoSucursalService->verificaStockSucursalProducto((int)$item["producto_id"], $sucursal->id, $cantidad);
 
-                    //registrar kardex
-                    $this->kardexProductoService->registroEgreso("ORDEN DE VENTA", $producto, $cantidad, $producto->precio_pred, "VENTA DE PRODUCTO (MODIFICACIÓN)", $sucursal->id, "DetalleOrden", $detalle_orden->id);
+                    if ($resStock[0]) {
+                        //registrar kardex
+                        $this->kardexProductoService->registroEgreso("ORDEN DE VENTA", $producto, $cantidad, $producto->precio_pred, "VENTA DE PRODUCTO (MODIFICACIÓN)", $sucursal->id, "DetalleOrden", $detalle_orden->id);
+                        $detalle_orden->update($datos);
+                        $this->detalleUsoService->registrarUsos($detalle_orden);
+
+                        //verificar notificacion
+                        $this->notificacionService->verificaNotificacionProducto((int)$producto->id, (int)$sucursal->id);
+                    } else {
+                        throw new Exception("Stock insuficiente del producto $producto->nombre; su stock actual es de $resStock[1]");
+                    }
                 }
             }
         }
@@ -93,6 +109,8 @@ class DetalleOrdenService
                 $producto = Producto::find($detalle_orden->producto_id);
                 // registrar kardex
                 $this->kardexProductoService->registroIngreso($old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "ORDEN DE VENTA", $producto, (float)$detalle_orden->cantidad, $producto->precio_pred, "ELIMINACIÓN DE PRODUCTO DETALLE DE ORDEN", "DetalleOrden", $detalle_orden->id);
+
+                $this->detalleUsoService->restablecerUso($detalle_orden);
             }
         }
     }

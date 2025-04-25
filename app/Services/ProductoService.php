@@ -149,7 +149,6 @@ class ProductoService
     public function actualizar(array $datos, Producto $producto): Producto
     {
         $old_producto = Producto::find($producto->id);
-        Log::debug("AA");
         $producto->update([
             "nombre" => mb_strtoupper($datos["nombre"]),
             "descripcion" => mb_strtoupper($datos["descripcion"]),
@@ -164,7 +163,6 @@ class ProductoService
         if ($datos["foto"] && !is_string($datos["foto"])) {
             $this->cargarFoto($producto, $datos["foto"]);
         }
-        Log::debug("B");
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN PRODUCTO", $old_producto, $producto);

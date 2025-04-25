@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Notificacion;
+use App\Models\ProductoSucursal;
+use App\Models\User;
+use App\Services\NotificacionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +19,8 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+    public function __construct(private NotificacionService $notificacionService) {}
+
     /**
      * Display the login view.
      */
@@ -37,6 +43,9 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
+        $this->notificacionService->notificacion1();
+        $this->notificacionService->notificacion2();
+        $this->notificacionService->notificacion3();
         return redirect()->intended(route('inicio'));
     }
 

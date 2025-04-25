@@ -49,15 +49,14 @@ const mostrarNotificaciones = () => {
 const intervalNotificaciones = ref(null);
 
 onMounted(() => {
-    // if (
-    //     props.auth.user.permisos == "*" ||
-    //     props.auth.user.permisos.includes("orden_ventas.todos") ||
-    //     props.auth.user.permisos.includes("solicitud_productos.todos")
-    // ) {
-    //     intervalNotificaciones.value = setInterval(() => {
-    //         getNotificacions();
-    //     }, 1500);
-    // }
+    if (
+        props.auth.user.permisos == "*" ||
+        props.auth.user.permisos.includes("productos.index")
+    ) {
+        intervalNotificaciones.value = setInterval(() => {
+            getNotificacions();
+        }, 1500);
+    }
 
     url_assets = props.url_assets;
     url_principal = props.url_principal;
@@ -65,7 +64,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     if (intervalNotificaciones.value) {
-        // clearInterval(intervalNotificaciones.value);
+        clearInterval(intervalNotificaciones.value);
     }
 });
 </script>
@@ -135,7 +134,7 @@ onBeforeUnmount(() => {
                         </div>
                         <div class="media-body">
                             <p class="media-heading">
-                                <span v-html="item.descripcion"></span>
+                                <span v-html="item.notificacion.descripcion"></span>
                             </p>
                             <div class="text-muted fs-10px">
                                 {{ item.hace }}

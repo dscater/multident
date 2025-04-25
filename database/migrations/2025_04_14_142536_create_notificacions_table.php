@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text("descripcion");
             $table->date("fecha");
-            $table->date("hora");
+            $table->time("hora");
             $table->string("tipo");
             $table->unsignedBigInteger("sucursal_id");
             $table->unsignedBigInteger("registro_id");

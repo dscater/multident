@@ -14,7 +14,7 @@ class DevolucionService
 {
     private $modulo = "DEVOLUCIONES";
 
-    public function __construct(private HistorialAccionService $historialAccionService, private KardexProductoService $kardexProductoService) {}
+    public function __construct(private HistorialAccionService $historialAccionService, private KardexProductoService $kardexProductoService, private DetalleUsoService $detalleUsoService) {}
 
     public function listado(): Collection
     {
@@ -60,6 +60,7 @@ class DevolucionService
 
         $this->kardexProductoService->registroIngreso($devolucion->sucursal_id, "DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_pred, "INGRESO POR DEVOLUCIÓN DE PRODUCTO POR " . $devolucion->razon, "Devolucion", $devolucion->id);
 
+        $this->detalleUsoService->restablecerUso($detalle_orden);
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UNA DEVOLUCIÓN", $devolucion);
 
@@ -79,10 +80,12 @@ class DevolucionService
         $detalle_orden_old = DetalleOrden::findOrFail($old_devolucion->detalle_orden_id);
         $detalle_orden = DetalleOrden::findOrFail($datos["detalle_orden_id"]);
 
+        $this->detalleUsoService->eliminarUsos($detalle_orden_old);
         // kardex egreso
         $detalle_orden_old->status = 1;
         $detalle_orden_old->save();
         $this->kardexProductoService->registroEgreso("DEVOLUCIÓN", $detalle_orden_old->producto, $detalle_orden_old->cantidad, $detalle_orden_old->producto->precio_pred, "EGRESO POR MODIFICACIÓN DE DEVOLUCIÓN" . $old_devolucion->razon, $old_devolucion->sucursal_id, "Devolucion", $old_devolucion->id);
+        $this->detalleUsoService->registrarUsos($detalle_orden_old);
 
         $devolucion->update([
             "sucursal_id" => $datos["sucursal_id"],
@@ -92,11 +95,14 @@ class DevolucionService
             "razon" => $datos["razon"],
             "descripcion" => mb_strtoupper($datos["descripcion"]),
         ]);
+        $this->detalleUsoService->eliminarUsos($detalle_orden);
 
         // kardex ingreso
         $detalle_orden->status = 0;
         $detalle_orden->save();
         $this->kardexProductoService->registroIngreso($devolucion->sucursal_id, "DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_pred, "INGRESO POR DEVOLUCIÓN POR PRODUCTO POR " . $devolucion->razon, "Devolucion", $devolucion->id);
+        
+        $this->detalleUsoService->registrarUsos($detalle_orden);
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UNA DEVOLUCIÓN", $old_devolucion, $devolucion);

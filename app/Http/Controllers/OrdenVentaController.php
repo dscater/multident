@@ -68,7 +68,6 @@ class OrdenVentaController extends Controller
         ]);
     }
 
-
     /**
      * Página create
      *

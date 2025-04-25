@@ -51,8 +51,8 @@ class HistorialAccionService
                 if($modelo[$relacion]){
                     $antes = $modelo[$relacion]->toArray();
                     $despues = $modelo_update[$relacion]->toArray();
-                    Log::debug($antes);
-                    Log::debug($despues);
+                    // Log::debug($antes);
+                    // Log::debug($despues);
                     if ($antes !== $despues) {
                         $existe_cambios = true;
                         break;

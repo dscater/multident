@@ -17,13 +17,5 @@ class InicioController extends Controller
         return Inertia::render('Admin/Home', compact('array_infos'));
     }
 
-    public function getParcialDatosPago()
-    {
-        $parametrizacion = Parametrizacion::first();
-        $o_datos_banco = $parametrizacion->o_datos_banco;
-
-        $html = vieW("parcials.datos_pago", compact("o_datos_banco"))->render();
-
-        return response()->JSON($html);
-    }
+    
 }

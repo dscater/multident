@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("ingreso_producto_id");
             $table->unsignedBigInteger("producto_id");
             $table->double("cantidad");
+            $table->double("disponible");
             $table->unsignedBigInteger("ubicacion_producto_id");
             $table->date("fecha_vencimiento")->nullable();
             $table->text("descripcion")->nullable();

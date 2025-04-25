@@ -37,6 +37,7 @@ class IngresoDetalleService
             $datos = [
                 "producto_id" => $item["producto_id"],
                 "cantidad" => $item["cantidad"],
+                "disponible" => $item["cantidad"],
                 "ubicacion_producto_id" => $item["ubicacion_producto_id"],
                 "fecha_vencimiento" => $item["fecha_vencimiento"],
                 "descripcion" => mb_strtoupper($item["descripcion"]),

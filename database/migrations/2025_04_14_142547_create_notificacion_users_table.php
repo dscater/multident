@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("notificacion_id");
-            $table->integer("visto");
+            $table->integer("visto")->default(0);
             $table->timestamps();
 
             $table->foreign("user_id")->on("users")->references("id");

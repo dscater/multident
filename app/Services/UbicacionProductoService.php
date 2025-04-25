@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\IngresoDetalle;
+use App\Models\IngresoProducto;
 use App\Services\HistorialAccionService;
 use App\Models\UbicacionProducto;
 use App\Models\Producto;
@@ -98,5 +99,19 @@ class UbicacionProductoService
         $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UNA UBICACIÓN DE PRODUCTO", $old_ubicacion_producto);
 
         return true;
+    }
+
+    public function getUbicacionProductosSucursal(int $sucursal_id, int $producto_id): Collection
+    {
+        $ingreso_detalles = IngresoDetalle::with("ubicacion_producto")
+            ->join("ingreso_productos", "ingreso_productos.id", "=", "ingreso_detalles.ingreso_producto_id")
+            ->where("ingreso_productos.sucursal_id", $sucursal_id)
+            ->where("ingreso_detalles.producto_id", $producto_id)
+            ->where("ingreso_detalles.disponible", ">", 0)
+            ->selectRaw("MAX(ingreso_detalles.id) as id, ingreso_detalles.ubicacion_producto_id")
+            ->groupBy("ingreso_detalles.ubicacion_producto_id")
+            ->get();
+
+        return $ingreso_detalles;
     }
 }

@@ -1,10 +1,10 @@
 <script setup>
 import { useForm, usePage } from "@inertiajs/vue3";
-import { useOrdenVentas } from "@/composables/orden_ventas/useOrdenVentas";
+import { useProformas } from "@/composables/proformas/useProformas";
 import { useAxios } from "@/composables/axios/useAxios";
 import { watch, ref, computed, defineEmits, onMounted, nextTick } from "vue";
-import Relacion from "./Relacion.vue";
-import ProductoSucursal from "./ProductoSucursal.vue";
+import Relacion from "../OrdenVentas/Relacion.vue";
+import ProductoSucursal from "../OrdenVentas/ProductoSucursal.vue";
 const { props: props_page } = usePage();
 const props = defineProps({
     open_dialog: {
@@ -13,9 +13,9 @@ const props = defineProps({
     },
 });
 
-const { oOrdenVenta, limpiarOrdenVenta } = useOrdenVentas();
+const { oProforma, limpiarProforma } = useProformas();
 const { axiosGet } = useAxios();
-let form = useForm(oOrdenVenta.value);
+let form = useForm(oProforma.value);
 const infoProductoSucursal = ref(null);
 const infoPromocion = ref(null);
 const agregarProducto = ref({
@@ -44,8 +44,8 @@ const enviarFormulario = () => {
 
     let url =
         form["_method"] == "POST"
-            ? route("orden_ventas.store")
-            : route("orden_ventas.update", form.id);
+            ? route("proformas.store")
+            : route("proformas.update", form.id);
 
     form.post(url, {
         preserveScroll: true,
@@ -55,7 +55,7 @@ const enviarFormulario = () => {
             const venta_id = usePage().props.venta_id;
             if (venta_id) {
                 window.open(
-                    route("orden_ventas.generarPdf", venta_id),
+                    route("proformas.generarPdf", venta_id),
                     "_blank"
                 );
             }
@@ -72,26 +72,15 @@ const enviarFormulario = () => {
         onError: (err) => {
             console.log("ERROR");
             const flash = usePage().props.flash;
-            if(err.error){
-                Swal.fire({
-                    icon: "info",
-                    title: "Error",
-                    text: `${err.error}`,
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: `Aceptar`,
-                });
-            }else{
-                Swal.fire({
-                    icon: "info",
-                    title: "Error",
-                    text: `${
-                        flash.bien ? flash.bien : "Hay errores en el formulario"
-                    }`,
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: `Aceptar`,
-                });
-
-            }
+            Swal.fire({
+                icon: "info",
+                title: "Error",
+                text: `${
+                    flash.bien ? flash.bien : "Hay errores en el formulario"
+                }`,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: `Aceptar`,
+            });
         },
     });
 };
@@ -165,19 +154,6 @@ const getInfoProducto = () => {
 const validarCantidad = () => {
     if (agregarProducto.value.cantidad) {
         if (parseFloat(agregarProducto.value.cantidad) > 0) {
-            if (
-                agregarProducto.value.cantidad >
-                infoProductoSucursal.value.stock_actual
-            ) {
-                Swal.fire({
-                    icon: "info",
-                    title: "Error",
-                    text: `La cantidad no puede ser mayor al stock actual de ${infoProductoSucursal.value.stock_actual}`,
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: `Aceptar`,
-                });
-                return false;
-            }
             return true;
         } else {
             Swal.fire({
@@ -242,7 +218,7 @@ const agregarProductoTabla = async () => {
             const subtotal =
                 parseFloat(agregarProducto.value.precio) *
                 parseFloat(agregarProducto.value.cantidad);
-            form.detalle_ordens.push({
+            form.detalle_proformas.push({
                 id: 0,
                 producto_id: agregarProducto.value.producto_id,
                 producto: producto,
@@ -270,9 +246,9 @@ const agregarProductoTabla = async () => {
 };
 
 const sumaTotales = () => {
-    if (form.detalle_ordens.length > 0) {
+    if (form.detalle_proformas.length > 0) {
         let total_final = 0;
-        form.detalle_ordens.forEach((elem, index) => {
+        form.detalle_proformas.forEach((elem, index) => {
             total_final += parseFloat(elem.subtotal);
         });
         form.total = Math.round(total_final, 2);
@@ -297,11 +273,11 @@ const limpiarAgregarDetalle = () => {
 };
 
 const eliminarDetalle = async (index) => {
-    const id = form.detalle_ordens[index].id;
+    const id = form.detalle_proformas[index].id;
     if (id != 0) {
         form.eliminados.push(id);
     }
-    form.detalle_ordens.splice(index, 1);
+    form.detalle_proformas.splice(index, 1);
     await sumaTotales();
 };
 
@@ -334,7 +310,7 @@ const validaAgregarProducto = () => {
 };
 
 const verificaExistente = () => {
-    const existe = form.detalle_ordens.filter(
+    const existe = form.detalle_proformas.filter(
         (elem) => elem.producto_id === agregarProducto.value.producto_id
     );
     if (existe.length > 0) {
@@ -363,9 +339,9 @@ const asignarNitCi = () => {
 };
 
 const calcularTotales = () => {
-    if (form.detalle_ordens.length > 0) {
+    if (form.detalle_proformas.length > 0) {
         let total_final = 0;
-        form.detalle_ordens.forEach((elem, index) => {
+        form.detalle_proformas.forEach((elem, index) => {
             const cantidad = elem.cantidad;
             let precio = parseFloat(elem.precio_reg);
             if (form.factura == "SI") {
@@ -384,8 +360,8 @@ const calcularTotales = () => {
             }
             precio = Math.round(precio, 2);
             const subtotal = parseFloat(cantidad) * parseFloat(precio);
-            form.detalle_ordens[index].precio = precio;
-            form.detalle_ordens[index].subtotal = subtotal;
+            form.detalle_proformas[index].precio = precio;
+            form.detalle_proformas[index].subtotal = subtotal;
             total_final += subtotal;
         });
         form.total = total_final;
@@ -395,7 +371,7 @@ const calcularTotales = () => {
 };
 
 const verificaPrecioDetalle = (index, e) => {
-    const elem = form.detalle_ordens[index];
+    const elem = form.detalle_proformas[index];
     const cantidad = elem.cantidad;
     let precio = parseFloat(e.target.value ?? 0);
     if (precio < parseFloat(elem.producto.precio_min)) {
@@ -410,19 +386,19 @@ const verificaPrecioDetalle = (index, e) => {
     }
     precio = Math.round(precio, 2);
     const subtotal = parseFloat(cantidad) * parseFloat(precio);
-    form.detalle_ordens[index].precio = precio;
-    form.detalle_ordens[index].precio_reg = precio;
-    form.detalle_ordens[index].subtotal = subtotal;
+    form.detalle_proformas[index].precio = precio;
+    form.detalle_proformas[index].precio_reg = precio;
+    form.detalle_proformas[index].subtotal = subtotal;
     sumaTotales();
 };
 
 const verificaCantidades = (index, e) => {
-    const elem = form.detalle_ordens[index];
+    const elem = form.detalle_proformas[index];
     const precio = parseFloat(elem.precio);
     const cantidad = e.target.value;
     const subtotal = parseFloat(cantidad) * parseFloat(precio);
-    form.detalle_ordens[index].cantidad = cantidad;
-    form.detalle_ordens[index].subtotal = subtotal;
+    form.detalle_proformas[index].cantidad = cantidad;
+    form.detalle_proformas[index].subtotal = subtotal;
     sumaTotales();
 };
 
@@ -536,11 +512,11 @@ onMounted(() => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <template v-if="form.detalle_ordens.length > 0">
+                                <template v-if="form.detalle_proformas.length > 0">
                                     <tr
                                         v-for="(
                                             item, index
-                                        ) in form.detalle_ordens"
+                                        ) in form.detalle_proformas"
                                     >
                                         <td>{{ index + 1 }}</td>
                                         <td>
@@ -614,11 +590,11 @@ onMounted(() => {
                             </tfoot>
                         </table>
                         <ul
-                            v-if="form.errors?.detalle_ordens"
+                            v-if="form.errors?.detalle_proformas"
                             class="parsley-errors-list filled mt-0"
                         >
                             <li class="parsley-required">
-                                {{ form.errors?.detalle_ordens }}
+                                {{ form.errors?.detalle_proformas }}
                             </li>
                         </ul>
                     </div>
@@ -638,11 +614,16 @@ onMounted(() => {
                     </div>
 
                     <div class="col-12 my-1">
-                        <label>Tipo de Pago*</label>
-                        <select class="form-control" v-model="form.tipo_pago">
-                            <option value="EFECTIVO">EFECTIVO</option>
-                            <option value="QR">QR</option>
-                        </select>
+                        <label>Hasta Fecha de Validez*</label>
+                        <input type="date" class="form-control" v-model="form.fecha_validez">
+                        <ul
+                            v-if="form.errors?.fecha_validez"
+                            class="parsley-errors-list filled"
+                        >
+                            <li class="parsley-required">
+                                {{ form.errors?.fecha_validez }}
+                            </li>
+                        </ul>
                     </div>
                     <div class="col-md-12 my-1">
                         <label>Seleccionar Cliente*</label>
@@ -700,13 +681,13 @@ onMounted(() => {
                             class="btn btn-primary w-100"
                             @click="enviarFormulario"
                         >
-                            <template v-if="oOrdenVenta.id == 0">
+                            <template v-if="oProforma.id == 0">
                                 <i class="fa fa-save"></i>
-                                Guardar Orden de Venta</template
+                                Guardar Proforma</template
                             >
                             <template v-else>
                                 <i class="fa fa-edit"></i>
-                                Actualizar Orden de Venta</template
+                                Actualizar Proforma</template
                             >
                         </button>
                     </div>
@@ -734,7 +715,7 @@ onMounted(() => {
                                     filterable
                                     v-model="form.sucursal_id"
                                     @change="getInfoProducto"
-                                    :disabled="form.detalle_ordens.length > 0"
+                                    :disabled="form.detalle_proformas.length > 0"
                                 >
                                     <el-option
                                         v-for="item in listSucursals"

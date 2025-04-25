@@ -605,6 +605,30 @@ const logout = () => {
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('proformas.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'proformas.index' ||
+                        route_current == 'proformas.create' ||
+                        route_current == 'proformas.edit'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('proformas.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div class="menu-text">Proformas</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
                         user_logeado.permisos.includes('devolucions.index')
                     "
                     class="menu-item"
@@ -667,6 +691,23 @@ const logout = () => {
                             <i class="fa fa-list"></i>
                         </div>
                         <div class="menu-text">Promociones</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('notificacions.index')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'notificacions.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link :href="route('notificacions.index')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-bell"></i>
+                        </div>
+                        <div class="menu-text">Notificaciones</div>
                     </Link>
                 </div>
                 <div

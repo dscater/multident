@@ -6,6 +6,8 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DevolucionController;
 use App\Http\Controllers\IngresoProductoController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\NotificacionController;
+use App\Http\Controllers\NotificacionUserController;
 use App\Http\Controllers\OrdenVentaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProductoRelacionController;
@@ -109,7 +111,7 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // PRODUCTO SUCURSAL
     Route::get("producto_sucursals/getProductoSucursal", [ProductoSucursalController::class, 'getProductoSucursal'])->name("producto_sucursals.getProductoSucursal");
     Route::get("producto_sucursals/getProductoSucursales", [ProductoSucursalController::class, 'getProductoSucursales'])->name("producto_sucursals.getProductoSucursales");
-    
+
     // RELACION PRODUCTOS
     Route::get("producto_relacions/listadoPorProducto/{producto}", [ProductoRelacionController::class, 'listadoPorProducto'])->name("producto_relacions.listadoPorProducto");
     Route::post("producto_relacions/store/{producto}", [ProductoRelacionController::class, 'store'])->name("productos.relacion");
@@ -158,10 +160,11 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
 
     // PROFORMAS
     Route::get("proformas/api", [ProformaController::class, 'api'])->name("proformas.api");
+    Route::get("proformas/generarPdf/{proforma}", [ProformaController::class, 'generarPdf'])->name("proformas.generarPdf");
     Route::get("proformas/paginado", [ProformaController::class, 'paginado'])->name("proformas.paginado");
     Route::get("proformas/listado", [ProformaController::class, 'listado'])->name("proformas.listado");
     Route::resource("proformas", ProformaController::class)->only(
-        ["index", "store", "show", "update", "destroy"]
+        ["index", "create", "edit", "store", "show", "update", "destroy"]
     );
 
     // PROMOCIONES
@@ -182,6 +185,13 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
 
     // NOTIFICACIONS
     Route::get("notificacions/listadoPorUsuario", [NotificacionController::class, "listadoPorUsuario"])->name("notificacions.listadoPorUsuario");
+    Route::get("notificacions/api", [NotificacionController::class, 'api'])->name("notificacions.api");
+    Route::get("notificacions/paginado", [NotificacionController::class, 'paginado'])->name("notificacions.paginado");
+    Route::get("notificacions/listado", [NotificacionController::class, 'listado'])->name("notificacions.listado");
+    Route::get("notificacions/show/{notificacion_user}", [NotificacionController::class, 'show'])->name("notificacions.show");
+    Route::resource("notificacions", NotificacionController::class)->only(
+        ["index"]
+    );
 
     // REPORTES
     Route::get('reportes/usuarios', [ReporteController::class, 'usuarios'])->name("reportes.usuarios");

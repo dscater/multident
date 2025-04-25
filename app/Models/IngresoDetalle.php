@@ -13,6 +13,7 @@ class IngresoDetalle extends Model
         "ingreso_producto_id",
         "producto_id",
         "cantidad",
+        "disponible",
         "ubicacion_producto_id",
         "fecha_vencimiento",
         "descripcion",

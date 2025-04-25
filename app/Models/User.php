@@ -120,9 +120,9 @@ class User extends Authenticatable
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
-    public function notificacions()
+    public function notificacion_users()
     {
-        return $this->belongsToMany(Notificacion::class, 'notificacion_users', "user_id", "notificacion_id")->withTimestamps()->withPivot(["visto"]);
+        return $this->hasMany(NotificacionUser::class, "user_id");
     }
 
     // FUNCIONES

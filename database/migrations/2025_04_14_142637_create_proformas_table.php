@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger("nro");
             $table->unsignedBigInteger("sucursal_id");
             $table->unsignedBigInteger("cliente_id");
+            $table->string("nit_ci");
             $table->string("factura");
             $table->date("fecha_validez");
             $table->date("fecha_registro")->nullable();
