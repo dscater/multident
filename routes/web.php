@@ -23,7 +23,6 @@ use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UbicacionProductoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuarioController;
-use App\Models\ProductoSucursal;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthenticatedSessionController::class, 'create']);
@@ -108,10 +107,6 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
         ["index", "store", "show", "update", "destroy"]
     );
 
-    // PRODUCTO SUCURSAL
-    Route::get("producto_sucursals/getProductoSucursal", [ProductoSucursalController::class, 'getProductoSucursal'])->name("producto_sucursals.getProductoSucursal");
-    Route::get("producto_sucursals/getProductoSucursales", [ProductoSucursalController::class, 'getProductoSucursales'])->name("producto_sucursals.getProductoSucursales");
-
     // RELACION PRODUCTOS
     Route::get("producto_relacions/listadoPorProducto/{producto}", [ProductoRelacionController::class, 'listadoPorProducto'])->name("producto_relacions.listadoPorProducto");
     Route::post("producto_relacions/store/{producto}", [ProductoRelacionController::class, 'store'])->name("productos.relacion");
@@ -176,10 +171,12 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     );
 
     // PRODUCTO SUCURSAL
-    Route::get("producto_sucursals/api", [ProductoSucursal::class, 'api'])->name("producto_sucursals.api");
-    Route::get("producto_sucursals/paginado", [ProductoSucursal::class, 'paginado'])->name("producto_sucursals.paginado");
-    Route::get("producto_sucursals/listado", [ProductoSucursal::class, 'listado'])->name("producto_sucursals.listado");
-    Route::resource("producto_sucursals", ProductoSucursal::class)->only(
+    Route::get("producto_sucursals/getProductoSucursal", [ProductoSucursalController::class, 'getProductoSucursal'])->name("producto_sucursals.getProductoSucursal");
+    Route::get("producto_sucursals/getProductoSucursales", [ProductoSucursalController::class, 'getProductoSucursales'])->name("producto_sucursals.getProductoSucursales");
+    Route::get("producto_sucursals/api", [ProductoSucursalController::class, 'api'])->name("producto_sucursals.api");
+    Route::get("producto_sucursals/paginado", [ProductoSucursalController::class, 'paginado'])->name("producto_sucursals.paginado");
+    Route::get("producto_sucursals/listado", [ProductoSucursalController::class, 'listado'])->name("producto_sucursals.listado");
+    Route::resource("producto_sucursals", ProductoSucursalController::class)->only(
         ["index"]
     );
 

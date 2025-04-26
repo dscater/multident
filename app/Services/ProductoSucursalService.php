@@ -6,10 +6,101 @@ use App\Models\Producto;
 use App\Models\ProductoSucursal;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProductoSucursalService
 {
+
+    /**
+     * Lista de todos los producto_sucursals
+     *
+     * @return Collection
+     */
+    public function listado(): Collection
+    {
+        $producto_sucursals = ProductoSucursal::with(["sucursal", "producto"])->select("producto_sucursals.*");
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $producto_sucursals->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+
+        $producto_sucursals->where("status", 1);
+        $producto_sucursals = $producto_sucursals->get();
+        return $producto_sucursals;
+    }
+
+    /**
+     * Lista de producto_sucursals paginado con filtros
+     *
+     * @param integer $length
+     * @param integer $page
+     * @param string $search
+     * @param array $columnsSerachLike
+     * @param array $columnsFilter
+     * @param array $columnsBetweenFilter
+     * @param array $orderBy
+     * @return LengthAwarePaginator
+     */
+    public function listadoPaginado(
+        int $length,
+        int $page,
+        string $search = '',
+        array $columnsSerachLike = [],
+        array $columnsFilter = [],
+        array $columnsBetweenFilter = [],
+        array $orderBy = [],
+        int $sucursal_id = 0
+    ): LengthAwarePaginator {
+        $producto_sucursals = Producto::select(
+            'productos.*',
+            DB::raw('IFNULL(producto_sucursals.stock_actual, 0) as stock_actual')
+        )
+            ->leftJoin('producto_sucursals', 'producto_sucursals.producto_id', '=', 'productos.id');
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $producto_sucursals->where("producto_sucursals.sucursal_id", Auth::user()->sucursal_id);
+        }
+
+        if ($sucursal_id != 0) {
+            $producto_sucursals->where("producto_sucursals.sucursal_id", $sucursal_id);
+        }
+
+        // Filtros exactos
+        foreach ($columnsFilter as $key => $value) {
+            if (!is_null($value)) {
+                $producto_sucursals->where("producto_sucursals.$key", $value);
+            }
+        }
+
+        // Filtros por rango
+        foreach ($columnsBetweenFilter as $key => $value) {
+            if (isset($value[0], $value[1])) {
+                $producto_sucursals->whereBetween("producto_sucursals.$key", $value);
+            }
+        }
+
+        // Búsqueda en múltiples columnas con LIKE
+        if (!empty($search) && !empty($columnsSerachLike)) {
+            $producto_sucursals->where(function ($query) use ($search, $columnsSerachLike) {
+                foreach ($columnsSerachLike as $col) {
+                    $query->orWhere("productos.$col", "LIKE", "%$search%");
+                }
+            });
+        }
+
+        // ProductoSucursalamiento
+        foreach ($orderBy as $value) {
+            if (isset($value[0], $value[1])) {
+                $producto_sucursals->orderBy($value[0], $value[1]);
+            }
+        }
+
+        return $producto_sucursals->paginate($length, ['*'], 'page', $page);
+    }
+
     /**
      * Incrementar el stock del producto sucursal
      *
