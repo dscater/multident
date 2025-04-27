@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\IngresoDetalle;
 use App\Models\Notificacion;
 use App\Models\OrdenVenta;
 use App\Models\ProductoSucursal;
@@ -10,6 +11,8 @@ use App\Models\SolicitudProducto;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class NotificacionService
 {
@@ -102,6 +105,7 @@ class NotificacionService
                 ->where("sucursal_id", $producto_sucursal->sucursal_id)
                 ->where("registro_id", $producto_sucursal->id)
                 ->where("modulo", "ProductoSucursal")
+                ->where("fecha", $fecha_actual)
                 ->get()->first();
 
             if (!$existe) {
@@ -155,6 +159,7 @@ class NotificacionService
                 ->where("sucursal_id", $producto_sucursal->sucursal_id)
                 ->where("registro_id", $producto_sucursal->id)
                 ->where("modulo", "ProductoSucursal")
+                ->where("fecha", $fecha_actual)
                 ->get()->first();
 
             if (!$existe) {
@@ -207,6 +212,7 @@ class NotificacionService
                 ->where("sucursal_id", $producto_sucursal->sucursal_id)
                 ->where("registro_id", $producto_sucursal->id)
                 ->where("modulo", "ProductoSucursal")
+                ->where("fecha", $fecha_actual)
                 ->get()->first();
 
             if (!$existe) {
@@ -239,7 +245,87 @@ class NotificacionService
         }
     }
 
+    /**
+     * Notificar Productos por vencer
+     *
+     * @return void
+     */
+    public function notificacion4()
+    {
+        $fecha_actual = date("Y-m-d");
+        $hora = date("H:i:s");
+        $hoy = Carbon::now();
+        $fechaLimite = Carbon::now()->addYear(); // hoy + 12 meses
 
+        $ingreso_detalles = IngresoDetalle::select("ingreso_detalles.*")
+            ->join("ingreso_productos", "ingreso_productos.id", "=", "ingreso_detalles.ingreso_producto_id")
+            ->whereBetween('fecha_vencimiento', [$hoy, $fechaLimite])
+            ->get();
+
+        foreach ($ingreso_detalles as $detalle) {
+            if ($detalle->fecha_vencimiento) {
+                $fechaVencimiento = Carbon::parse($detalle->fecha_vencimiento);
+                $mesesRestantes = (int)Carbon::now()->startOfDay()->diffInMonths($fechaVencimiento->startOfDay(), false);
+
+                if ($mesesRestantes <= 12) {
+                    // Aquí notificarías
+                    $existe = Notificacion::where("fecha", $fecha_actual)
+                        // ->where("tipo", "12 MESES")
+                        ->where("sucursal_id", $detalle->ingreso_producto->sucursal_id)
+                        ->where("registro_id", $detalle->id)
+                        ->where("modulo", "IngresoDetalle")
+                        ->where("fecha", $fecha_actual)
+                        ->get()->first();
+
+                    if (!$existe) {
+                        $crear = false;
+                        Log::debug($mesesRestantes);
+                        if ((int)$mesesRestantes === 3) {
+                            $crear = true;
+                            $tipo = "3 MESES";
+                        } elseif ((int)$mesesRestantes === 6) {
+                            $crear = true;
+                            $tipo = "6 MESES";
+                        } elseif ((int)$mesesRestantes === 9) {
+                            $crear = true;
+                            $tipo = "9 MESES";
+                        } elseif ((int)$mesesRestantes === 12) {
+                            $crear = true;
+                            $tipo = "12 MESES";
+                        }
+                        if ($crear) {
+                            Log::debug("CREARA " . $mesesRestantes);
+                            //Notificacion
+                            $notificacion = Notificacion::create([
+                                "descripcion" => "EL PRODUCTO " . $detalle->producto->nombre . " ESTA A " . $mesesRestantes . " MESES DE SU FECHA DE VENCIMIENTO",
+                                "fecha" => $fecha_actual,
+                                "hora" => $hora,
+                                "tipo" => $tipo,
+                                "sucursal_id" =>  $detalle->ingreso_producto->sucursal_id,
+                                "modulo" => "ProductoSucursal",
+                                "registro_id" => $detalle->id,
+                            ]);
+
+                            // usuarios sucursal todo
+                            $users = $this->getUsuariosNotificacionesSucursalTodo("productos.index");
+                            foreach ($users as $user) {
+                                $user->notificacion_users()->create([
+                                    "notificacion_id" => $notificacion->id,
+                                ]);
+                            }
+                            // usuarios pertenecen sucursal
+                            $users = $this->getUsuariosNotificacionesSucursales("productos.index", (int)$detalle->ingreso_producto->sucursal_id);
+                            foreach ($users as $user) {
+                                $user->notificacion_users()->create([
+                                    "notificacion_id" => $notificacion->id,
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     private function generarUsuariosNotificacion(string $modulo): void
     {
         $roles = Role::join("permisos", "permisos.role_id", "=", "roles.id")

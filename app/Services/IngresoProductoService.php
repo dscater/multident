@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\IngresoDetalle;
 use App\Services\HistorialAccionService;
 use App\Models\IngresoProducto;
 use App\Models\Producto;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
@@ -156,6 +158,14 @@ class IngresoProductoService
     {
         $old_ingreso_producto = clone $ingreso_producto;
         $old_ingreso_producto->loadMissing('ingreso_detalles');
+
+        $existe_uso = IngresoDetalle::where("ingreso_producto_id", $ingreso_producto->id)
+            ->where("status", 1)
+            ->whereColumn("cantidad", "!=", "disponible")
+            ->get();
+        if (count($existe_uso) > 0) {
+            throw new Exception("No se puede eliminar el registro debido a que ya se usarón algunos de sus registros");
+        }
 
         $ingreso_producto->status = 0;
         $ingreso_producto->save();

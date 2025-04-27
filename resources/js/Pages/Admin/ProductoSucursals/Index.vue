@@ -5,6 +5,7 @@ import { useAxios } from "@/composables/axios/useAxios";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
+import axios from "axios";
 // import { useMenu } from "@/composables/useMenu";
 // const { mobile, identificaDispositivo } = useMenu();
 const { props: props_page } = usePage();
@@ -17,6 +18,8 @@ onMounted(() => {
 
 const { axiosDelete } = useAxios();
 
+const listSucursals = ref([]);
+const sucursal_id = ref("");
 const columns = [
     {
         title: "PRODUCTO",
@@ -25,8 +28,22 @@ const columns = [
     {
         title: "STOCK ACTUAL",
         data: "stock_actual",
+        render: function (data, type, row) {
+            return row.stock_actual ?? 0;
+        },
     },
 ];
+
+const cargarSucursals = () => {
+    axios.get(route("sucursals.listado")).then((response) => {
+        listSucursals.value = response.data.sucursals;
+        listSucursals.value.unshift({
+            id: "",
+            nombre: "Seleccionar Sucursal",
+        });
+    });
+};
+
 const loading = ref(false);
 
 const accionesRow = () => {};
@@ -36,15 +53,31 @@ var input_search = null;
 var debounceTimeout = null;
 const loading_table = ref(false);
 const datatableInitialized = ref(false);
+
+const cambiarSucursal = () => {
+    if (!sucursal_id.value) {
+        sucursal_id.value = "";
+    }
+    updateDatatable();
+};
+
 const updateDatatable = () => {
-    datatable.ajax.reload();
+    datatable.ajax
+        .url(
+            route("producto_sucursals.api") +
+                "?sucursal_id=" +
+                sucursal_id.value ?? 0
+        )
+        .load();
 };
 
 onMounted(async () => {
+    cargarSucursals();
     datatable = initDataTable(
         "#table-producto_sucursal",
         columns,
-        route("producto_sucursals.api")+'?sucursal_id=1'
+        route("producto_sucursals.api") + "?sucursal_id=" + sucursal_id.value ??
+            0
     );
     input_search = document.querySelector('input[type="search"]');
 
@@ -88,6 +121,23 @@ onBeforeUnmount(() => {
             <div class="panel panel-inverse">
                 <!-- BEGIN panel-body -->
                 <div class="panel-body">
+                    <el-select
+                        class="w-100 mb-2"
+                        clearable
+                        placeholder="- Seleccionar Sucursal -"
+                        popper-class="custom-header"
+                        no-data-text="Sin datos"
+                        filterable
+                        v-model="sucursal_id"
+                        @change="cambiarSucursal"
+                    >
+                        <el-option
+                            v-for="item in listSucursals"
+                            :key="item.id"
+                            :value="item.id"
+                            :label="item.nombre"
+                        />
+                    </el-select>
                     <table
                         id="table-producto_sucursal"
                         width="100%"

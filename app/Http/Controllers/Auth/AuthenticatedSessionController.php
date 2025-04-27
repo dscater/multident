@@ -46,6 +46,7 @@ class AuthenticatedSessionController extends Controller
         $this->notificacionService->notificacion1();
         $this->notificacionService->notificacion2();
         $this->notificacionService->notificacion3();
+        $this->notificacionService->notificacion4();
         return redirect()->intended(route('inicio'));
     }
 

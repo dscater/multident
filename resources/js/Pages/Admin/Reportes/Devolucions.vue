@@ -1,78 +1,21 @@
-<script>
-const breadbrums = [
-    {
-        title: "Inicio",
-        disabled: false,
-        url: route("inicio"),
-        name_url: "inicio",
-    },
-    {
-        title: "Reporte Ordenes de Venta",
-        disabled: false,
-        url: "",
-        name_url: "",
-    },
-];
-</script>
-
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { computed, onMounted, ref } from "vue";
 import { Head, usePage } from "@inertiajs/vue3";
-import { useAxios } from "@/composables/axios/useAxios";
 
 const { auth } = usePage().props;
 const user = ref(auth.user);
 const { setLoading } = useApp();
-const { axiosGet } = useAxios();
-const obtenerFechaActual = () => {
-    const fecha = new Date();
-    const anio = fecha.getFullYear();
-    const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Mes empieza desde 0
-    const dia = String(fecha.getDate()).padStart(2, "0"); // Día del mes
-    return `${anio}-${mes}-${dia}`;
+
+const cargarListas = () => {
+    cargarSucursals();
 };
 
-const form = ref({
-    formato: "pdf",
-    producto_id: "todos",
-    sucursal_id:
-        auth?.user.sucursals_todo == 0 ? user.value.sucursal_id : "todos",
-    factura: "todos",
-    fecha_ini: obtenerFechaActual(),
-    fecha_fin: obtenerFechaActual(),
-});
-
-const generando = ref(false);
-const txtBtn = computed(() => {
-    if (generando.value) {
-        return "Generando Reporte...";
-    }
-    return "Generar Reporte";
-});
-
-const listFormato = ref([
+const listSucursals = ref([]);
+const listFormatos = ref([
     { value: "pdf", label: "PDF" },
     { value: "excel", label: "EXCEL" },
 ]);
-
-const listSucursals = ref([]);
-const listProductos = ref([]);
-const listFactura = ref([
-    { value: "todos", label: "TODOS" },
-    { value: "SI", label: "SI" },
-    { value: "NO", label: "NO" },
-]);
-
-const cargarProductos = async () => {
-    axios.get(route("productos.listado")).then((response) => {
-        listProductos.value = response.data.productos;
-        listProductos.value.unshift({
-            id: "todos",
-            nombre: "TODOS",
-        });
-    });
-};
 
 const cargarSucursals = async () => {
     axios.get(route("sucursals.listado")).then((response) => {
@@ -84,18 +27,12 @@ const cargarSucursals = async () => {
     });
 };
 
-const cargarListas = () => {
-    cargarProductos();
-    cargarSucursals();
-};
-
-const generarReporte = () => {
-    generando.value = true;
-    const url = route("reportes.r_orden_ventas", form.value);
-    window.open(url, "_blank");
-    setTimeout(() => {
-        generando.value = false;
-    }, 500);
+const obtenerFechaActual = () => {
+    const fecha = new Date();
+    const anio = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Mes empieza desde 0
+    const dia = String(fecha.getDate()).padStart(2, "0"); // Día del mes
+    return `${anio}-${mes}-${dia}`;
 };
 
 onMounted(() => {
@@ -104,17 +41,42 @@ onMounted(() => {
         setLoading(false);
     }, 300);
 });
+
+const form = ref({
+    sucursal_id:
+        auth?.user.sucursals_todo == 0 ? user.value.sucursal_id : "todos",
+    fecha_ini: obtenerFechaActual(),
+    fecha_fin: obtenerFechaActual(),
+    formato: "pdf",
+});
+
+const generando = ref(false);
+const txtBtn = computed(() => {
+    if (generando.value) {
+        return "Generando Reporte...";
+    }
+    return "Generar Reporte";
+});
+
+const generarReporte = () => {
+    generando.value = true;
+    const url = route("reportes.r_devolucions", form.value);
+    window.open(url, "_blank");
+    setTimeout(() => {
+        generando.value = false;
+    }, 500);
+};
 </script>
 <template>
-    <Head title="Reporte Ordenes de Venta"></Head>
+    <Head title="Reporte Devoluciones"></Head>
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Reportes > Ordenes de Venta</li>
+        <li class="breadcrumb-item active">Reportes > Devoluciones</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Reportes > Ordenes de Venta</h1>
+    <h1 class="page-header">Reportes > Devoluciones</h1>
     <!-- END page-header -->
     <div class="row">
         <div class="col-md-6 mx-auto">
@@ -144,79 +106,51 @@ onMounted(() => {
                                     </el-option>
                                 </el-select>
                             </div>
-                            <div class="col-md-12 mb-2">
-                                <label>Seleccionar producto*</label>
-                                <el-select
-                                    :hide-details="
-                                        form.errors?.producto_id ? false : true
-                                    "
-                                    :error="
-                                        form.errors?.producto_id ? true : false
-                                    "
-                                    :error-messages="
-                                        form.errors?.producto_id
-                                            ? form.errors?.producto_id
-                                            : ''
-                                    "
-                                    v-model="form.producto_id"
-                                    class="w-100"
-                                    filterable
-                                >
-                                    <el-option
-                                        v-for="item in listProductos"
-                                        :key="item.id"
-                                        :value="item.id"
-                                        :label="item.nombre"
-                                    >
-                                    </el-option>
-                                </el-select>
-                            </div>
-                            <div class="col-md-12 mb-2">
-                                <label>Con Factura</label>
-                                <el-select
-                                    :hide-details="
-                                        form.errors?.factura ? false : true
-                                    "
-                                    :error="form.errors?.factura ? true : false"
-                                    :error-messages="
-                                        form.errors?.factura
-                                            ? form.errors?.factura
-                                            : ''
-                                    "
-                                    v-model="form.factura"
-                                    class="w-100"
-                                    filterable
-                                >
-                                    <el-option
-                                        v-for="item in listFactura"
-                                        :key="item.value"
-                                        :value="item.value"
-                                        :label="item.label"
-                                    >
-                                    </el-option>
-                                </el-select>
-                            </div>
-                            <div class="col-12">
+                            <div class="col-12 mb-2">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Fecha inicio*</label>
+                                        <label>Fecha Inicio</label>
                                         <input
                                             type="date"
-                                            v-model="form.fecha_ini"
                                             class="form-control"
+                                            :class="{
+                                                'parsley-error':
+                                                    form.errors?.fecha_ini,
+                                            }"
+                                            v-model="form.fecha_ini"
                                         />
+                                        <ul
+                                            v-if="form.errors?.fecha_ini"
+                                            class="parsley-errors-list filled"
+                                        >
+                                            <li class="parsley-required">
+                                                {{ form.errors?.fecha_ini }}
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="col-md-6">
-                                        <label>Fecha final*</label>
+                                        <label>Fecha Fin</label>
                                         <input
                                             type="date"
-                                            v-model="form.fecha_fin"
                                             class="form-control"
+                                            :class="{
+                                                'parsley-error':
+                                                    form.errors?.fecha_fin,
+                                            }"
+                                            v-model="form.fecha_fin"
                                         />
+                                        <ul
+                                            v-if="form.errors?.fecha_fin"
+                                            class="parsley-errors-list filled"
+                                        >
+                                            <li class="parsley-required">
+                                                {{ form.errors?.fecha_fin }}
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 mt-2">
+                            <div class="col-md-12 mb-2">
                                 <label>Seleccionar formato*</label>
                                 <select
                                     :hide-details="
@@ -232,7 +166,7 @@ onMounted(() => {
                                     class="form-control"
                                 >
                                     <option
-                                        v-for="item in listFormato"
+                                        v-for="item in listFormatos"
                                         :value="item.value"
                                     >
                                         {{ item.label }}

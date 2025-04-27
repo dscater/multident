@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 25-04-2025 a las 00:21:37
+-- Tiempo de generación: 27-04-2025 a las 01:22:42
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -97,11 +97,12 @@ CREATE TABLE `detalle_ordens` (
 --
 
 INSERT INTO `detalle_ordens` (`id`, `orden_venta_id`, `producto_id`, `promocion_id`, `promocion_descuento`, `cantidad`, `precio_reg`, `precio`, `subtotal`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 2, 10.00, 10, 180.00, 180.00, 1800.00, 1, '2025-04-24 22:56:30', '2025-04-24 22:56:30'),
+(1, 1, 15, 2, 10.00, 10, 180.00, 198.00, 1980.00, 1, '2025-04-24 22:56:30', '2025-04-26 22:17:22'),
 (2, 2, 15, 2, 10.00, 20, 180.00, 180.00, 3600.00, 0, '2025-04-24 22:56:54', '2025-04-24 22:57:07'),
 (3, 2, 18, NULL, NULL, 3, 100.50, 100.50, 301.50, 1, '2025-04-24 22:56:54', '2025-04-24 22:56:54'),
 (4, 2, 15, 2, 10.00, 12, 180.00, 180.00, 2160.00, 0, '2025-04-24 23:07:01', '2025-04-24 23:07:37'),
-(6, 4, 15, 2, 10.00, 20, 180.00, 180.00, 3600.00, 1, '2025-04-25 00:16:58', '2025-04-25 00:16:58');
+(6, 4, 15, 2, 10.00, 20, 180.00, 180.00, 3600.00, 1, '2025-04-25 00:16:58', '2025-04-25 00:16:58'),
+(7, 1, 16, NULL, NULL, 1, 200.00, 210.00, 210.00, 1, '2025-04-26 22:05:15', '2025-04-26 22:17:22');
 
 -- --------------------------------------------------------
 
@@ -123,6 +124,14 @@ CREATE TABLE `detalle_proformas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `detalle_proformas`
+--
+
+INSERT INTO `detalle_proformas` (`id`, `proforma_id`, `producto_id`, `promocion_id`, `promocion_descuento`, `cantidad`, `precio_reg`, `precio`, `subtotal`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 15, 2, 10.00, 20, 180.00, 180.00, 3600.00, 1, '2025-04-26 23:56:09', '2025-04-26 23:56:09'),
+(2, 2, 16, NULL, NULL, 30, 200.00, 200.00, 6000.00, 1, '2025-04-26 23:56:26', '2025-04-26 23:56:26');
 
 -- --------------------------------------------------------
 
@@ -146,14 +155,15 @@ CREATE TABLE `detalle_usos` (
 --
 
 INSERT INTO `detalle_usos` (`id`, `orden_venta_id`, `detalle_orden_id`, `producto_id`, `ingreso_detalle_id`, `cantidad`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 15, 1, 10, '2025-04-24 22:56:30', '2025-04-24 22:56:30'),
 (2, 2, 2, 15, 1, 10, '2025-04-24 22:56:54', '2025-04-24 22:56:54'),
 (3, 2, 2, 15, 4, 10, '2025-04-24 22:56:54', '2025-04-24 22:56:54'),
 (8, 2, 3, 18, 3, 3, '2025-04-24 23:07:14', '2025-04-24 23:07:14'),
 (9, 2, 4, 15, 1, 10, '2025-04-24 23:07:14', '2025-04-24 23:07:14'),
 (10, 2, 4, 15, 4, 2, '2025-04-24 23:07:14', '2025-04-24 23:07:14'),
 (13, 4, 6, 15, 1, 10, '2025-04-25 00:16:58', '2025-04-25 00:16:58'),
-(14, 4, 6, 15, 4, 10, '2025-04-25 00:16:58', '2025-04-25 00:16:58');
+(14, 4, 6, 15, 4, 10, '2025-04-25 00:16:58', '2025-04-25 00:16:58'),
+(17, 1, 1, 15, 1, 10, '2025-04-26 22:17:22', '2025-04-26 22:17:22'),
+(18, 1, 7, 16, 2, 1, '2025-04-26 22:17:22', '2025-04-26 22:17:22');
 
 -- --------------------------------------------------------
 
@@ -214,7 +224,15 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (6, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA ORDEN DE VENTA', '{\"id\": 2, \"nro\": 2, \"nit_ci\": \"0\", \"status\": 1, \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 2, \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 3, \"precio\": \"100.50\", \"status\": 1, \"cantidad\": 3, \"subtotal\": \"301.50\", \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"producto_id\": 18, \"promocion_id\": null, \"orden_venta_id\": 2, \"promocion_descuento\": null}], \"fecha_registro\": \"2025-04-24\"}', '{\"id\": 2, \"nro\": 2, \"nit_ci\": \"0\", \"status\": 1, \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 2, \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 3, \"precio\": \"100.50\", \"status\": 1, \"cantidad\": 3, \"subtotal\": \"301.50\", \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"producto_id\": 18, \"promocion_id\": null, \"orden_venta_id\": 2, \"promocion_descuento\": null}, {\"id\": 4, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"180.00\", \"created_at\": \"2025-04-24T23:07:01.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-24T23:07:01.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 2, \"promocion_descuento\": 10}], \"fecha_registro\": \"2025-04-24\"}', 'ORDENES DE VENTA', '2025-04-24', '19:07:01', '2025-04-24 23:07:01', '2025-04-24 23:07:01'),
 (7, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA ORDEN DE VENTA', '{\"id\": 2, \"nro\": 2, \"nit_ci\": \"0\", \"status\": 1, \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 2, \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 3, \"precio\": \"100.50\", \"status\": 1, \"cantidad\": 3, \"subtotal\": \"301.50\", \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"producto_id\": 18, \"promocion_id\": null, \"orden_venta_id\": 2, \"promocion_descuento\": null}, {\"id\": 4, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"180.00\", \"created_at\": \"2025-04-24T23:07:01.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-24T23:07:01.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 2, \"promocion_descuento\": 10}], \"fecha_registro\": \"2025-04-24\"}', '{\"id\": 2, \"nro\": 2, \"nit_ci\": \"0\", \"status\": 1, \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 2, \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 3, \"precio\": \"100.50\", \"status\": 1, \"cantidad\": 3, \"subtotal\": \"301.50\", \"created_at\": \"2025-04-24T22:56:54.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-24T22:56:54.000000Z\", \"producto_id\": 18, \"promocion_id\": null, \"orden_venta_id\": 2, \"promocion_descuento\": null}, {\"id\": 4, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 12, \"subtotal\": \"2160.00\", \"created_at\": \"2025-04-24T23:07:01.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-24T23:07:14.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 2, \"promocion_descuento\": 10}], \"fecha_registro\": \"2025-04-24\"}', 'ORDENES DE VENTA', '2025-04-24', '19:07:14', '2025-04-24 23:07:14', '2025-04-24 23:07:14'),
 (8, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA DEVOLUCIÓN', '{\"id\": 1, \"razon\": \"INCORRECTO\", \"created_at\": \"2025-04-24T23:07:37.000000Z\", \"updated_at\": \"2025-04-24T23:07:37.000000Z\", \"descripcion\": \"DESC\", \"producto_id\": 15, \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-04-24\", \"orden_venta_id\": \"2\", \"detalle_orden_id\": 4}', NULL, 'DEVOLUCIONES', '2025-04-24', '19:07:37', '2025-04-24 23:07:37', '2025-04-24 23:07:37'),
-(9, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 4, \"nro\": 3, \"nit_ci\": \"3222323\", \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-25T00:16:58.000000Z\", \"updated_at\": \"2025-04-25T00:16:58.000000Z\", \"sucursal_id\": \"1\", \"detalle_ordens\": [{\"id\": 6, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"3600.00\", \"created_at\": \"2025-04-25T00:16:58.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-25T00:16:58.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 4, \"promocion_descuento\": 10}], \"fecha_registro\": \"2025-04-24\"}', NULL, 'ORDENES DE VENTA', '2025-04-24', '20:16:58', '2025-04-25 00:16:58', '2025-04-25 00:16:58');
+(9, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 4, \"nro\": 3, \"nit_ci\": \"3222323\", \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-25T00:16:58.000000Z\", \"updated_at\": \"2025-04-25T00:16:58.000000Z\", \"sucursal_id\": \"1\", \"detalle_ordens\": [{\"id\": 6, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"3600.00\", \"created_at\": \"2025-04-25T00:16:58.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-25T00:16:58.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 4, \"promocion_descuento\": 10}], \"fecha_registro\": \"2025-04-24\"}', NULL, 'ORDENES DE VENTA', '2025-04-24', '20:16:58', '2025-04-25 00:16:58', '2025-04-25 00:16:58'),
+(10, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA ORDEN DE VENTA', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"updated_at\": \"2025-04-24T22:56:30.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 1, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 10, \"subtotal\": \"1800.00\", \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-24T22:56:30.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 1, \"promocion_descuento\": 10}], \"fecha_registro\": \"2025-04-24\"}', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"updated_at\": \"2025-04-24T22:56:30.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 1, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 10, \"subtotal\": \"1800.00\", \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-24T22:56:30.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 1, \"promocion_descuento\": 10}, {\"id\": 7, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"200.00\", \"created_at\": \"2025-04-26T22:05:15.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-26T22:05:15.000000Z\", \"producto_id\": 16, \"promocion_id\": null, \"orden_venta_id\": 1, \"promocion_descuento\": null}], \"fecha_registro\": \"2025-04-24\"}', 'ORDENES DE VENTA', '2025-04-26', '18:05:15', '2025-04-26 22:05:15', '2025-04-26 22:05:15'),
+(11, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA ORDEN DE VENTA', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"updated_at\": \"2025-04-24T22:56:30.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 1, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 10, \"subtotal\": \"1800.00\", \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-24T22:56:30.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 1, \"promocion_descuento\": 10}, {\"id\": 7, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"200.00\", \"created_at\": \"2025-04-26T22:05:15.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-26T22:05:15.000000Z\", \"producto_id\": 16, \"promocion_id\": null, \"orden_venta_id\": 1, \"promocion_descuento\": null}], \"fecha_registro\": \"2025-04-24\"}', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"updated_at\": \"2025-04-26T22:17:22.000000Z\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 1, \"precio\": \"198.00\", \"status\": 1, \"cantidad\": 10, \"subtotal\": \"1980.00\", \"created_at\": \"2025-04-24T22:56:30.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-26T22:17:22.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 1, \"promocion_descuento\": 10}, {\"id\": 7, \"precio\": \"210.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"210.00\", \"created_at\": \"2025-04-26T22:05:15.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-26T22:17:22.000000Z\", \"producto_id\": 16, \"promocion_id\": null, \"orden_venta_id\": 1, \"promocion_descuento\": null}], \"fecha_registro\": \"2025-04-24\"}', 'ORDENES DE VENTA', '2025-04-26', '18:17:22', '2025-04-26 22:17:22', '2025-04-26 22:17:22'),
+(12, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SALIDA DE PRODUCTOS', '{\"id\": 1, \"cantidad\": \"1\", \"created_at\": \"2025-04-26T23:30:14.000000Z\", \"updated_at\": \"2025-04-26T23:30:14.000000Z\", \"descripcion\": \"\", \"producto_id\": \"15\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-04-26\"}', NULL, 'SALIDA DE PRODUCTOS', '2025-04-26', '19:30:14', '2025-04-26 23:30:14', '2025-04-26 23:30:14'),
+(13, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA SALIDA DE PRODUCTOS', '{\"id\": 1, \"status\": 1, \"cantidad\": 1, \"producto\": {\"id\": 15, \"foto\": \"151744662823.png\", \"nombre\": \"PRODUCTO A\", \"status\": 1, \"foto_b64\": \"data:image/png;base64,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\", \"monto_cf\": 220, \"monto_sf\": 200, \"url_foto\": \"http://multident.test/imgs/productos/151744662823.png\", \"precio_sf\": \"0.00\", \"created_at\": \"2025-04-14T20:26:05.000000Z\", \"precio_fac\": \"10.00\", \"precio_min\": \"160.00\", \"updated_at\": \"2025-04-22T21:28:09.000000Z\", \"descripcion\": \"DESCRIPCION PRODUCTO\", \"precio_pred\": \"200.00\", \"stock_maximo\": 50, \"fecha_registro\": \"2025-04-14\", \"fecha_registro_t\": \"14/04/2025\"}, \"created_at\": \"2025-04-26T23:30:14.000000Z\", \"updated_at\": \"2025-04-26T23:30:14.000000Z\", \"descripcion\": \"\", \"producto_id\": 15, \"sucursal_id\": 1, \"fecha_registro\": \"2025-04-26\"}', '{\"id\": 1, \"status\": 1, \"cantidad\": \"3\", \"created_at\": \"2025-04-26T23:30:14.000000Z\", \"updated_at\": \"2025-04-26T23:30:32.000000Z\", \"descripcion\": \"\", \"producto_id\": \"15\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-04-26\"}', 'SALIDA DE PRODUCTOS', '2025-04-26', '19:30:32', '2025-04-26 23:30:32', '2025-04-26 23:30:32'),
+(14, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PROFORMA', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"factura\": \"NO\", \"user_id\": 1, \"cliente_id\": 1, \"created_at\": \"2025-04-26T23:56:09.000000Z\", \"updated_at\": \"2025-04-26T23:56:09.000000Z\", \"sucursal_id\": \"1\", \"fecha_validez\": \"2025-05-31\", \"fecha_registro\": \"2025-04-26\", \"detalle_proformas\": [{\"id\": 1, \"precio\": \"180.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"3600.00\", \"created_at\": \"2025-04-26T23:56:09.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-04-26T23:56:09.000000Z\", \"producto_id\": 15, \"proforma_id\": 1, \"promocion_id\": 2, \"promocion_descuento\": 10}]}', NULL, 'PROFORMAS', '2025-04-26', '19:56:09', '2025-04-26 23:56:09', '2025-04-26 23:56:09'),
+(15, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PROFORMA', '{\"id\": 2, \"nro\": 2, \"nit_ci\": \"0\", \"factura\": \"NO\", \"user_id\": 1, \"cliente_id\": 2, \"created_at\": \"2025-04-26T23:56:26.000000Z\", \"updated_at\": \"2025-04-26T23:56:26.000000Z\", \"sucursal_id\": \"2\", \"fecha_validez\": \"2025-05-05\", \"fecha_registro\": \"2025-04-26\", \"detalle_proformas\": [{\"id\": 2, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 30, \"subtotal\": \"6000.00\", \"created_at\": \"2025-04-26T23:56:26.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-26T23:56:26.000000Z\", \"producto_id\": 16, \"proforma_id\": 2, \"promocion_id\": null, \"promocion_descuento\": null}]}', NULL, 'PROFORMAS', '2025-04-26', '19:56:26', '2025-04-26 23:56:26', '2025-04-26 23:56:26'),
+(16, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTOS', '{\"id\": 10, \"created_at\": \"2025-04-27T00:18:48.000000Z\", \"updated_at\": \"2025-04-27T00:18:48.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-04-26\", \"ingreso_detalles\": [{\"id\": 5, \"status\": 1, \"cantidad\": 1, \"created_at\": \"2025-04-27T00:18:48.000000Z\", \"disponible\": 1, \"updated_at\": \"2025-04-27T00:18:48.000000Z\", \"descripcion\": \"\", \"producto_id\": 15, \"fecha_registro\": \"2025-04-26\", \"fecha_registro_t\": \"26/04/2025\", \"fecha_vencimiento\": null, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 10, \"ubicacion_producto_id\": 1}]}', NULL, 'INGRESO DE PRODUCTOS', '2025-04-26', '20:18:48', '2025-04-27 00:18:48', '2025-04-27 00:18:48'),
+(17, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN INGRESO DE PRODUCTOS', '{\"id\": 10, \"status\": 1, \"created_at\": \"2025-04-27T00:18:48.000000Z\", \"updated_at\": \"2025-04-27T00:18:48.000000Z\", \"descripcion\": \"\", \"sucursal_id\": 1, \"fecha_registro\": \"2025-04-26\", \"ingreso_detalles\": [{\"id\": 5, \"status\": 1, \"cantidad\": 1, \"created_at\": \"2025-04-27T00:18:48.000000Z\", \"disponible\": 1, \"updated_at\": \"2025-04-27T00:18:48.000000Z\", \"descripcion\": \"\", \"producto_id\": 15, \"fecha_registro\": \"2025-04-26\", \"fecha_registro_t\": \"26/04/2025\", \"fecha_vencimiento\": null, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 10, \"ubicacion_producto_id\": 1}]}', '{\"id\": 10, \"status\": 0, \"created_at\": \"2025-04-27T00:18:48.000000Z\", \"updated_at\": \"2025-04-27T00:21:33.000000Z\", \"descripcion\": \"\", \"sucursal_id\": 1, \"fecha_registro\": \"2025-04-26\", \"ingreso_detalles\": [{\"id\": 5, \"status\": 0, \"cantidad\": 1, \"created_at\": \"2025-04-27T00:18:48.000000Z\", \"disponible\": 1, \"updated_at\": \"2025-04-27T00:21:33.000000Z\", \"descripcion\": \"\", \"producto_id\": 15, \"fecha_registro\": \"2025-04-26\", \"fecha_registro_t\": \"26/04/2025\", \"fecha_vencimiento\": null, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 10, \"ubicacion_producto_id\": 1}]}', 'INGRESO DE PRODUCTOS', '2025-04-26', '20:21:33', '2025-04-27 00:21:33', '2025-04-27 00:21:33');
 
 -- --------------------------------------------------------
 
@@ -242,10 +260,11 @@ CREATE TABLE `ingreso_detalles` (
 --
 
 INSERT INTO `ingreso_detalles` (`id`, `ingreso_producto_id`, `producto_id`, `cantidad`, `disponible`, `ubicacion_producto_id`, `fecha_vencimiento`, `descripcion`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 20, 0, 1, '2026-01-01', 'DESC', '2025-04-24', 1, '2025-04-24 22:55:46', '2025-04-25 00:16:58'),
-(2, 1, 16, 20, 20, 1, '2026-02-02', '', '2025-04-24', 1, '2025-04-24 22:55:46', '2025-04-24 22:55:46'),
+(1, 1, 15, 20, 0, 1, '2026-04-26', 'DESC', '2025-04-24', 1, '2025-04-24 22:55:46', '2025-04-26 22:17:22'),
+(2, 1, 16, 20, 19, 1, '2026-02-02', '', '2025-04-24', 1, '2025-04-24 22:55:46', '2025-04-26 22:17:22'),
 (3, 1, 18, 30, 27, 2, NULL, '', '2025-04-24', 1, '2025-04-24 22:55:46', '2025-04-24 23:07:14'),
-(4, 2, 15, 30, 20, 1, '2026-01-01', '', '2025-04-24', 1, '2025-04-24 22:56:09', '2025-04-25 00:16:58');
+(4, 2, 15, 30, 17, 1, '2026-01-01', '', '2025-04-24', 1, '2025-04-24 22:56:09', '2025-04-26 23:30:32'),
+(5, 10, 15, 1, 1, 1, NULL, '', '2025-04-26', 0, '2025-04-27 00:18:48', '2025-04-27 00:21:33');
 
 -- --------------------------------------------------------
 
@@ -269,7 +288,8 @@ CREATE TABLE `ingreso_productos` (
 
 INSERT INTO `ingreso_productos` (`id`, `sucursal_id`, `fecha_registro`, `descripcion`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, '2025-04-24', '', 1, '2025-04-24 22:55:46', '2025-04-24 22:55:46'),
-(2, 1, '2025-04-24', '', 1, '2025-04-24 22:56:09', '2025-04-24 22:56:09');
+(2, 1, '2025-04-24', '', 1, '2025-04-24 22:56:09', '2025-04-24 22:56:09'),
+(10, 1, '2025-04-26', '', 0, '2025-04-27 00:18:48', '2025-04-27 00:21:33');
 
 -- --------------------------------------------------------
 
@@ -323,7 +343,19 @@ INSERT INTO `kardex_productos` (`id`, `sucursal_id`, `tipo_registro`, `registro_
 (16, 1, 'ORDEN DE VENTA', 4, 'DetalleOrden', 15, 'POR MODIFICACIÓN DE ORDEN DE VENTA', 200.00, 'INGRESO', 1, NULL, 40, 200.00, 200.00, NULL, 8000.00, '2025-04-24', 1, '2025-04-24 23:07:14', '2025-04-24 23:07:14'),
 (17, 1, 'ORDEN DE VENTA', 4, 'DetalleOrden', 15, 'VENTA DE PRODUCTO (MODIFICACIÓN)', 200.00, 'EGRESO', NULL, 12, 28, 200.00, NULL, 2400.00, 5600.00, '2025-04-24', 1, '2025-04-24 23:07:14', '2025-04-24 23:07:14'),
 (18, 1, 'DEVOLUCIÓN', 1, 'Devolucion', 15, 'INGRESO POR DEVOLUCIÓN DE PRODUCTO POR INCORRECTO', 200.00, 'INGRESO', 12, NULL, 40, 200.00, 2400.00, NULL, 8000.00, '2025-04-24', 1, '2025-04-24 23:07:37', '2025-04-24 23:07:37'),
-(20, 1, 'ORDEN DE VENTA', 6, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 20, 20, 200.00, NULL, 4000.00, 4000.00, '2025-04-24', 1, '2025-04-25 00:16:58', '2025-04-25 00:16:58');
+(20, 1, 'ORDEN DE VENTA', 6, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 20, 20, 200.00, NULL, 4000.00, 4000.00, '2025-04-24', 1, '2025-04-25 00:16:58', '2025-04-25 00:16:58'),
+(21, 1, 'ORDEN DE VENTA', 1, 'DetalleOrden', 15, 'POR MODIFICACIÓN DE ORDEN DE VENTA', 200.00, 'INGRESO', 10, NULL, 30, 200.00, 2000.00, NULL, 6000.00, '2025-04-26', 1, '2025-04-26 22:05:15', '2025-04-26 22:05:15'),
+(22, 1, 'ORDEN DE VENTA', 1, 'DetalleOrden', 15, 'VENTA DE PRODUCTO (MODIFICACIÓN)', 200.00, 'EGRESO', NULL, 10, 20, 200.00, NULL, 2000.00, 4000.00, '2025-04-26', 1, '2025-04-26 22:05:15', '2025-04-26 22:05:15'),
+(23, 1, 'ORDEN DE VENTA', 7, 'DetalleOrden', 16, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 1, 19, 200.00, NULL, 200.00, 3800.00, '2025-04-26', 1, '2025-04-26 22:05:15', '2025-04-26 22:05:15'),
+(24, 1, 'ORDEN DE VENTA', 1, 'DetalleOrden', 15, 'POR MODIFICACIÓN DE ORDEN DE VENTA', 200.00, 'INGRESO', 10, NULL, 30, 200.00, 2000.00, NULL, 6000.00, '2025-04-26', 1, '2025-04-26 22:17:22', '2025-04-26 22:17:22'),
+(25, 1, 'ORDEN DE VENTA', 1, 'DetalleOrden', 15, 'VENTA DE PRODUCTO (MODIFICACIÓN)', 200.00, 'EGRESO', NULL, 10, 20, 200.00, NULL, 2000.00, 4000.00, '2025-04-26', 1, '2025-04-26 22:17:22', '2025-04-26 22:17:22'),
+(26, 1, 'ORDEN DE VENTA', 7, 'DetalleOrden', 16, 'POR MODIFICACIÓN DE ORDEN DE VENTA', 200.00, 'INGRESO', 1, NULL, 20, 200.00, 200.00, NULL, 4000.00, '2025-04-26', 1, '2025-04-26 22:17:22', '2025-04-26 22:17:22'),
+(27, 1, 'ORDEN DE VENTA', 7, 'DetalleOrden', 16, 'VENTA DE PRODUCTO (MODIFICACIÓN)', 200.00, 'EGRESO', NULL, 1, 19, 200.00, NULL, 200.00, 3800.00, '2025-04-26', 1, '2025-04-26 22:17:22', '2025-04-26 22:17:22'),
+(28, 1, 'SALIDA DE PRODUCTO', 1, 'SalidaProducto', 15, 'SALIDA DE PRODUCTO', 200.00, 'EGRESO', NULL, 1, 19, 200.00, NULL, 200.00, 3800.00, '2025-04-26', 1, '2025-04-26 23:30:14', '2025-04-26 23:30:14'),
+(29, 1, 'SALIDA DE PRODUCTO', 1, 'SalidaProducto', 15, 'INGRESO POR MODIFICACIÓN SALIDA DE PRODUCTO', 0.00, 'INGRESO', 1, NULL, 20, 200.00, 0.00, NULL, 3800.00, '2025-04-26', 1, '2025-04-26 23:30:32', '2025-04-26 23:30:32'),
+(30, 1, 'SALIDA DE PRODUCTO', 1, 'SalidaProducto', 15, 'EGRESO POR MODIFICACIÓN DE SALIDA DE PRODUCTO', 200.00, 'EGRESO', NULL, 3, 17, 200.00, NULL, 600.00, 3200.00, '2025-04-26', 1, '2025-04-26 23:30:32', '2025-04-26 23:30:32'),
+(31, 1, 'INGRESO DE PRODUCTO', 5, 'IngresoDetalle', 15, 'INGRESO DE PRODUCTO', 200.00, 'INGRESO', 1, NULL, 18, 200.00, 200.00, NULL, 3400.00, '2025-04-26', 1, '2025-04-27 00:18:48', '2025-04-27 00:18:48'),
+(32, 1, 'INGRESO DE PRODUCTO', 5, 'IngresoDetalle', 15, 'ELIMINACIÓN DE INGRESO DE PRODUCTO', 200.00, 'EGRESO', NULL, 1, 17, 200.00, NULL, 200.00, 3200.00, '2025-04-26', 1, '2025-04-27 00:21:33', '2025-04-27 00:21:33');
 
 -- --------------------------------------------------------
 
@@ -467,7 +499,7 @@ CREATE TABLE `notificacions` (
   `hora` time NOT NULL,
   `tipo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `sucursal_id` bigint UNSIGNED NOT NULL,
-  `modulo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `modulo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `registro_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -479,7 +511,13 @@ CREATE TABLE `notificacions` (
 
 INSERT INTO `notificacions` (`id`, `descripcion`, `fecha`, `hora`, `tipo`, `sucursal_id`, `modulo`, `registro_id`, `created_at`, `updated_at`) VALUES
 (1, 'STOCK DEL PRODUCTO PRODUCTO A1 ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-24', '19:40:08', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 2, '2025-04-24 23:40:08', '2025-04-24 23:40:08'),
-(2, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-24', '20:16:58', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-04-25 00:16:58', '2025-04-25 00:16:58');
+(2, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-24', '20:16:58', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-04-25 00:16:58', '2025-04-25 00:16:58'),
+(3, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-25', '20:49:21', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-04-26 00:49:22', '2025-04-26 00:49:22'),
+(4, 'STOCK DEL PRODUCTO PRODUCTO A1 ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-25', '20:49:21', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 2, '2025-04-26 00:49:22', '2025-04-26 00:49:22'),
+(5, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-26', '21:17:58', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-04-27 01:17:58', '2025-04-27 01:17:58'),
+(6, 'STOCK DEL PRODUCTO PRODUCTO A1 ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-26', '21:17:58', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 2, '2025-04-27 01:17:58', '2025-04-27 01:17:58'),
+(7, 'EL PRODUCTO PRODUCTO A ESTA A 12 MESES DE SU FECHA DE VENCIMIENTO', '2025-04-26', '21:21:28', '12 MESES', 1, 'ProductoSucursal', 1, '2025-04-27 01:21:28', '2025-04-27 01:21:28'),
+(8, 'EL PRODUCTO PRODUCTO A1 ESTA A 9 MESES DE SU FECHA DE VENCIMIENTO', '2025-04-26', '21:21:28', '9 MESES', 1, 'ProductoSucursal', 2, '2025-04-27 01:21:28', '2025-04-27 01:21:28');
 
 -- --------------------------------------------------------
 
@@ -505,7 +543,17 @@ INSERT INTO `notificacion_users` (`id`, `user_id`, `notificacion_id`, `visto`, `
 (2, 3, 1, 0, '2025-04-24 23:40:08', '2025-04-24 23:40:08'),
 (3, 4, 1, 0, '2025-04-24 23:40:08', '2025-04-24 23:40:08'),
 (4, 1, 2, 1, '2025-04-25 00:16:58', '2025-04-25 00:17:04'),
-(5, 4, 2, 0, '2025-04-25 00:16:58', '2025-04-25 00:16:58');
+(5, 4, 2, 0, '2025-04-25 00:16:58', '2025-04-25 00:16:58'),
+(6, 1, 3, 1, '2025-04-26 00:49:22', '2025-04-26 00:50:16'),
+(7, 4, 3, 0, '2025-04-26 00:49:22', '2025-04-26 00:49:22'),
+(8, 1, 4, 1, '2025-04-26 00:49:22', '2025-04-26 00:50:39'),
+(9, 4, 4, 0, '2025-04-26 00:49:22', '2025-04-26 00:49:22'),
+(10, 1, 7, 1, '2025-04-27 01:21:28', '2025-04-27 01:21:36'),
+(11, 3, 7, 0, '2025-04-27 01:21:28', '2025-04-27 01:21:28'),
+(12, 4, 7, 0, '2025-04-27 01:21:28', '2025-04-27 01:21:28'),
+(13, 1, 8, 1, '2025-04-27 01:21:28', '2025-04-27 01:21:31'),
+(14, 3, 8, 0, '2025-04-27 01:21:28', '2025-04-27 01:21:28'),
+(15, 4, 8, 0, '2025-04-27 01:21:28', '2025-04-27 01:21:28');
 
 -- --------------------------------------------------------
 
@@ -533,7 +581,7 @@ CREATE TABLE `orden_ventas` (
 --
 
 INSERT INTO `orden_ventas` (`id`, `nro`, `user_id`, `sucursal_id`, `cliente_id`, `nit_ci`, `factura`, `tipo_pago`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, '3222323', 'NO', 'EFECTIVO', '2025-04-24', 1, '2025-04-24 22:56:30', '2025-04-24 22:56:30'),
+(1, 1, 1, 1, 1, '3222323', 'SI', 'EFECTIVO', '2025-04-24', 1, '2025-04-24 22:56:30', '2025-04-26 22:17:22'),
 (2, 2, 1, 1, 2, '0', 'NO', 'EFECTIVO', '2025-04-24', 1, '2025-04-24 22:56:54', '2025-04-24 22:56:54'),
 (4, 3, 1, 1, 1, '3222323', 'NO', 'EFECTIVO', '2025-04-24', 1, '2025-04-25 00:16:58', '2025-04-25 00:16:58');
 
@@ -570,7 +618,17 @@ INSERT INTO `permisos` (`id`, `role_id`, `modulo_id`, `created_at`, `updated_at`
 (12, 3, 18, '2025-04-23 15:11:24', '2025-04-23 15:11:24'),
 (13, 3, 42, '2025-04-24 19:50:29', '2025-04-24 19:50:29'),
 (14, 3, 43, '2025-04-24 19:50:30', '2025-04-24 19:50:30'),
-(15, 3, 41, '2025-04-24 23:51:16', '2025-04-24 23:51:16');
+(15, 3, 41, '2025-04-24 23:51:16', '2025-04-24 23:51:16'),
+(17, 3, 58, '2025-04-27 00:42:45', '2025-04-27 00:42:45'),
+(18, 3, 62, '2025-04-27 00:42:45', '2025-04-27 00:42:45'),
+(19, 3, 55, '2025-04-27 00:42:46', '2025-04-27 00:42:46'),
+(20, 3, 59, '2025-04-27 00:42:46', '2025-04-27 00:42:46'),
+(21, 3, 63, '2025-04-27 00:42:46', '2025-04-27 00:42:46'),
+(22, 3, 56, '2025-04-27 00:42:47', '2025-04-27 00:42:47'),
+(23, 3, 60, '2025-04-27 00:42:47', '2025-04-27 00:42:47'),
+(24, 3, 64, '2025-04-27 00:42:47', '2025-04-27 00:42:47'),
+(25, 3, 57, '2025-04-27 00:42:48', '2025-04-27 00:42:48'),
+(26, 3, 61, '2025-04-27 00:42:48', '2025-04-27 00:42:48');
 
 -- --------------------------------------------------------
 
@@ -648,8 +706,8 @@ CREATE TABLE `producto_sucursals` (
 --
 
 INSERT INTO `producto_sucursals` (`id`, `sucursal_id`, `producto_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 20, '2025-04-24 22:55:46', '2025-04-25 00:16:58'),
-(2, 1, 16, 20, '2025-04-24 22:55:46', '2025-04-24 22:55:46'),
+(1, 1, 15, 17, '2025-04-24 22:55:46', '2025-04-27 00:21:33'),
+(2, 1, 16, 19, '2025-04-24 22:55:46', '2025-04-26 22:17:22'),
 (3, 1, 18, 27, '2025-04-24 22:55:46', '2025-04-24 23:07:14');
 
 -- --------------------------------------------------------
@@ -672,6 +730,14 @@ CREATE TABLE `proformas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `proformas`
+--
+
+INSERT INTO `proformas` (`id`, `nro`, `user_id`, `sucursal_id`, `cliente_id`, `nit_ci`, `factura`, `fecha_validez`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, '3222323', 'NO', '2025-05-31', '2025-04-26', 1, '2025-04-26 23:56:09', '2025-04-26 23:56:09'),
+(2, 2, 1, 2, 2, '0', 'NO', '2025-05-05', '2025-04-26', 1, '2025-04-26 23:56:26', '2025-04-26 23:56:26');
 
 -- --------------------------------------------------------
 
@@ -739,6 +805,13 @@ CREATE TABLE `salida_productos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `salida_productos`
+--
+
+INSERT INTO `salida_productos` (`id`, `sucursal_id`, `producto_id`, `cantidad`, `descripcion`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 15, 3, '', '2025-04-26', 1, '2025-04-26 23:30:14', '2025-04-26 23:30:32');
 
 -- --------------------------------------------------------
 
@@ -1042,19 +1115,19 @@ ALTER TABLE `configuracions`
 -- AUTO_INCREMENT de la tabla `detalle_ordens`
 --
 ALTER TABLE `detalle_ordens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_proformas`
 --
 ALTER TABLE `detalle_proformas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_usos`
 --
 ALTER TABLE `detalle_usos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `devolucions`
@@ -1066,25 +1139,25 @@ ALTER TABLE `devolucions`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_detalles`
 --
 ALTER TABLE `ingreso_detalles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -1102,13 +1175,13 @@ ALTER TABLE `modulos`
 -- AUTO_INCREMENT de la tabla `notificacions`
 --
 ALTER TABLE `notificacions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion_users`
 --
 ALTER TABLE `notificacion_users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_ventas`
@@ -1120,7 +1193,7 @@ ALTER TABLE `orden_ventas`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -1138,13 +1211,13 @@ ALTER TABLE `producto_relacions`
 -- AUTO_INCREMENT de la tabla `producto_sucursals`
 --
 ALTER TABLE `producto_sucursals`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `proformas`
 --
 ALTER TABLE `proformas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `promocions`
@@ -1162,7 +1235,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `salida_productos`
 --
 ALTER TABLE `salida_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursals`

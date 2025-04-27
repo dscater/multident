@@ -528,7 +528,10 @@ const logout = () => {
                         user_logeado.permisos.includes(
                             'ingreso_productos.index'
                         ) ||
-                        user_logeado.permisos.includes('salida_productos.index')
+                        user_logeado.permisos.includes(
+                            'salida_productos.index'
+                        ) ||
+                        user_logeado.permisos.includes('proformas.index')
                     "
                 >
                     OPERACIONES
@@ -616,10 +619,7 @@ const logout = () => {
                             : 'none',
                     ]"
                 >
-                    <Link
-                        :href="route('proformas.index')"
-                        class="menu-link"
-                    >
+                    <Link :href="route('proformas.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list-alt"></i>
                         </div>
@@ -640,10 +640,7 @@ const logout = () => {
                             : 'none',
                     ]"
                 >
-                    <Link
-                        :href="route('devolucions.index')"
-                        class="menu-link"
-                    >
+                    <Link :href="route('devolucions.index')" class="menu-link">
                         <div class="menu-icon">
                             <i class="fa fa-list-alt"></i>
                         </div>
@@ -654,7 +651,15 @@ const logout = () => {
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('promocions.index') ||
                         user_logeado.permisos.includes('productos.index') ||
+                        user_logeado.permisos.includes('notificacions.index') ||
+                        user_logeado.permisos.includes(
+                            'producto_sucursals.index'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'ubicacion_productos.index'
+                        ) ||
                         user_logeado.permisos.includes('sucursals.index') ||
                         user_logeado.permisos.includes('clientes.index')
                     "
@@ -703,7 +708,10 @@ const logout = () => {
                         route_current == 'notificacions.index' ? 'active' : '',
                     ]"
                 >
-                    <Link :href="route('notificacions.index')" class="menu-link">
+                    <Link
+                        :href="route('notificacions.index')"
+                        class="menu-link"
+                    >
                         <div class="menu-icon">
                             <i class="fa fa-bell"></i>
                         </div>
@@ -713,14 +721,21 @@ const logout = () => {
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('producto_sucursals.index')
+                        user_logeado.permisos.includes(
+                            'producto_sucursals.index'
+                        )
                     "
                     class="menu-item"
                     :class="[
-                        route_current == 'producto_sucursals.index' ? 'active' : '',
+                        route_current == 'producto_sucursals.index'
+                            ? 'active'
+                            : '',
                     ]"
                 >
-                    <Link :href="route('producto_sucursals.index')" class="menu-link">
+                    <Link
+                        :href="route('producto_sucursals.index')"
+                        class="menu-link"
+                    >
                         <div class="menu-icon">
                             <i class="fa fa-list"></i>
                         </div>
@@ -790,8 +805,7 @@ const logout = () => {
                     v-if="
                         user_logeado.permisos == '*' ||
                         user_logeado.permisos.includes('usuarios.index') ||
-                        user_logeado.permisos.includes('roles.index') ||
-                        user_logeado.permisos.includes('clientes.index')
+                        user_logeado.permisos.includes('roles.index')
                     "
                 >
                     GESTIÓN DE USUARIOS
@@ -837,7 +851,36 @@ const logout = () => {
                     class="menu-header"
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('reportes.usuarios')
+                        user_logeado.permisos.includes('reportes.usuarios') ||
+                        user_logeado.permisos.includes(
+                            'reportes.kardex_productos'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.kardex_productos'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.orden_ventas'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.stock_productos'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.ingreso_productos'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.salida_productos'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.devolucions'
+                        ) ||
+                        user_logeado.permisos.includes('reportes.proformas') ||
+                        user_logeado.permisos.includes('reportes.clientes') ||
+                        user_logeado.permisos.includes(
+                            'reportes.g_cantidad_orden_ventas'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.g_ingresos_orden_ventas'
+                        )
                     "
                 >
                     REPORTES
@@ -862,48 +905,251 @@ const logout = () => {
                         <div class="menu-text">Usuarios</div>
                     </Link>
                 </div>
-
                 <div
                     v-if="
                         user_logeado.permisos == '*' ||
-                        user_logeado.permisos.includes('reportes.productos')
+                        user_logeado.permisos.includes(
+                            'reportes.kardex_productos'
+                        )
                     "
                     class="menu-item"
                     :class="[
-                        route_current == 'reportes.productos'
-                            ? 'active'
-                            : 'none',
-                    ]"
-                >
-                    <Link :href="route('reportes.productos')" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fa fa-file-alt"></i>
-                        </div>
-                        <div class="menu-text">Productos</div>
-                    </Link>
-                </div>
-                <div class="menu-header" v-if="user_logeado.permisos == '*'">
-                    GRÁFICAS
-                </div>
-                <!-- <div
-                    v-if="user_logeado.permisos == '*'"
-                    class="menu-item"
-                    :class="[
-                        route_current == 'reportes.g_orden_ventas'
+                        route_current == 'reportes.kardex_productos'
                             ? 'active'
                             : 'none',
                     ]"
                 >
                     <Link
-                        :href="route('reportes.g_orden_ventas')"
+                        :href="route('reportes.kardex_productos')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Kardex de Productos</div>
+                    </Link>
+                </div>
+
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('reportes.orden_ventas')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.orden_ventas'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.orden_ventas')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Ordenes de Ventas</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes(
+                            'reportes.stock_productos'
+                        )
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.stock_productos'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.stock_productos')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Stock de Productos</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes(
+                            'reportes.ingreso_productos'
+                        )
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.ingreso_productos'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.ingreso_productos')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Ingresos de Productos</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes(
+                            'reportes.salida_productos'
+                        )
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.salida_productos'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.salida_productos')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Salidas de Productos</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('reportes.devolucions')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.devolucions'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.devolucions')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Devoluciones</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('reportes.proformas')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.proformas'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link :href="route('reportes.proformas')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Proformas</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes('reportes.clientes')
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.clientes'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link :href="route('reportes.clientes')" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-file-alt"></i>
+                        </div>
+                        <div class="menu-text">Clientes</div>
+                    </Link>
+                </div>
+                <div
+                    class="menu-header"
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes(
+                            'reportes.g_cantidad_orden_ventas'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.g_ingresos_orden_ventas'
+                        )
+                    "
+                >
+                    GRÁFICAS
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes(
+                            'reportes.g_cantidad_orden_ventas'
+                        )
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.g_cantidad_orden_ventas'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.g_cantidad_orden_ventas')"
                         class="menu-link"
                     >
                         <div class="menu-icon">
                             <i class="fa fa-chart-pie"></i>
                         </div>
-                        <div class="menu-text">Ordenes de venta</div>
+                        <div class="menu-text">
+                            Cantidad de Ordenes de Ventas
+                        </div>
                     </Link>
-                </div> -->
+                </div>
+                <div
+                    v-if="
+                        user_logeado.permisos == '*' ||
+                        user_logeado.permisos.includes(
+                            'reportes.g_ingresos_orden_ventas'
+                        )
+                    "
+                    class="menu-item"
+                    :class="[
+                        route_current == 'reportes.g_ingresos_orden_ventas'
+                            ? 'active'
+                            : 'none',
+                    ]"
+                >
+                    <Link
+                        :href="route('reportes.g_ingresos_orden_ventas')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-chart-pie"></i>
+                        </div>
+                        <div class="menu-text">
+                            Ingresos por Ordenes de Ventas
+                        </div>
+                    </Link>
+                </div>
                 <div class="menu-header">OTROS</div>
                 <div
                     v-if="

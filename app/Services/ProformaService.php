@@ -64,7 +64,7 @@ class ProformaService
         array $columnsBetweenFilter = [],
         array $orderBy = []
     ): LengthAwarePaginator {
-        $proformas = Proforma::with(["cliente", "sucursal", "detalle_proformas.producto"])
+        $proformas = Proforma::with(["cliente", "sucursal", "user", "detalle_proformas.producto"])
             ->select("proformas.*", \DB::raw("SUM(detalle_proformas.cantidad) AS total_vendido"))
             ->leftJoin("detalle_proformas", "proformas.id", "=", "detalle_proformas.proforma_id")
             ->groupBy("proformas.id")

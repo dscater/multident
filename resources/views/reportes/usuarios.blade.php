@@ -167,8 +167,7 @@
                 <th>NOMBRES</th>
                 <th>C.I.</th>
                 <th>CORREO</th>
-                <th>TELÉFONO/CELULAR</th>
-                <th>SEDE(S)</th>
+                <th>SUCURSAL</th>
                 <th>ROLE</th>
                 <th>ACCESO</th>
                 <th width="9%">FECHA DE REGISTRO</th>
@@ -184,12 +183,11 @@
                     <td class="img_celda centreado">
                         <img src="{{ $user->foto_b64 }}" alt="Foto">
                     </td>
-                    <td class="">{{ $user->apellidos }}</td>
+                    <td class="">{{ $user->paterno }} {{ $user->materno }}</td>
                     <td class="">{{ $user->nombres }}</td>
                     <td class="">{{ $user->full_ci }}</td>
                     <td class="">{{ $user->correo }}</td>
-                    <td class="">{{ $user->cliente? $user->cliente->cel:'' }}</td>
-                    <td class="">{{ $user->nom_sedes }}</td>
+                    <td class="">{{ $user->sucursals_todo == 0 ? $user->sucursal->nombre : 'TODOS' }}</td>
                     <td class="">{{ $user->role->nombre }}</td>
                     <td class="centreado">{{ $user->acceso == 1 ? 'HABILITADO' : 'DENEGADO' }}</td>
                     <td class="centreado">{{ $user->fecha_registro_t }}</td>

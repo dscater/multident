@@ -195,6 +195,6 @@ onMounted(() => {
 
 .login-cover .login-cover-bg {
     /* background: linear-gradient(to bottom, #153f59, #94b8d7); */
-    background: var(--principal);
+    background: var(--secundario);
 }
 </style>

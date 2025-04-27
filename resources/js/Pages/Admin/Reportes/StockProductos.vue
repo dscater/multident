@@ -1,49 +1,25 @@
-<script>
-const breadbrums = [
-    {
-        title: "Inicio",
-        disabled: false,
-        url: route("inicio"),
-        name_url: "inicio",
-    },
-    {
-        title: "Reporte Clientes por Subasta",
-        disabled: false,
-        url: "",
-        name_url: "",
-    },
-];
-</script>
-
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { computed, onMounted, ref } from "vue";
 import { Head, usePage } from "@inertiajs/vue3";
+import { useAxios } from "@/composables/axios/useAxios";
 
+const { auth } = usePage().props;
+const user = ref(auth.user);
 const { setLoading } = useApp();
-
-const cargarListas = () => {};
-
-onMounted(() => {
-    setTimeout(() => {
-        setLoading(false);
-    }, 300);
-});
-
+const { axiosGet } = useAxios();
 const obtenerFechaActual = () => {
     const fecha = new Date();
     const anio = fecha.getFullYear();
     const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Mes empieza desde 0
     const dia = String(fecha.getDate()).padStart(2, "0"); // Día del mes
-
     return `${anio}-${mes}-${dia}`;
 };
 
 const form = ref({
     formato: "pdf",
-    fecha_ini: obtenerFechaActual(),
-    fecha_fin: obtenerFechaActual(),
-    categoria: "todos",
+    sucursal_id:
+        auth?.user.sucursals_todo == 0 ? user.value.sucursal_id : "todos",
 });
 
 const generando = ref(false);
@@ -59,32 +35,47 @@ const listFormato = ref([
     { value: "excel", label: "EXCEL" },
 ]);
 
-const listCategorias = ref([
-    { value: "todos", label: "TODOS" },
-    { value: "VEHÍCULOS", label: "VEHÍCULOS" },
-    { value: "OTROS BIENES", label: "OTROS BIENES" },
-    { value: "ECOLÓGICO", label: "ECOLÓGICO" },
-]);
+const listSucursals = ref([]);
+const cargarSucursals = async () => {
+    axios.get(route("sucursals.listado")).then((response) => {
+        listSucursals.value = response.data.sucursals;
+        listSucursals.value.unshift({
+            id: "todos",
+            nombre: "TODOS",
+        });
+    });
+};
+
+const cargarListas = () => {
+    cargarSucursals();
+};
 
 const generarReporte = () => {
     generando.value = true;
-    const url = route("reportes.r_subasta_clientes", form.value);
+    const url = route("reportes.r_stock_productos", form.value);
     window.open(url, "_blank");
     setTimeout(() => {
         generando.value = false;
     }, 500);
 };
+
+onMounted(() => {
+    cargarListas();
+    setTimeout(() => {
+        setLoading(false);
+    }, 300);
+});
 </script>
 <template>
-    <Head title="Reporte Clientes por Subasta"></Head>
+    <Head title="Reporte Stock de Productos"></Head>
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Reportes > Clientes por Subasta</li>
+        <li class="breadcrumb-item active">Reportes > Stock de Productos</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Reportes > Clientes por Subasta</h1>
+    <h1 class="page-header">Reportes > Stock de Productos</h1>
     <!-- END page-header -->
     <div class="row">
         <div class="col-md-6 mx-auto">
@@ -92,42 +83,40 @@ const generarReporte = () => {
                 <div class="card-body">
                     <form @submit.prevent="generarReporte">
                         <div class="row">
-                            <div class="col-12">
-                                <label>Rango de fechas</label>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input
-                                            type="date"
-                                            class="form-control"
-                                            v-model="form.fecha_ini"
-                                        />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input
-                                            type="date"
-                                            class="form-control"
-                                            v-model="form.fecha_fin"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <label>Seleccionar categoría*</label>
-                                <select
-                                    v-model="form.categoria"
-                                    class="form-control"
+                            <div
+                                class="col-12 mb-2"
+                                v-if="user.sucursals_todo == 1"
+                            >
+                                <label>Seleccionar Sucursal*</label>
+                                <el-select
+                                    :class="{
+                                        'parsley-error':
+                                            form.errors?.sucursal_id,
+                                    }"
+                                    v-model="form.sucursal_id"
+                                    filterable
                                 >
-                                    <option
-                                        v-for="item in listCategorias"
-                                        :value="item.value"
+                                    <el-option
+                                        v-for="item in listSucursals"
+                                        :key="item.id"
+                                        :value="item.id"
+                                        :label="item.nombre"
                                     >
-                                        {{ item.label }}
-                                    </option>
-                                </select>
+                                    </el-option>
+                                </el-select>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-2">
                                 <label>Seleccionar formato*</label>
                                 <select
+                                    :hide-details="
+                                        form.errors?.formato ? false : true
+                                    "
+                                    :error="form.errors?.formato ? true : false"
+                                    :error-messages="
+                                        form.errors?.formato
+                                            ? form.errors?.formato
+                                            : ''
+                                    "
                                     v-model="form.formato"
                                     class="form-control"
                                 >

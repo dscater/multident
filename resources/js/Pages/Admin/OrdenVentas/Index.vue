@@ -29,6 +29,10 @@ const columns = [
         data: "sucursal.nombre",
     },
     {
+        title: "USUARIO",
+        data: "user.usuario",
+    },
+    {
         title: "CLIENTE",
         data: "cliente.full_name",
     },
@@ -226,6 +230,7 @@ onBeforeUnmount(() => {
                         <thead>
                             <tr>
                                 <th width="5%"></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

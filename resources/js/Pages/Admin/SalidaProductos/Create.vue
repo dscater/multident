@@ -18,6 +18,7 @@ onMounted(() => {
 });
 
 const { setSalidaProducto, limpiarSalidaProducto } = useSalidaProductos();
+limpiarSalidaProducto();
 const { axiosDelete } = useAxios();
 
 onMounted(async () => {});

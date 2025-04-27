@@ -41,6 +41,7 @@ export function initDataTable(
         };
 
         if (ajaxUrl) {
+            console.log(ajaxUrl);
             options.ajax = {
                 url: ajaxUrl,
                 type: "GET",

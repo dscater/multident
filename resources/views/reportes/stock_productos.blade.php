@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Clientes</title>
+    <title>Stock de productos</title>
     <style type="text/css">
         * {
             font-family: sans-serif;
@@ -17,11 +17,12 @@
         }
 
         table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
             table-layout: fixed;
-            margin-top: 20px;
             page-break-before: avoid;
+            margin-top: 20px;
+            margin: auto;
         }
 
         table thead tr th,
@@ -31,11 +32,11 @@
         }
 
         table thead tr th {
-            font-size: 7pt;
+            font-size: 8pt;
         }
 
         table tbody tr td {
-            font-size: 6pt;
+            font-size: 7pt;
         }
 
 
@@ -81,10 +82,6 @@
             text-align: right;
             padding-right: 15px;
             font-weight: bold;
-        }
-
-        table {
-            width: 100%;
         }
 
         table thead {
@@ -143,48 +140,78 @@
         .img_celda img {
             width: 45px;
         }
+
+        .nueva_pagina {
+            page-break-after: always;
+        }
     </style>
 </head>
 
 <body>
     @inject('configuracion', 'App\Models\Configuracion')
-    <div class="encabezado">
-        <div class="logo">
-            <img src="{{ $configuracion->first()->logo_b64 }}">
+    @php
+        $contador_su = 0;
+    @endphp
+
+
+    @foreach ($sucursals as $sucursal)
+        <div class="encabezado">
+            <div class="logo">
+                <img src="{{ $configuracion->first()->logo_b64 }}">
+            </div>
+            <h2 class="titulo">
+                {{ $configuracion->first()->nombre_sistema }}
+            </h2>
+            <h4 class="texto">STOCK DE PRODUCTOS</h4>
+            <h4 class="texto">{{ $sucursal->nombre }}</h4>
+            <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
         </div>
-        <h2 class="titulo">
-            {{ $configuracion->first()->razon_social }}
-        </h2>
-        <h4 class="texto">LISTA DE CLIENTES</h4>
-        <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
-    </div>
-    <table border="1">
-        <thead class="bg-principal">
-            <tr>
-                <th width="3%">N°</th>
-                <th>NOMBRE CLIENTE</th>
-                <th>NIT/C.I.</th>
-                <th>CELULAR</th>
-                <th>DESCRIPCIÓN</th>
-                <th>FECHA DE REGISTRO</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $cont = 1;
-            @endphp
-            @foreach ($clientes as $cliente)
+        <table border="1">
+            <thead class="bg-principal">
                 <tr>
-                    <td class="centreado">{{ $cont++ }}</td>
-                    <td>{{ $cliente->full_name }}</td>
-                    <td>{{ $cliente->ci }}</td>
-                    <td>{{ $cliente->cel }}</td>
-                    <td>{{ $cliente->descripcion }}</td>
-                    <td>{{ $cliente->fecha_registro_t }}</td>
+                    <th>PRODUCTO</th>
+                    <th width="10%">STOCK ACTUAL</th>
+                    <th width="10%">STOCK MÁXIMO</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @php
+
+                    $producto_sucursals = App\Models\Producto::select(
+                        'productos.*',
+                        DB::raw(
+                            '(
+                        SELECT COALESCE(stock_actual, 0)
+                            FROM producto_sucursals
+                            WHERE producto_sucursals.producto_id = productos.id
+                            AND producto_sucursals.sucursal_id = ' .
+                                $sucursal->id .
+                                '
+                            LIMIT 1
+                        ) as stock_actual',
+                        ),
+                    )
+                        ->where('status', 1)
+                        ->get();
+                @endphp
+                @foreach ($producto_sucursals as $producto_sucursal)
+                    <tr>
+                        <td>{{ $producto_sucursal->nombre }}</td>
+                        <td class="centreado">{{ $producto_sucursal->stock_actual ?? 0 }}</td>
+                        <td class="centreado">{{ $producto_sucursal->stock_maximo }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        @php
+            $contador_su++;
+        @endphp
+        @if ($contador_su < count($sucursals))
+            <div class="nueva_pagina"></div>
+        @endif
+    @endforeach
+
 </body>
 
 </html>

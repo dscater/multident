@@ -184,18 +184,18 @@
     <table border="1">
         <thead>
             <tr class="bg-principal">
-                <th width="8%">CÓDIGO</th>
+                <th width="3%">NRO.</th>
+                <th>SUCURSAL</th>
+                <th>USUARIO</th>
                 <th>CLIENTE</th>
-                <th>CELULAR</th>
-                <th>CORREO</th>
-                <th>ESTADO DE ORDEN</th>
-                <th>COMPROBANTE</th>
+                <th>NIT/C.I.</th>
+                <th>FACTURA</th>
+                <th>TIPO DE PAGO</th>
                 <th width="10%">PRODUCTO</th>
                 <th width="10%">CANTIDAD</th>
                 <th width="10%">PRECIO COMPRA</th>
                 <th width="10%">SUBTOTAL</th>
-                <th>OBSERVACIÓN</th>
-                <th width="9%">FECHA DE ORDEN</th>
+                <th width="9%">FECHA</th>
             </tr>
         </thead>
         <tbody>
@@ -210,18 +210,22 @@
                     }
                 @endphp
                 <tr class="{{ $class }}">
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">{{ $orden_venta->codigo }}</td>
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">{{ $orden_venta->cliente->full_name }}
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->nro }}</td>
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->sucursal->nombre }}</td>
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->user->usuario }}</td>
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->cliente->full_name }}
                     </td>
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">{{ $orden_venta->cliente->cel }}</td>
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">{{ $orden_venta->cliente->correo }}</td>
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">{{ $orden_venta->estado_orden }}</td>
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">
-                        {{ $orden_venta->comprobante ? 'SI' : 'NO' }}</td>
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->nit_ci }}</td>
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->factura }}</td>
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->tipo_pago }}</td>
                     @php
-                        $primero = App\Models\DetalleVenta::where('orden_venta_id', $orden_venta->id)->get()->first();
-                        $sgtes = App\Models\DetalleVenta::where('orden_venta_id', $orden_venta->id)
+                        $primero = App\Models\DetalleOrden::where('orden_venta_id', $orden_venta->id)
+                            ->where('status', 1)
+                            ->get()
+                            ->first();
+                        $sgtes = App\Models\DetalleOrden::where('orden_venta_id', $orden_venta->id)
                             ->where('id', '!=', $primero->id)
+                            ->where('status', 1)
                             ->get();
                     @endphp
                     <td>
@@ -236,8 +240,7 @@
                     <td class="derecha">
                         {{ number_format($primero->subtotal, 2, '.', ',') }}
                     </td>
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">{{ $orden_venta->observacion }}</td>
-                    <td rowspan="{{ count($orden_venta->detalleVenta) }}">{{ $orden_venta->fecha_orden_t }}</td>
+                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->fecha_registro_t }}</td>
                 </tr>
                 @foreach ($sgtes as $det)
                     <tr class="{{ $class }}">
@@ -260,11 +263,11 @@
                 @endphp
             @endforeach
             <tr class="bg-principal">
-                <td colspan="9" class="text-md bold derecha">
+                <td colspan="10" class="text-md bold derecha">
                     TOTAL
                 </td>
                 <td class="text-md bold derecha">{{ number_format($suma_total, 2, '.', ',') }}</td>
-                <td colspan="2"></td>
+                <td></td>
             </tr>
         </tbody>
     </table>

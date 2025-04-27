@@ -70,7 +70,7 @@ onBeforeUnmount(() => {
 </script>
 <template>
     <!-- BEGIN #header -->
-    <div id="header" class="app-header bg-principal">
+    <div id="header" class="app-header bg-primary">
         <!-- BEGIN navbar-header -->
         <div class="navbar-header">
             <a href="" class="navbar-brand"

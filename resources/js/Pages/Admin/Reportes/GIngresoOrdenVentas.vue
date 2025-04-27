@@ -7,6 +7,8 @@ import exporting from "highcharts/modules/exporting";
 import accessibility from "highcharts/modules/accessibility";
 import { useFormater } from "@/composables/useFormater";
 const { getFormatoMoneda } = useFormater();
+const { auth } = usePage().props;
+const user = ref(auth.user);
 exporting(Highcharts);
 accessibility(Highcharts);
 Highcharts.setOptions({
@@ -22,6 +24,39 @@ Highcharts.setOptions({
     },
 });
 const { setLoading } = useApp();
+
+const listProductos = ref([]);
+const listSucursals = ref([]);
+const listFactura = ref([
+    { value: "todos", label: "TODOS" },
+    { value: "SI", label: "SI" },
+    { value: "NO", label: "NO" },
+]);
+
+const cargarProductos = async () => {
+    axios.get(route("productos.listado")).then((response) => {
+        listProductos.value = response.data.productos;
+        listProductos.value.unshift({
+            id: "todos",
+            nombre: "TODOS",
+        });
+    });
+};
+
+const cargarSucursals = async () => {
+    axios.get(route("sucursals.listado")).then((response) => {
+        listSucursals.value = response.data.sucursals;
+        listSucursals.value.unshift({
+            id: "todos",
+            nombre: "TODOS",
+        });
+    });
+};
+
+const cargarListas = () => {
+    cargarProductos();
+    cargarSucursals();
+};
 
 const generando = ref(false);
 const txtBtn = computed(() => {
@@ -40,35 +75,20 @@ const obtenerFechaActual = () => {
 };
 
 const form = ref({
+    producto_id: "todos",
+    sucursal_id:
+        auth?.user.sucursals_todo == 0 ? user.value.sucursal_id : "todos",
     fecha_ini: obtenerFechaActual(),
     fecha_fin: obtenerFechaActual(),
-    estado: "todos",
+    factura: "todos",
 });
-
-const listPublicacions = ref([]);
-const listEstados = ref([
-    { value: "todos", label: "TODOS" },
-    { value: "PENDIENTE", label: "PENDIENTE" },
-    { value: "RECHAZADO", label: "RECHAZADO" },
-    { value: "CONFIRMADO", label: "CONFIRMADO" },
-]);
-
-const cargarPublicacions = () => {
-    // axios.get(route("publicacions.listado")).then((response) => {
-    //     listPublicacions.value = response.data.publicacions;
-    // });
-};
-
-const cargarListas = () => {
-    cargarPublicacions();
-};
-
-const aPublicacions = ref([]);
 
 const generarGrafico = async () => {
     generando.value = true;
     axios
-        .get(route("reportes.r_g_solicitud_productos"), { params: form.value })
+        .get(route("reportes.r_g_ingresos_orden_ventas"), {
+            params: form.value,
+        })
         .then((response) => {
             nextTick(() => {
                 const containerId = `container`;
@@ -96,7 +116,7 @@ const renderChart = (containerId, categories, data) => {
         },
         title: {
             align: "center",
-            text: `SOLICITUD DE COMPRA DE PRODUCTOS`,
+            text: `INGRESOS POR ORDENES DE VENTAS`,
         },
         subtitle: {
             align: "center",
@@ -112,7 +132,7 @@ const renderChart = (containerId, categories, data) => {
         },
         yAxis: {
             title: {
-                text: "CANTIDAD",
+                text: "TOTAL",
             },
         },
         legend: {
@@ -137,40 +157,14 @@ const renderChart = (containerId, categories, data) => {
         tooltip: {
             useHTML: true,
             formatter: function () {
-                // console.log(this.point.solicitudProductos);
-
-                let trTbody = ``;
-                this.point.solicitudProductos.forEach((elem) => {
-                    elem.solicitud_detalles.forEach((elemDetalle) => {
-                        trTbody += `<tr>`;
-                        trTbody += `<td class="border p-1">${elem.codigo_solicitud}</td>`;
-                        trTbody += `<td class="border p-1">${elemDetalle.nombre_producto}</td>`;
-                        trTbody += `<td class="border p-1">1</td>`;
-                        trTbody += `<td class="border p-1">${elem.cliente.full_name}</td>`;
-                        trTbody += `</tr>`;
-                    });
-                });
-
-                return `<h4 style="font-size:13px" class="w-100 text-center mb-0">${this.x}</h4><br>
-                <table class="border">
-                    <thead>
-                        <tr>
-                            <th class="border p-1">Cód.</th>
-                            <th class="border p-1">Prod.</th>
-                            <th class="border p-1">Cant.</th>
-                            <th class="border p-1">Cliente</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${trTbody}
-                    </tbody>
-                </table>`;
+                return `<h4 style="font-size:13px" class="w-100 text-center mb-1">${this.x}</h4><br>
+                <h5><strong>Total: </strong>${this.point.y}</h5>`;
             },
         },
 
         series: [
             {
-                name: "Solicitud de productos",
+                name: "Ordenes de venta",
                 data: data,
                 colorByPoint: true,
             },
@@ -186,17 +180,17 @@ onMounted(() => {
 });
 </script>
 <template>
-    <Head title="Solicitud de compra de productos"></Head>
+    <Head title="Ingresos por Ordenes de Ventas"></Head>
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
         <li class="breadcrumb-item active">
-            Gráficas > Solicitud de compra de productos
+            Gráficas > Ingresos por Ordenes de Ventas
         </li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Gráficas > Solicitud de compra de productos</h1>
+    <h1 class="page-header">Gráficas > Ingresos por Ordenes de Ventas</h1>
     <!-- END page-header -->
     <div class="row">
         <div class="col-md-6 mx-auto">
@@ -204,6 +198,80 @@ onMounted(() => {
                 <div class="card-body">
                     <form @submit.prevent="generarReporte">
                         <div class="row">
+                            <div
+                                class="col-12 mb-2"
+                                v-if="user.sucursals_todo == 1"
+                            >
+                                <label>Seleccionar Sucursal*</label>
+                                <el-select
+                                    :class="{
+                                        'parsley-error':
+                                            form.errors?.sucursal_id,
+                                    }"
+                                    v-model="form.sucursal_id"
+                                    filterable
+                                >
+                                    <el-option
+                                        v-for="item in listSucursals"
+                                        :key="item.id"
+                                        :value="item.id"
+                                        :label="item.nombre"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Seleccionar producto*</label>
+                                <el-select
+                                    :hide-details="
+                                        form.errors?.producto_id ? false : true
+                                    "
+                                    :error="
+                                        form.errors?.producto_id ? true : false
+                                    "
+                                    :error-messages="
+                                        form.errors?.producto_id
+                                            ? form.errors?.producto_id
+                                            : ''
+                                    "
+                                    v-model="form.producto_id"
+                                    class="w-100"
+                                    filterable
+                                >
+                                    <el-option
+                                        v-for="item in listProductos"
+                                        :key="item.id"
+                                        :value="item.id"
+                                        :label="item.nombre"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Con Factura</label>
+                                <el-select
+                                    :hide-details="
+                                        form.errors?.factura ? false : true
+                                    "
+                                    :error="form.errors?.factura ? true : false"
+                                    :error-messages="
+                                        form.errors?.factura
+                                            ? form.errors?.factura
+                                            : ''
+                                    "
+                                    v-model="form.factura"
+                                    class="w-100"
+                                    filterable
+                                >
+                                    <el-option
+                                        v-for="item in listFactura"
+                                        :key="item.value"
+                                        :value="item.value"
+                                        :label="item.label"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </div>
                             <div class="col-12">
                                 <label>Rango de fechas</label>
                                 <div class="row">
@@ -222,22 +290,6 @@ onMounted(() => {
                                         />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12 mt-2">
-                                <label>Estado</label>
-                                <select
-                                    name=""
-                                    id=""
-                                    class="form-select"
-                                    v-model="form.estado"
-                                >
-                                    <option
-                                        v-for="item in listEstados"
-                                        :value="item.value"
-                                    >
-                                        {{ item.label }}
-                                    </option>
-                                </select>
                             </div>
                             <div class="col-md-12 text-center mt-3">
                                 <button

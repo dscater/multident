@@ -54,19 +54,21 @@ class ProductoSucursalService
         array $orderBy = [],
         int $sucursal_id = 0
     ): LengthAwarePaginator {
-        $producto_sucursals = Producto::select(
-            'productos.*',
-            DB::raw('IFNULL(producto_sucursals.stock_actual, 0) as stock_actual')
-        )
-            ->leftJoin('producto_sucursals', 'producto_sucursals.producto_id', '=', 'productos.id');
 
         if (Auth::user()->sucursals_todo == 0) {
-            $producto_sucursals->where("producto_sucursals.sucursal_id", Auth::user()->sucursal_id);
+            $sucursal_id = Auth::user()->sucursal_id;
         }
 
-        if ($sucursal_id != 0) {
-            $producto_sucursals->where("producto_sucursals.sucursal_id", $sucursal_id);
-        }
+        $producto_sucursals = Producto::select(
+            'productos.*',
+            DB::raw('(
+            SELECT COALESCE(stock_actual, 0)
+                FROM producto_sucursals
+                WHERE producto_sucursals.producto_id = productos.id
+                AND producto_sucursals.sucursal_id = ' . $sucursal_id . '
+                LIMIT 1
+            ) as stock_actual')
+        );
 
         // Filtros exactos
         foreach ($columnsFilter as $key => $value) {
@@ -98,7 +100,7 @@ class ProductoSucursalService
             }
         }
 
-        return $producto_sucursals->paginate($length, ['*'], 'page', $page);
+        return $producto_sucursals = $producto_sucursals->where("status", 1)->paginate($length, ['*'], 'page', $page);
     }
 
     /**

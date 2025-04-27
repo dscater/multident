@@ -20,7 +20,8 @@ class SalidaProductoService
     public function __construct(
         private HistorialAccionService $historialAccionService,
         private KardexProductoService $kardexProductoService,
-        private ProductoSucursalService $productoSucursalService
+        private ProductoSucursalService $productoSucursalService,
+        private IngresoDetalleService $ingresoDetalleService
     ) {}
 
     public function listado(): Collection
@@ -123,6 +124,8 @@ class SalidaProductoService
         // registrar kardex
         $this->kardexProductoService->registroEgreso("SALIDA DE PRODUCTO", $producto, (float)$salida_producto->cantidad, (float)$producto->precio_pred, $salida_producto->descripcion, $salida_producto->sucursal_id, "SalidaProducto", $salida_producto->id);
 
+        $this->ingresoDetalleService->descontarDisponible($salida_producto->sucursal_id, $salida_producto->producto_id, $salida_producto->cantidad);
+
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UNA SALIDA DE PRODUCTOS", $salida_producto, null);
 
@@ -143,7 +146,8 @@ class SalidaProductoService
 
         // incrementar el stock
         $producto = Producto::findOrFail($datos["producto_id"]);
-        $this->productoSucursalService->incrementarStock($producto, (float)$salida_producto->cantidad, $old_salida_producto->sucursal_id);
+        $this->kardexProductoService->registroIngreso($old_sucursal, "SALIDA DE PRODUCTO", $old_salida_producto->producto, (float)$old_salida_producto->cantidad, (float)$old_salida_producto->precio_pred, "INGRESO POR MODIFICACIÓN SALIDA DE PRODUCTO", "SalidaProducto", $old_salida_producto->id);
+        $this->ingresoDetalleService->incrementarDisponible($old_sucursal, $old_salida_producto->producto_id, $old_salida_producto->cantidad);
 
         // verificar stock
         $verificacion = $this->productoSucursalService->verificaStockSucursalProducto($producto->id, (int)$datos["sucursal_id"], (float)$datos["cantidad"]);
@@ -159,29 +163,9 @@ class SalidaProductoService
         ]);
 
         //descontar stock
-        $this->productoSucursalService->decrementarStock($producto, (float)$salida_producto->cantidad, $salida_producto->sucursal_id);
+        $this->kardexProductoService->registroEgreso("SALIDA DE PRODUCTO", $producto, (float)$salida_producto->cantidad, $producto->precio_pred, "EGRESO POR MODIFICACIÓN DE SALIDA DE PRODUCTO", $salida_producto->sucursal_id, "SalidaProducto", $salida_producto->id);
 
-        // actualizar kardex
-        $kardex = KardexProducto::where("producto_id", $salida_producto->producto_id)
-            ->where("tipo_registro", "SALIDA DE PRODUCTO")
-            ->where("modulo", "SalidaProducto")
-            ->where("registro_id", $salida_producto->id)
-            ->where("sucursal_id", $salida_producto->sucursal_id);
-        $kardex = $kardex->get()->first();
-
-        $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $salida_producto->sucursal_id);
-
-        if ($old_sucursal && $old_sucursal != 0 && ($old_sucursal != $salida_producto->sucursal_id)) {
-            // actualizar kardex
-            $kardex = KardexProducto::where("producto_id", $salida_producto->producto_id)
-                ->where("tipo_registro", "SALIDA DE PRODUCTO")
-                ->where("modulo", "SalidaProducto")
-                ->where("registro_id", $salida_producto->id)
-                ->where("sucursal_id", $old_sucursal);
-            $kardex = $kardex->get()->first();
-
-            $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $old_sucursal);
-        }
+        $this->ingresoDetalleService->descontarDisponible($salida_producto->sucursal_id, $salida_producto->producto_id, $salida_producto->cantidad);
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UNA SALIDA DE PRODUCTOS", $old_salida_producto, $salida_producto);
@@ -204,6 +188,8 @@ class SalidaProductoService
 
         // registrar kardex
         $this->kardexProductoService->registroIngreso($salida_producto->sucursal_id, "SALIDA DE PRODUCTO", $salida_producto->producto, (float)$salida_producto->cantidad, (float)$salida_producto->producto->precio_pred, "ELIMINACIÓN DE SALIDA DE PRODUCTO", "SalidaProducto", $salida_producto->id);
+
+        $this->ingresoDetalleService->incrementarDisponible($old_salida_producto->sucursal_id, $old_salida_producto->producto_id, $old_salida_producto->cantidad);
 
         // registrar accion
         $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UNA SALIDA DE PRODUCTOS", $old_salida_producto, $salida_producto);

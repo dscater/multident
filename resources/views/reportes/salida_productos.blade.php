@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Clientes</title>
+    <title>SalidaProductos</title>
     <style type="text/css">
         * {
             font-family: sans-serif;
@@ -153,34 +153,34 @@
             <img src="{{ $configuracion->first()->logo_b64 }}">
         </div>
         <h2 class="titulo">
-            {{ $configuracion->first()->razon_social }}
+            {{ $configuracion->first()->nombre_sistema }}
         </h2>
-        <h4 class="texto">LISTA DE CLIENTES</h4>
+        <h4 class="texto">SALIDAS DE PRODUCTOS</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
     <table border="1">
         <thead class="bg-principal">
             <tr>
                 <th width="3%">N°</th>
-                <th>NOMBRE CLIENTE</th>
-                <th>NIT/C.I.</th>
-                <th>CELULAR</th>
+                <th>SUCURSAL</th>
+                <th>PRODUCTO</th>
+                <th>CANTIDAD</th>
                 <th>DESCRIPCIÓN</th>
-                <th>FECHA DE REGISTRO</th>
+                <th width="9%">FECHA DE REGISTRO</th>
             </tr>
         </thead>
         <tbody>
             @php
                 $cont = 1;
             @endphp
-            @foreach ($clientes as $cliente)
+            @foreach ($salida_productos as $salida_producto)
                 <tr>
                     <td class="centreado">{{ $cont++ }}</td>
-                    <td>{{ $cliente->full_name }}</td>
-                    <td>{{ $cliente->ci }}</td>
-                    <td>{{ $cliente->cel }}</td>
-                    <td>{{ $cliente->descripcion }}</td>
-                    <td>{{ $cliente->fecha_registro_t }}</td>
+                    <td class="">{{ $salida_producto->sucursal->nombre }}</td>
+                    <td class="">{{ $salida_producto->producto->nombre }}</td>
+                    <td class="">{{ $salida_producto->cantidad }}</td>
+                    <td class="">{{ $salida_producto->descripcion }}</td>
+                    <td class="centreado">{{ $salida_producto->fecha_registro_t }}</td>
                 </tr>
             @endforeach
         </tbody>

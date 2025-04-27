@@ -64,7 +64,7 @@ class OrdenVentaService
         array $columnsBetweenFilter = [],
         array $orderBy = []
     ): LengthAwarePaginator {
-        $ordenVentas = OrdenVenta::with(["cliente", "sucursal", "detalle_ordens.producto"])
+        $ordenVentas = OrdenVenta::with(["cliente", "sucursal", "user", "detalle_ordens.producto"])
             ->select("orden_ventas.*", \DB::raw("SUM(detalle_ordens.cantidad) AS total_vendido"))
             ->leftJoin("detalle_ordens", "orden_ventas.id", "=", "detalle_ordens.orden_venta_id")
             ->groupBy("orden_ventas.id")

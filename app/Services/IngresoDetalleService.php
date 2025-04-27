@@ -32,7 +32,6 @@ class IngresoDetalleService
         if (!$sucursal) {
             throw new Exception("Ocurrió un error, no se encontró la sucursal");
         }
-
         foreach ($ingreso_detalles as $item) {
             $datos = [
                 "producto_id" => $item["producto_id"],
@@ -55,6 +54,10 @@ class IngresoDetalleService
 
                 $ingreso_detalle = IngresoDetalle::find($item["id"]);
                 if ($ingreso_detalle) {
+                    if ($ingreso_detalle->cantidad != $ingreso_detalle->disponible) {
+                        throw new Exception("No se puede actualizar el registro debido a que ya se usarón algunos de los registros");
+                    }
+
                     //descontar stock
                     $this->productoSucursalService->decrementarStock($producto, (float)$ingreso_detalle->cantidad, $old_sucursal != 0 ? $old_sucursal :  $sucursal->id);
 
@@ -110,6 +113,61 @@ class IngresoDetalleService
             $producto = Producto::find($ingreso_detalle->producto_id);
             // registrar kardex
             $this->kardexProductoService->registroEgreso("INGRESO DE PRODUCTO", $producto, (float)$ingreso_detalle->cantidad, $producto->precio_pred, "ELIMINACIÓN DE INGRESO DE PRODUCTO", $ingreso_producto->sucursal_id, "IngresoDetalle", $ingreso_detalle->id);
+        }
+    }
+
+    public function descontarDisponible(int $sucursal_id, int $producto_id, int $cantidad = 1)
+    {
+        $ingreso_detalles = IngresoDetalle::select("ingreso_detalles.*")
+            ->join("ingreso_productos", "ingreso_productos.id", "=", "ingreso_detalles.ingreso_producto_id")
+            ->where("sucursal_id", $sucursal_id)
+            ->where("producto_id", $producto_id)
+            ->where("disponible", ">", 0)
+            ->orderBy("id", "asc")
+            ->get();
+
+        $restante = $cantidad;
+        foreach ($ingreso_detalles as $ingreso_detalle) {
+            if ($restante > $ingreso_detalle->disponible) {
+                $restante = (float)$restante - $ingreso_detalle->disponible;
+                $ingreso_detalle->disponible = 0;
+            } else {
+                $ingreso_detalle->disponible = (float)$ingreso_detalle->disponible - (float)$restante;
+                $restante = 0;
+            }
+            $ingreso_detalle->save();
+            if ($restante == 0) {
+                break;
+            }
+        }
+    }
+
+    public function incrementarDisponible(int $sucursal_id, int $producto_id, int $cantidad = 1)
+    {
+        $ingreso_detalles = IngresoDetalle::select("ingreso_detalles.*")
+            ->join("ingreso_productos", "ingreso_productos.id", "=", "ingreso_detalles.ingreso_producto_id")
+            ->where("sucursal_id", $sucursal_id)
+            ->where("producto_id", $producto_id)
+            ->where("disponible", "!=", "stock_actual")
+            ->orderBy("id", "desc")
+            ->get();
+
+        $restante = $cantidad;
+        foreach ($ingreso_detalles as $ingreso_detalle) {
+            $restante_completar = (float)$ingreso_detalle->cantidad - (float)$ingreso_detalle->disponible;
+            if ($restante_completar > 0) {
+                if ($restante > $restante_completar) {
+                    $restante = (float)$restante - (float)$restante_completar;
+                    $ingreso_detalle->disponible = (float)$ingreso_detalle->cantidad;
+                } else {
+                    $ingreso_detalle->disponible = (float)$ingreso_detalle->disponible + (float)$restante;
+                    $restante = 0;
+                }
+                $ingreso_detalle->save();
+                if ($restante == 0) {
+                    break;
+                }
+            }
         }
     }
 }
