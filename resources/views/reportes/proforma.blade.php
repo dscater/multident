@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>OrdenVenta</title>
+    <title>Proforma</title>
     <style>
         @page {
             margin: 0;
@@ -205,6 +205,9 @@
                         P/U
                     </td>
                     <td class="centreado">
+                        D/P %
+                    </td>
+                    <td class="centreado">
                         SUBTOTAL
                     </td>
                 </tr>
@@ -220,12 +223,15 @@
                             {{ $item->precio }}
                         </td>
                         <td class="centreado">
+                            {{ $item->promocion_descuento }}%
+                        </td>
+                        <td class="centreado">
                             {{ $item->subtotal }}
                         </td>
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="3" class="bold elemento detalle"
+                    <td colspan="4" class="bold elemento detalle"
                         style="
                         text-align: right;
                         padding-right: 4px;

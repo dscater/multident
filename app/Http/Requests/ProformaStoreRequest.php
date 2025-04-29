@@ -29,6 +29,7 @@ class ProformaStoreRequest extends FormRequest
             "factura" => "required",
             "fecha_validez" => "required|date",
             'detalle_proformas' => ["required", "array", "min:1", new ProformaDetalleRule],
+            'list_promocions' => ["nullable", "array"],
         ];
     }
 

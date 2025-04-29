@@ -29,7 +29,8 @@ class ProformaUpdateRequest extends FormRequest
             "factura" => "required",
             "fecha_validez" => "required|date",
             'detalle_proformas' => ["required", "array", "min:1", new ProformaDetalleRule],
-            "eliminados" => "nullable|array"
+            "eliminados" => "nullable|array",
+            'list_promocions' => ["nullable", "array"],
         ];
     }
 

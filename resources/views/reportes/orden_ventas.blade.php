@@ -192,7 +192,8 @@
                 <th>DESCRIPCIÓN</th>
                 <th width="7%">PRODUCTO</th>
                 <th width="7%">CANTIDAD</th>
-                <th width="7%">PRECIO COMPRA</th>
+                <th width="7%">P/U</th>
+                <th width="7%">DESC. PROMOCIÓN %</th>
                 <th width="7%">SUBTOTAL</th>
                 <th width="7%">IMPORTE TOTAL</th>
                 <th width="5%">TIPO DE PAGO</th>
@@ -241,6 +242,9 @@
                         {{ number_format($primero->precio, 2, '.', ',') }}
                     </td>
                     <td class="derecha">
+                        {{ $primero->promocion_descuento }}%
+                    </td>
+                    <td class="derecha">
                         {{ number_format($primero->subtotal, 2, '.', ',') }}
                     </td>
                     <td class="derecha">
@@ -264,6 +268,9 @@
                             {{ number_format($det->precio, 2, '.', ',') }}
                         </td>
                         <td class="derecha">
+                            {{ $det->promocion_descuento }}%
+                        </td>
+                        <td class="derecha">
                             {{ number_format($det->subtotal, 2, '.', ',') }}
                         </td>
                         <td class="derecha">
@@ -278,7 +285,7 @@
                 @endphp
             @endforeach
             <tr class="bg-principal">
-                <td colspan="10" class="text-md bold derecha">
+                <td colspan="11" class="text-md bold derecha">
                     TOTAL
                 </td>
                 <td class="text-md bold derecha">{{ number_format($suma_total, 2, '.', ',') }}</td>
