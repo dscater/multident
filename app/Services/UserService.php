@@ -67,7 +67,7 @@ class UserService
         }
 
         // registrar accion
-        $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN USUARIO", $user, ["sucursal"]);
+        $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN USUARIO", $user, null, ["sucursal"]);
 
         return $user;
     }

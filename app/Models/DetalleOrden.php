@@ -13,6 +13,7 @@ class DetalleOrden extends Model
         "orden_venta_id",
         "producto_id",
         "promocion_id",
+        "list_promocions",
         "promocion_descuento",
         "cantidad",
         "precio_reg",
@@ -20,6 +21,19 @@ class DetalleOrden extends Model
         "subtotal",
         "status",
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'list_promocions' => "array",
+        ];
+    }
+
 
     public function orden_venta()
     {

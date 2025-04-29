@@ -11,6 +11,7 @@ const oOrdenVenta = ref({
     fecha_registro: "",
     detalle_ordens: [],
     eliminados: [],
+    descripcion: "",
     total: "0.00",
     _method: "POST",
 });
@@ -27,6 +28,7 @@ export const useOrdenVentas = () => {
             oOrdenVenta.value.tipo_pago = item.tipo_pago;
             oOrdenVenta.value.fecha_registro = item.fecha_registro;
             oOrdenVenta.value.detalle_ordens = item.detalle_ordens;
+            oOrdenVenta.value.descripcion = item.descripcion;
             oOrdenVenta.value.eliminados = [];
             oOrdenVenta.value.total = item.total;
             oOrdenVenta.value._method = "PUT";
@@ -45,6 +47,7 @@ export const useOrdenVentas = () => {
         oOrdenVenta.value.tipo_pago = "EFECTIVO";
         oOrdenVenta.value.fecha_registro = "";
         oOrdenVenta.value.detalle_ordens = [];
+        oOrdenVenta.value.descripcion = [];
         oOrdenVenta.value.eliminados = [];
         oOrdenVenta.value.total = "0.00";
         oOrdenVenta.value._method = "POST";

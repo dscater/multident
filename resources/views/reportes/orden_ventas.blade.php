@@ -189,12 +189,14 @@
                 <th>USUARIO</th>
                 <th>CLIENTE</th>
                 <th>NIT/C.I.</th>
-                <th>FACTURA</th>
-                <th>TIPO DE PAGO</th>
-                <th width="10%">PRODUCTO</th>
-                <th width="10%">CANTIDAD</th>
-                <th width="10%">PRECIO COMPRA</th>
-                <th width="10%">SUBTOTAL</th>
+                <th>DESCRIPCIÓN</th>
+                <th width="7%">PRODUCTO</th>
+                <th width="7%">CANTIDAD</th>
+                <th width="7%">PRECIO COMPRA</th>
+                <th width="7%">SUBTOTAL</th>
+                <th width="7%">IMPORTE TOTAL</th>
+                <th width="5%">TIPO DE PAGO</th>
+                <th width="5%">FACTURA</th>
                 <th width="9%">FECHA</th>
             </tr>
         </thead>
@@ -208,16 +210,17 @@
                     if ($key % 2 != 0) {
                         $class = 'gray';
                     }
+
+                    $total_filas = count($orden_venta->detalle_ordens);
                 @endphp
                 <tr class="{{ $class }}">
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->nro }}</td>
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->sucursal->nombre }}</td>
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->user->usuario }}</td>
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->cliente->full_name }}
+                    <td rowspan="{{ $total_filas }}">{{ $orden_venta->nro }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $orden_venta->sucursal->nombre }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $orden_venta->user->usuario }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $orden_venta->cliente->full_name }}
                     </td>
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->nit_ci }}</td>
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->factura }}</td>
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->tipo_pago }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $orden_venta->nit_ci }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $orden_venta->descripcion }}</td>
                     @php
                         $primero = App\Models\DetalleOrden::where('orden_venta_id', $orden_venta->id)
                             ->where('status', 1)
@@ -231,7 +234,7 @@
                     <td>
                         {{ $primero->producto->nombre }}
                     </td>
-                    <td>
+                    <td class="centreado">
                         {{ $primero->cantidad }}
                     </td>
                     <td class="derecha">
@@ -240,14 +243,21 @@
                     <td class="derecha">
                         {{ number_format($primero->subtotal, 2, '.', ',') }}
                     </td>
-                    <td rowspan="{{ count($orden_venta->detalle_ordens) }}">{{ $orden_venta->fecha_registro_t }}</td>
+                    <td class="derecha">
+                        @if (count($sgtes) == 0)
+                            {{ number_format($orden_venta->total, 2, '.', ',') }}
+                        @endif
+                    </td>
+                    <td rowspan="{{ $total_filas }}" class="centreado">{{ $orden_venta->tipo_pago }}</td>
+                    <td rowspan="{{ $total_filas }}" class="centreado">{{ $orden_venta->factura }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $orden_venta->fecha_registro_t }}</td>
                 </tr>
-                @foreach ($sgtes as $det)
+                @foreach ($sgtes as $key_det => $det)
                     <tr class="{{ $class }}">
                         <td>
                             {{ $det->producto->nombre }}
                         </td>
-                        <td>
+                        <td class="centreado">
                             {{ $det->cantidad }}
                         </td>
                         <td class="derecha">
@@ -255,6 +265,11 @@
                         </td>
                         <td class="derecha">
                             {{ number_format($det->subtotal, 2, '.', ',') }}
+                        </td>
+                        <td class="derecha">
+                            @if ($key_det == count($sgtes) - 1)
+                                {{ number_format($orden_venta->total, 2, '.', ',') }}
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -267,7 +282,7 @@
                     TOTAL
                 </td>
                 <td class="text-md bold derecha">{{ number_format($suma_total, 2, '.', ',') }}</td>
-                <td></td>
+                <td colspan="3"></td>
             </tr>
         </tbody>
     </table>

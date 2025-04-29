@@ -32,6 +32,9 @@ class IngresoDetalleRule implements ValidationRule
                 if (trim('' . $arraProd["ubicacion_producto_id"]) == '') {
                     $fail("Debes indicar la ubicación del producto $producto->nombre");
                 }
+                if (trim('' . $arraProd["fila"]) == '') {
+                    $fail("Debes indicar la fila del producto $producto->nombre");
+                }
             } else {
                 $fail("El producto " . ($key + 1) . " no se encuentra en nuestro registros");
             }

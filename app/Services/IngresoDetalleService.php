@@ -38,6 +38,7 @@ class IngresoDetalleService
                 "cantidad" => $item["cantidad"],
                 "disponible" => $item["cantidad"],
                 "ubicacion_producto_id" => $item["ubicacion_producto_id"],
+                "fila" => $item["fila"],
                 "fecha_vencimiento" => $item["fecha_vencimiento"],
                 "descripcion" => mb_strtoupper($item["descripcion"]),
                 "fecha_registro" => date("Y-m-d"),

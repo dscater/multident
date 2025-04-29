@@ -86,7 +86,7 @@ class ProductoSucursalController extends Controller
         try {
             return response()->JSON([
                 "producto_sucursal" => $this->productoSucursalService->getProductoSucursal((int)$request["producto_id"], (int)$request["sucursal_id"]),
-                "promocion" => $this->promocionService->verificaPromocion(date("Y-m-d"), (int)$request["producto_id"]),
+                "promocions" => $this->promocionService->verificaPromocion(date("Y-m-d"), (int)$request["producto_id"]),
                 "ingreso_detalles_ubicacion" => $this->ubicacionProductoService->getUbicacionProductosSucursal((int)$request["sucursal_id"], (int)$request["producto_id"]) // para mostrar la ubicación de producots
             ]);
         } catch (\Exception $e) {

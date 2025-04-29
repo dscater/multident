@@ -143,8 +143,10 @@ class ProductoSucursalService
             ->where("sucursal_id", $sucursal_id)
             ->get()->first();
         if ($sucursal_producto) {
+            Log::debug($sucursal_producto);
             $sucursal_producto->stock_actual = (float)$sucursal_producto->stock_actual - $cantidad;
             $sucursal_producto->save();
+            Log::debug("BBB");
         }
 
         return $sucursal_producto;

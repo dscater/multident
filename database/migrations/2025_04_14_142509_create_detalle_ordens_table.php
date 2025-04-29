@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("orden_venta_id");
             $table->unsignedBigInteger("producto_id");
-            $table->unsignedBigInteger("promocion_id");
+            $table->unsignedBigInteger("promocion_id")->default(0)->nullable();
+            $table->json("list_promocions")->nullable();
             $table->double("promocion_descuento", 8, 2)->default(0)->nullable();
             $table->double("cantidad");
             $table->decimal("precio_reg", 24, 2);

@@ -125,6 +125,7 @@ class OrdenVentaService
             "nit_ci" => $datos["nit_ci"],
             "factura" => $datos["factura"],
             "tipo_pago" => $datos["tipo_pago"],
+            "descripcion" => mb_strtoupper($datos["descripcion"]),
             "fecha_registro" => date("Y-m-d"),
         ]);
 
@@ -155,6 +156,7 @@ class OrdenVentaService
             "nit_ci" => $datos["nit_ci"],
             "factura" => $datos["factura"],
             "tipo_pago" => $datos["tipo_pago"],
+            "descripcion" => mb_strtoupper($datos["descripcion"]),
         ]);
 
         // registrar Detalle(detalle_ordens)

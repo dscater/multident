@@ -29,7 +29,9 @@ class OrdenVentaUpdateRequest extends FormRequest
             "factura" => "required",
             "tipo_pago" => "required",
             'detalle_ordens' => ["required", "array", "min:1", new OrdenVentaDetalleRule],
-            "eliminados" => "nullable|array"
+            'list_promocions' => ["nullable", "array"],
+            "eliminados" => "nullable|array",
+            "descripcion" => "nullable|string"
         ];
     }
 
@@ -45,6 +47,7 @@ class OrdenVentaUpdateRequest extends FormRequest
             "detalle_ordens.required" => "Debes agregar al menos 1 producto",
             "detalle_ordens.array" => "Formato incorrecto del detalle_ordens este debe ser un array de datos",
             "detalle_ordens.min" => "Debes ingresar al menos :min productos",
+            "descripcion.string" => "Debes ingresar un texto",
         ];
     }
 }

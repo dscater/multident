@@ -17,6 +17,7 @@ class OrdenVenta extends Model
         "nit_ci",
         "factura",
         "tipo_pago",
+        "descripcion",
         "fecha_registro",
         "status",
     ];

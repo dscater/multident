@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double("cantidad");
             $table->double("disponible");
             $table->unsignedBigInteger("ubicacion_producto_id");
+            $table->integer("fila")->default(1);
             $table->date("fecha_vencimiento")->nullable();
             $table->text("descripcion")->nullable();
             $table->date("fecha_registro")->nullable();

@@ -104,12 +104,12 @@ class PromocionService
         return true;
     }
 
-    public function verificaPromocion($fecha, int $producto_id): Promocion|NULL
+    public function verificaPromocion($fecha, int $producto_id): Collection|NULL
     {
-        $promocion = Promocion::where("producto_id", $producto_id)
+        $promocions = Promocion::where("producto_id", $producto_id)
             ->whereDate("fecha_ini", "<=", $fecha)
             ->whereDate("fecha_fin", ">=", $fecha)
-            ->get()->first();
-        return $promocion;
+            ->get();
+        return $promocions;
     }
 }

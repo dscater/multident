@@ -15,13 +15,24 @@ class IngresoDetalle extends Model
         "cantidad",
         "disponible",
         "ubicacion_producto_id",
+        "fila",
         "fecha_vencimiento",
         "descripcion",
         "fecha_registro",
         "status"
     ];
 
-    protected $appends = ["fecha_registro_t", "fecha_vencimiento_t"];
+    protected $appends = ["fecha_registro_t", "fecha_vencimiento_t", "listFilas"];
+
+    public function getlistFilasAttribute()
+    {
+        $ubicacion_producto = $this->ubicacion_producto;
+        $listFilas = [];
+        for ($i = 1; $i <= $ubicacion_producto->numero_filas; $i++) {
+            $listFilas[] = ["value" => $i, "label" => $i];
+        }
+        return $listFilas;
+    }
 
     public function getFechaVencimientoTAttribute()
     {

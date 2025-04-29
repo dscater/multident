@@ -21,6 +21,8 @@ const agregarProducto = ref({
     producto: null,
     cantidad: 1,
     ubicacion_producto_id: "",
+    fila: "",
+    listFilas: [],
     fecha_vencimiento: "",
     descripcion: "",
 });
@@ -81,6 +83,8 @@ const agregarProductoTabla = () => {
                 cantidad: agregarProducto.value.cantidad,
                 ubicacion_producto_id:
                     agregarProducto.value.ubicacion_producto_id,
+                fila: agregarProducto.value.fila,
+                listFilas: agregarProducto.value.listFilas,
                 fecha_vencimiento:
                     agregarProducto.value.fecha_vencimiento ?? "",
                 descripcion: agregarProducto.value.descripcion ?? "",
@@ -127,7 +131,8 @@ const validaAgregarProducto = () => {
         agregarProducto.value.producto_id &&
         agregarProducto.value.cantidad &&
         parseFloat(agregarProducto.value.cantidad) > 0 &&
-        agregarProducto.value.ubicacion_producto_id
+        agregarProducto.value.ubicacion_producto_id &&
+        agregarProducto.value.fila
     ) {
         return true;
     }
@@ -162,6 +167,7 @@ const verificaExistente = () => {
 const listSucursals = ref([]);
 const listProductos = ref([]);
 const listUbicacionProductos = ref([]);
+const listFilas = ref([]);
 
 const cargarSucursals = async () => {
     axios.get(route("sucursals.listado")).then((response) => {
@@ -184,6 +190,41 @@ const cargarListas = () => {
 const cargarProductos = async () => {
     const data = await axiosGet(route("productos.listado"));
     listProductos.value = data.productos;
+};
+
+const generarFilas = () => {
+    listFilas.value = [];
+    if (agregarProducto.value.ubicacion_producto_id) {
+        const ubicacion_producto = listUbicacionProductos.value.filter(
+            (elem) => elem.id === agregarProducto.value.ubicacion_producto_id
+        )[0];
+        for (let i = 1; i <= ubicacion_producto.numero_filas; i++) {
+            listFilas.value.push({
+                value: i,
+                label: i,
+            });
+        }
+        agregarProducto.value.listFilas = listFilas.value;
+    }
+};
+
+const generarFilasDetalle = (index) => {
+    form.ingreso_detalles[index].listFilas = [];
+    form.ingreso_detalles[index].fila = "";
+    if (form.ingreso_detalles[index].ubicacion_producto_id) {
+        const ubicacion_producto = listUbicacionProductos.value.filter(
+            (elem) =>
+                elem.id === form.ingreso_detalles[index].ubicacion_producto_id
+        )[0];
+        let nuevasFilas = [];
+        for (let i = 1; i <= ubicacion_producto.numero_filas; i++) {
+            nuevasFilas.push({
+                value: i,
+                label: i,
+            });
+        }
+        form.ingreso_detalles[index].listFilas = nuevasFilas;
+    }
 };
 
 onMounted(() => {
@@ -242,12 +283,31 @@ onMounted(() => {
                                     v-model="
                                         agregarProducto.ubicacion_producto_id
                                     "
+                                    @change="generarFilas"
                                 >
                                     <el-option
                                         v-for="item in listUbicacionProductos"
                                         :key="item.id"
                                         :value="item.id"
-                                        :label="`${item.lugar}|${item.numero_filas}`"
+                                        :label="`${item.lugar}`"
+                                    />
+                                </el-select>
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <label>Seleccionar Fila*</label>
+                                <el-select
+                                    class="w-100"
+                                    clearable
+                                    placeholder="Seleccionar Fila*"
+                                    no-data-text="Sin datos"
+                                    filterable
+                                    v-model="agregarProducto.fila"
+                                >
+                                    <el-option
+                                        v-for="item in listFilas"
+                                        :key="item.value"
+                                        :value="item.value"
+                                        :label="`${item.label}`"
                                     />
                                 </el-select>
                             </div>
@@ -358,6 +418,12 @@ onMounted(() => {
                                             </th>
                                             <th
                                                 class="text-white"
+                                                style="min-width: 200px"
+                                            >
+                                                Fila
+                                            </th>
+                                            <th
+                                                class="text-white"
                                                 style="min-width: 120px"
                                             >
                                                 Fecha Vencimiento
@@ -404,12 +470,38 @@ onMounted(() => {
                                                         v-model="
                                                             item.ubicacion_producto_id
                                                         "
+                                                        @change="
+                                                            generarFilasDetalle(
+                                                                index
+                                                            )
+                                                        "
                                                     >
                                                         <el-option
                                                             v-for="item in listUbicacionProductos"
                                                             :key="item.id"
                                                             :value="item.id"
-                                                            :label="`${item.lugar}|${item.numero_filas}`"
+                                                            :label="`${item.lugar}`"
+                                                        />
+                                                    </el-select>
+                                                </td>
+                                                <td>
+                                                    <el-select
+                                                        class="w-100"
+                                                        clearable
+                                                        placeholder="- Seleccionar Fila -"
+                                                        no-data-text="Sin datos"
+                                                        filterable
+                                                        v-model="item.fila"
+                                                    >
+                                                        <el-option
+                                                            v-for="item_fila in item.listFilas"
+                                                            :key="
+                                                                item_fila.value
+                                                            "
+                                                            :value="
+                                                                item_fila.value
+                                                            "
+                                                            :label="`${item_fila.label}`"
                                                         />
                                                     </el-select>
                                                 </td>

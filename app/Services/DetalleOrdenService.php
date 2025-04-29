@@ -35,7 +35,8 @@ class DetalleOrdenService
 
             $datos = [
                 "producto_id" => $producto->id,
-                "promocion_id" => $arraProd["promocion_id"],
+                "promocion_id" => $arraProd["promocion_id"] ?? 0,
+                "list_promocions" => $arraProd["list_promocions"] ?? NULL,
                 "promocion_descuento" => $arraProd["promocion_descuento"],
                 "cantidad" => $cantidad,
                 "precio_reg" => $arraProd["precio_reg"],
