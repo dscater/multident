@@ -21,7 +21,9 @@ const { setOrdenVenta, limpiarOrdenVenta } = useOrdenVentas();
 limpiarOrdenVenta();
 const { axiosDelete } = useAxios();
 
-onMounted(async () => {});
+onMounted(async () => {
+    await limpiarOrdenVenta();
+});
 onBeforeUnmount(() => {});
 </script>
 <template>

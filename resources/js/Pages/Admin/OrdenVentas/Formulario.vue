@@ -398,6 +398,7 @@ const calcularPrecioAgregarProductoCSF =()=>{
 
 const verificaPrecioDetalle = (index, e) => {
     const elem = form.detalle_ordens[index];
+    const precio_ingresado = e.target.value;
     const cantidad = elem.cantidad;
     let precio = parseFloat(e.target.value ?? 0);
     if (precio < parseFloat(elem.producto.precio_min)) {
@@ -410,6 +411,15 @@ const verificaPrecioDetalle = (index, e) => {
             confirmButtonText: `Aceptar`,
         });
     }
+
+    if (form.factura == "SI") {
+    const p = 1 + (parseFloat(elem.producto.precio_fac) / 100);
+    precio = elem.precio_reg * p;
+    } else {
+    const p = 1 - (parseFloat(elem.producto.precio_sf) / 100);
+    precio = elem.precio_reg * p;
+    }
+
     precio = parseFloat(precio).toFixed(2);
     const subtotal = parseFloat(cantidad) * parseFloat(precio);
 
@@ -419,7 +429,7 @@ const verificaPrecioDetalle = (index, e) => {
     }
 
     form.detalle_ordens[index].precio = parseFloat(precio);
-    form.detalle_ordens[index].precio_reg = parseFloat(precio);
+    form.detalle_ordens[index].precio_reg = parseFloat(precio_ingresado);
     form.detalle_ordens[index].subtotal = subtotal * (val_descuento > 0 ? val_descuento: 1);
     sumaTotales();
 };
@@ -513,6 +523,7 @@ onMounted(() => {
         props_page.auth?.user.sucursals_todo == 0
             ? props_page.auth?.user.sucursal_id
             : form.sucursal_id;
+            console.log(form)
     cargarListas();
 });
 </script>
@@ -815,7 +826,7 @@ onMounted(() => {
                                                 type="number"
                                                 step="1"
                                                 class="form-control"
-                                                placeholder="Cantidad"
+                                                placeholder="Monto Ingresado"
                                                 v-model="item.precio_reg"
                                                 @change="
                                                     verificaPrecioDetalle(

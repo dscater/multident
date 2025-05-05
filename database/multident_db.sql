@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-04-2025 a las 22:16:38
+-- Tiempo de generación: 05-05-2025 a las 22:29:18
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -101,7 +101,17 @@ INSERT INTO `detalle_ordens` (`id`, `orden_venta_id`, `producto_id`, `promocion_
 (4, 4, 15, 2, '[{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}]', 10.00, 1, 200.00, 200.00, 180.00, 1, '2025-04-29 21:13:13', '2025-04-29 21:56:20'),
 (5, 4, 18, 0, NULL, 0.00, 1, 110.55, 110.55, 110.55, 1, '2025-04-29 21:13:13', '2025-04-29 21:13:13'),
 (6, 5, 15, 0, '[{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}]', 0.00, 5, 200.00, 200.00, 1000.00, 1, '2025-04-29 21:25:27', '2025-04-29 21:25:27'),
-(7, 5, 18, 0, NULL, 0.00, 1, 100.50, 100.50, 100.50, 1, '2025-04-29 21:25:27', '2025-04-29 21:25:27');
+(7, 5, 18, 0, NULL, 0.00, 1, 100.50, 100.50, 100.50, 1, '2025-04-29 21:25:27', '2025-04-29 21:25:27'),
+(8, 6, 15, 0, NULL, 0.00, 1, 200.00, 200.00, 200.00, 1, '2025-05-05 21:52:39', '2025-05-05 21:52:39'),
+(9, 7, 15, 0, NULL, 0.00, 2, 160.00, 176.00, 352.00, 1, '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(10, 7, 18, 0, NULL, 0.00, 2, 90.00, 99.00, 198.00, 1, '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(11, 8, 15, 0, NULL, 0.00, 14, 200.00, 200.00, 2800.00, 1, '2025-05-05 22:12:39', '2025-05-05 22:12:39'),
+(12, 9, 15, 0, NULL, 0.00, 2, 200.00, 220.00, 440.00, 1, '2025-05-05 22:20:32', '2025-05-05 22:20:32'),
+(13, 10, 15, 0, NULL, 0.00, 2, 190.00, 209.00, 418.00, 1, '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(14, 10, 18, 0, NULL, 0.00, 1, 100.00, 110.00, 110.00, 1, '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(15, 11, 15, 0, NULL, 0.00, 1, 200.00, 200.00, 200.00, 1, '2025-05-05 22:21:44', '2025-05-05 22:21:44'),
+(16, 12, 15, 0, NULL, 0.00, 3, 180.00, 198.00, 594.00, 1, '2025-05-05 22:22:14', '2025-05-05 22:22:14'),
+(17, 12, 18, 0, NULL, 0.00, 3, 100.00, 110.00, 330.00, 1, '2025-05-05 22:22:14', '2025-05-05 22:22:14');
 
 -- --------------------------------------------------------
 
@@ -131,7 +141,7 @@ CREATE TABLE `detalle_proformas` (
 
 INSERT INTO `detalle_proformas` (`id`, `proforma_id`, `producto_id`, `promocion_id`, `list_promocions`, `promocion_descuento`, `cantidad`, `precio_reg`, `precio`, `subtotal`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, 15, 2, '[{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}]', 10.00, 20, 200.00, 220.00, 3960.00, 1, '2025-04-29 22:14:57', '2025-04-29 22:14:57'),
-(2, 1, 18, 0, NULL, 0.00, 20, 100.50, 111.00, 2220.00, 1, '2025-04-29 22:14:57', '2025-04-29 22:14:57');
+(2, 1, 18, 0, NULL, 0.00, 10, 100.50, 111.00, 1110.00, 1, '2025-04-29 22:14:57', '2025-04-29 22:17:20');
 
 -- --------------------------------------------------------
 
@@ -158,7 +168,17 @@ INSERT INTO `detalle_usos` (`id`, `orden_venta_id`, `detalle_orden_id`, `product
 (8, 5, 6, 15, 1, 5, '2025-04-29 21:25:27', '2025-04-29 21:25:27'),
 (9, 5, 7, 18, 3, 1, '2025-04-29 21:25:27', '2025-04-29 21:25:27'),
 (14, 4, 4, 15, 1, 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20'),
-(15, 4, 5, 18, 3, 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20');
+(15, 4, 5, 18, 3, 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20'),
+(16, 6, 8, 15, 5, 1, '2025-05-05 21:52:39', '2025-05-05 21:52:39'),
+(17, 7, 9, 15, 5, 2, '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(18, 7, 10, 18, 6, 2, '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(19, 8, 11, 15, 1, 14, '2025-05-05 22:12:39', '2025-05-05 22:12:39'),
+(20, 9, 12, 15, 5, 2, '2025-05-05 22:20:32', '2025-05-05 22:20:32'),
+(21, 10, 13, 15, 5, 2, '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(22, 10, 14, 18, 6, 1, '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(23, 11, 15, 15, 5, 1, '2025-05-05 22:21:44', '2025-05-05 22:21:44'),
+(24, 12, 16, 15, 5, 3, '2025-05-05 22:22:14', '2025-05-05 22:22:14'),
+(25, 12, 17, 18, 6, 3, '2025-05-05 22:22:14', '2025-05-05 22:22:14');
 
 -- --------------------------------------------------------
 
@@ -210,7 +230,17 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (4, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 5, \"nro\": 2, \"nit_ci\": \"0\", \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 2, \"created_at\": \"2025-04-29T21:25:27.000000Z\", \"updated_at\": \"2025-04-29T21:25:27.000000Z\", \"sucursal_id\": \"1\", \"detalle_ordens\": [{\"id\": 6, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 5, \"subtotal\": \"1000.00\", \"created_at\": \"2025-04-29T21:25:27.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-29T21:25:27.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 5, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 0}, {\"id\": 7, \"precio\": \"100.50\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"100.50\", \"created_at\": \"2025-04-29T21:25:27.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-29T21:25:27.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 5, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-04-29\"}', NULL, 'ORDENES DE VENTA', '2025-04-29', '17:25:27', '2025-04-29 21:25:27', '2025-04-29 21:25:27'),
 (5, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA ORDEN DE VENTA', '{\"id\": 4, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"updated_at\": \"2025-04-29T21:13:13.000000Z\", \"descripcion\": null, \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 4, \"precio\": \"201.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"201.00\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"201.00\", \"updated_at\": \"2025-04-29T21:19:03.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 4, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 0}, {\"id\": 5, \"precio\": \"110.55\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"110.55\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"110.55\", \"updated_at\": \"2025-04-29T21:13:13.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 4, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-04-29\"}', '{\"id\": 4, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"updated_at\": \"2025-04-29T21:31:31.000000Z\", \"descripcion\": \"SE REALIZO FACTURA N° 234234 A NOMBRE GONZALES\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 4, \"precio\": \"201.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"201.00\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"201.00\", \"updated_at\": \"2025-04-29T21:19:03.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 4, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 0}, {\"id\": 5, \"precio\": \"110.55\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"110.55\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"110.55\", \"updated_at\": \"2025-04-29T21:13:13.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 4, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-04-29\"}', 'ORDENES DE VENTA', '2025-04-29', '17:31:31', '2025-04-29 21:31:31', '2025-04-29 21:31:31'),
 (6, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA ORDEN DE VENTA', '{\"id\": 4, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"updated_at\": \"2025-04-29T21:31:31.000000Z\", \"descripcion\": \"SE REALIZO FACTURA N° 234234 A NOMBRE GONZALES\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 4, \"precio\": \"201.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"201.00\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"201.00\", \"updated_at\": \"2025-04-29T21:19:03.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 4, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 0}, {\"id\": 5, \"precio\": \"110.55\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"110.55\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"110.55\", \"updated_at\": \"2025-04-29T21:13:13.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 4, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-04-29\"}', '{\"id\": 4, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"updated_at\": \"2025-04-29T21:31:31.000000Z\", \"descripcion\": \"SE REALIZO FACTURA N° 234234 A NOMBRE GONZALES\", \"sucursal_id\": 1, \"detalle_ordens\": [{\"id\": 4, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"180.00\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-29T21:56:20.000000Z\", \"producto_id\": 15, \"promocion_id\": 2, \"orden_venta_id\": 4, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 10}, {\"id\": 5, \"precio\": \"110.55\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"110.55\", \"created_at\": \"2025-04-29T21:13:13.000000Z\", \"precio_reg\": \"110.55\", \"updated_at\": \"2025-04-29T21:13:13.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 4, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-04-29\"}', 'ORDENES DE VENTA', '2025-04-29', '17:56:20', '2025-04-29 21:56:20', '2025-04-29 21:56:20'),
-(7, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PROFORMA', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"factura\": \"SI\", \"user_id\": 1, \"cliente_id\": 1, \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"sucursal_id\": \"1\", \"fecha_validez\": \"2025-05-30\", \"fecha_registro\": \"2025-04-29\", \"detalle_proformas\": [{\"id\": 1, \"precio\": \"220.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"3960.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"producto_id\": 15, \"proforma_id\": 1, \"promocion_id\": 2, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 10}, {\"id\": 2, \"precio\": \"111.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"2220.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"producto_id\": 18, \"proforma_id\": 1, \"promocion_id\": 0, \"list_promocions\": null, \"promocion_descuento\": 0}]}', NULL, 'PROFORMAS', '2025-04-29', '18:14:57', '2025-04-29 22:14:57', '2025-04-29 22:14:57');
+(7, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA PROFORMA', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"factura\": \"SI\", \"user_id\": 1, \"cliente_id\": 1, \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"sucursal_id\": \"1\", \"fecha_validez\": \"2025-05-30\", \"fecha_registro\": \"2025-04-29\", \"detalle_proformas\": [{\"id\": 1, \"precio\": \"220.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"3960.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"producto_id\": 15, \"proforma_id\": 1, \"promocion_id\": 2, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 10}, {\"id\": 2, \"precio\": \"111.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"2220.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"producto_id\": 18, \"proforma_id\": 1, \"promocion_id\": 0, \"list_promocions\": null, \"promocion_descuento\": 0}]}', NULL, 'PROFORMAS', '2025-04-29', '18:14:57', '2025-04-29 22:14:57', '2025-04-29 22:14:57'),
+(8, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UNA PROFORMA', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"SI\", \"user_id\": 1, \"cliente_id\": 1, \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"sucursal_id\": 1, \"fecha_validez\": \"2025-05-30\", \"fecha_registro\": \"2025-04-29\", \"detalle_proformas\": [{\"id\": 1, \"precio\": \"220.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"3960.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"producto_id\": 15, \"proforma_id\": 1, \"promocion_id\": 2, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 10}, {\"id\": 2, \"precio\": \"111.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"2220.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"producto_id\": 18, \"proforma_id\": 1, \"promocion_id\": 0, \"list_promocions\": null, \"promocion_descuento\": 0}]}', '{\"id\": 1, \"nro\": 1, \"nit_ci\": \"3222323\", \"status\": 1, \"factura\": \"SI\", \"user_id\": 1, \"cliente_id\": 1, \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"sucursal_id\": 1, \"fecha_validez\": \"2025-05-30\", \"fecha_registro\": \"2025-04-29\", \"detalle_proformas\": [{\"id\": 1, \"precio\": \"220.00\", \"status\": 1, \"cantidad\": 20, \"subtotal\": \"3960.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-04-29T22:14:57.000000Z\", \"producto_id\": 15, \"proforma_id\": 1, \"promocion_id\": 2, \"list_promocions\": [{\"id\": \"2\", \"fecha_fin\": \"2025-04-30\", \"fecha_ini\": \"2025-04-22\", \"created_at\": \"2025-04-22T19:57:35.000000Z\", \"porcentaje\": \"10\", \"updated_at\": \"2025-04-22T19:57:35.000000Z\", \"descripcion\": null, \"fecha_fin_t\": \"30/04/2025\", \"fecha_ini_t\": \"22/04/2025\", \"producto_id\": \"15\", \"fecha_registro\": \"2025-04-22\", \"fecha_registro_t\": \"22/04/2025\"}], \"promocion_descuento\": 10}, {\"id\": 2, \"precio\": \"111.00\", \"status\": 1, \"cantidad\": 10, \"subtotal\": \"1110.00\", \"created_at\": \"2025-04-29T22:14:57.000000Z\", \"precio_reg\": \"100.50\", \"updated_at\": \"2025-04-29T22:17:20.000000Z\", \"producto_id\": 18, \"proforma_id\": 1, \"promocion_id\": 0, \"list_promocions\": null, \"promocion_descuento\": 0}]}', 'PROFORMAS', '2025-04-29', '18:17:20', '2025-04-29 22:17:20', '2025-04-29 22:17:20'),
+(9, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', '{\"ci\": \"123123123\", \"id\": 9, \"acceso\": \"1\", \"ci_exp\": \"LP\", \"correo\": null, \"materno\": \"CONDORI\", \"nombres\": \"JAVIER\", \"paterno\": \"PERES\", \"role_id\": \"3\", \"usuario\": \"JPERES1\", \"sucursal\": {\"id\": 2, \"fonos\": \"5656565656\", \"codigo\": \"S002\", \"nombre\": \"SUCURSAL B\", \"status\": 1, \"user_id\": 3, \"status_t\": \"HABILITADO\", \"direccion\": \"\", \"created_at\": \"2025-04-14T19:58:29.000000Z\", \"updated_at\": \"2025-04-14T19:58:29.000000Z\", \"fecha_registro\": \"2025-04-14\", \"fecha_registro_t\": \"14/04/2025\"}, \"created_at\": \"2025-05-05T21:34:21.000000Z\", \"updated_at\": \"2025-05-05T21:34:21.000000Z\", \"sucursal_id\": \"2\", \"fecha_registro\": \"2025-05-05\", \"sucursals_todo\": 0}', NULL, 'USUARIOS', '2025-05-05', '17:34:21', '2025-05-05 21:34:21', '2025-05-05 21:34:21'),
+(10, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTOS', '{\"id\": 2, \"created_at\": \"2025-05-05T21:49:57.000000Z\", \"updated_at\": \"2025-05-05T21:49:57.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"2\", \"fecha_registro\": \"2025-05-05\", \"ingreso_detalles\": [{\"id\": 5, \"fila\": 1, \"status\": 1, \"cantidad\": 100, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-05-05T21:49:57.000000Z\", \"disponible\": 100, \"updated_at\": \"2025-05-05T21:49:57.000000Z\", \"descripcion\": \"\", \"producto_id\": 15, \"fecha_registro\": \"2025-05-05\", \"fecha_registro_t\": \"05/05/2025\", \"fecha_vencimiento\": \"2028-01-01\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"01/01/2028\", \"ingreso_producto_id\": 2, \"ubicacion_producto_id\": 1}, {\"id\": 6, \"fila\": 2, \"status\": 1, \"cantidad\": 100, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-05-05T21:49:57.000000Z\", \"disponible\": 100, \"updated_at\": \"2025-05-05T21:49:57.000000Z\", \"descripcion\": \"\", \"producto_id\": 18, \"fecha_registro\": \"2025-05-05\", \"fecha_registro_t\": \"05/05/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 2, \"ubicacion_producto_id\": 1}, {\"id\": 7, \"fila\": 1, \"status\": 1, \"cantidad\": 100, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}, {\"label\": 5, \"value\": 5}], \"created_at\": \"2025-05-05T21:49:57.000000Z\", \"disponible\": 100, \"updated_at\": \"2025-05-05T21:49:57.000000Z\", \"descripcion\": \"\", \"producto_id\": 19, \"fecha_registro\": \"2025-05-05\", \"fecha_registro_t\": \"05/05/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 2, \"lugar\": \"LUGAR B\", \"status\": 1, \"created_at\": \"2025-04-17T22:11:05.000000Z\", \"updated_at\": \"2025-04-29T12:39:39.000000Z\", \"numero_filas\": 5, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 2, \"ubicacion_producto_id\": 2}]}', NULL, 'INGRESO DE PRODUCTOS', '2025-05-05', '17:49:57', '2025-05-05 21:49:57', '2025-05-05 21:49:57'),
+(11, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 6, \"nro\": 3, \"nit_ci\": \"3222323\", \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-05-05T21:52:39.000000Z\", \"updated_at\": \"2025-05-05T21:52:39.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"2\", \"detalle_ordens\": [{\"id\": 8, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"200.00\", \"created_at\": \"2025-05-05T21:52:39.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-05-05T21:52:39.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 6, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-05-05\"}', NULL, 'ORDENES DE VENTA', '2025-05-05', '17:52:39', '2025-05-05 21:52:39', '2025-05-05 21:52:39'),
+(12, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 7, \"nro\": 4, \"nit_ci\": \"0\", \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 2, \"created_at\": \"2025-05-05T22:10:11.000000Z\", \"updated_at\": \"2025-05-05T22:10:11.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"2\", \"detalle_ordens\": [{\"id\": 9, \"precio\": \"176.00\", \"status\": 1, \"cantidad\": 2, \"subtotal\": \"352.00\", \"created_at\": \"2025-05-05T22:10:11.000000Z\", \"precio_reg\": \"160.00\", \"updated_at\": \"2025-05-05T22:10:11.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 7, \"list_promocions\": null, \"promocion_descuento\": 0}, {\"id\": 10, \"precio\": \"99.00\", \"status\": 1, \"cantidad\": 2, \"subtotal\": \"198.00\", \"created_at\": \"2025-05-05T22:10:11.000000Z\", \"precio_reg\": \"90.00\", \"updated_at\": \"2025-05-05T22:10:11.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 7, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-05-05\"}', NULL, 'ORDENES DE VENTA', '2025-05-05', '18:10:11', '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(13, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 8, \"nro\": 5, \"nit_ci\": \"3222323\", \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-05-05T22:12:39.000000Z\", \"updated_at\": \"2025-05-05T22:12:39.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"1\", \"detalle_ordens\": [{\"id\": 11, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 14, \"subtotal\": \"2800.00\", \"created_at\": \"2025-05-05T22:12:39.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-05-05T22:12:39.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 8, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-05-05\"}', NULL, 'ORDENES DE VENTA', '2025-05-05', '18:12:39', '2025-05-05 22:12:39', '2025-05-05 22:12:39'),
+(14, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 9, \"nro\": 6, \"nit_ci\": \"0\", \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 2, \"created_at\": \"2025-05-05T22:20:32.000000Z\", \"updated_at\": \"2025-05-05T22:20:32.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"2\", \"detalle_ordens\": [{\"id\": 12, \"precio\": \"220.00\", \"status\": 1, \"cantidad\": 2, \"subtotal\": \"440.00\", \"created_at\": \"2025-05-05T22:20:32.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-05-05T22:20:32.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 9, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-05-05\"}', NULL, 'ORDENES DE VENTA', '2025-05-05', '18:20:32', '2025-05-05 22:20:32', '2025-05-05 22:20:32'),
+(15, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 10, \"nro\": 7, \"nit_ci\": \"3222323\", \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-05-05T22:21:16.000000Z\", \"updated_at\": \"2025-05-05T22:21:16.000000Z\", \"descripcion\": \"DESCRIPCION VENTA\", \"sucursal_id\": \"2\", \"detalle_ordens\": [{\"id\": 13, \"precio\": \"209.00\", \"status\": 1, \"cantidad\": 2, \"subtotal\": \"418.00\", \"created_at\": \"2025-05-05T22:21:16.000000Z\", \"precio_reg\": \"190.00\", \"updated_at\": \"2025-05-05T22:21:16.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 10, \"list_promocions\": null, \"promocion_descuento\": 0}, {\"id\": 14, \"precio\": \"110.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"110.00\", \"created_at\": \"2025-05-05T22:21:16.000000Z\", \"precio_reg\": \"100.00\", \"updated_at\": \"2025-05-05T22:21:16.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 10, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-05-05\"}', NULL, 'ORDENES DE VENTA', '2025-05-05', '18:21:16', '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(16, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 11, \"nro\": 8, \"nit_ci\": \"3222323\", \"factura\": \"NO\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-05-05T22:21:44.000000Z\", \"updated_at\": \"2025-05-05T22:21:44.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"2\", \"detalle_ordens\": [{\"id\": 15, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"200.00\", \"created_at\": \"2025-05-05T22:21:44.000000Z\", \"precio_reg\": \"200.00\", \"updated_at\": \"2025-05-05T22:21:44.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 11, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-05-05\"}', NULL, 'ORDENES DE VENTA', '2025-05-05', '18:21:44', '2025-05-05 22:21:44', '2025-05-05 22:21:44'),
+(17, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', '{\"id\": 12, \"nro\": 9, \"nit_ci\": \"3222323\", \"factura\": \"SI\", \"user_id\": 1, \"tipo_pago\": \"EFECTIVO\", \"cliente_id\": 1, \"created_at\": \"2025-05-05T22:22:14.000000Z\", \"updated_at\": \"2025-05-05T22:22:14.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"2\", \"detalle_ordens\": [{\"id\": 16, \"precio\": \"198.00\", \"status\": 1, \"cantidad\": 3, \"subtotal\": \"594.00\", \"created_at\": \"2025-05-05T22:22:14.000000Z\", \"precio_reg\": \"180.00\", \"updated_at\": \"2025-05-05T22:22:14.000000Z\", \"producto_id\": 15, \"promocion_id\": 0, \"orden_venta_id\": 12, \"list_promocions\": null, \"promocion_descuento\": 0}, {\"id\": 17, \"precio\": \"110.00\", \"status\": 1, \"cantidad\": 3, \"subtotal\": \"330.00\", \"created_at\": \"2025-05-05T22:22:14.000000Z\", \"precio_reg\": \"100.00\", \"updated_at\": \"2025-05-05T22:22:14.000000Z\", \"producto_id\": 18, \"promocion_id\": 0, \"orden_venta_id\": 12, \"list_promocions\": null, \"promocion_descuento\": 0}], \"fecha_registro\": \"2025-05-05\"}', NULL, 'ORDENES DE VENTA', '2025-05-05', '18:22:14', '2025-05-05 22:22:14', '2025-05-05 22:22:14');
 
 -- --------------------------------------------------------
 
@@ -239,10 +269,13 @@ CREATE TABLE `ingreso_detalles` (
 --
 
 INSERT INTO `ingreso_detalles` (`id`, `ingreso_producto_id`, `producto_id`, `cantidad`, `disponible`, `ubicacion_producto_id`, `fila`, `fecha_vencimiento`, `descripcion`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 20, 14, 1, 1, '2026-01-01', 'DESCRIPCION INGRESO 1', '2025-04-29', 1, '2025-04-29 21:11:56', '2025-04-29 21:56:20'),
+(1, 1, 15, 20, 0, 1, 1, '2026-01-01', 'DESCRIPCION INGRESO 1', '2025-04-29', 1, '2025-04-29 21:11:56', '2025-05-05 22:12:39'),
 (2, 1, 16, 20, 20, 1, 2, NULL, '', '2025-04-29', 1, '2025-04-29 21:11:56', '2025-04-29 21:11:56'),
 (3, 1, 18, 20, 18, 1, 3, '2026-04-29', '', '2025-04-29', 1, '2025-04-29 21:11:56', '2025-04-29 21:56:20'),
-(4, 1, 19, 20, 20, 1, 3, NULL, '', '2025-04-29', 1, '2025-04-29 21:11:56', '2025-04-29 21:11:56');
+(4, 1, 19, 20, 20, 1, 3, NULL, '', '2025-04-29', 1, '2025-04-29 21:11:56', '2025-04-29 21:11:56'),
+(5, 2, 15, 100, 89, 1, 1, '2028-01-01', '', '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 22:22:14'),
+(6, 2, 18, 100, 94, 1, 2, NULL, '', '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 22:22:14'),
+(7, 2, 19, 100, 100, 2, 1, NULL, '', '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57');
 
 -- --------------------------------------------------------
 
@@ -265,7 +298,8 @@ CREATE TABLE `ingreso_productos` (
 --
 
 INSERT INTO `ingreso_productos` (`id`, `sucursal_id`, `fecha_registro`, `descripcion`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '2025-04-29', '', 1, '2025-04-29 21:11:56', '2025-04-29 21:11:56');
+(1, 1, '2025-04-29', '', 1, '2025-04-29 21:11:56', '2025-04-29 21:11:56'),
+(2, 2, '2025-05-05', '', 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57');
 
 -- --------------------------------------------------------
 
@@ -324,7 +358,20 @@ INSERT INTO `kardex_productos` (`id`, `sucursal_id`, `tipo_registro`, `registro_
 (24, 1, 'ORDEN DE VENTA', 4, 'DetalleOrden', 15, 'POR MODIFICACIÓN DE ORDEN DE VENTA', 200.00, 'INGRESO', 1, NULL, 15, 200.00, 200.00, NULL, 3000.00, '2025-04-29', 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20'),
 (25, 1, 'ORDEN DE VENTA', 4, 'DetalleOrden', 15, 'VENTA DE PRODUCTO (MODIFICACIÓN)', 200.00, 'EGRESO', NULL, 1, 14, 200.00, NULL, 200.00, 2800.00, '2025-04-29', 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20'),
 (26, 1, 'ORDEN DE VENTA', 5, 'DetalleOrden', 18, 'POR MODIFICACIÓN DE ORDEN DE VENTA', 100.50, 'INGRESO', 1, NULL, 19, 100.50, 100.50, NULL, 1909.50, '2025-04-29', 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20'),
-(27, 1, 'ORDEN DE VENTA', 5, 'DetalleOrden', 18, 'VENTA DE PRODUCTO (MODIFICACIÓN)', 100.50, 'EGRESO', NULL, 1, 18, 100.50, NULL, 100.50, 1809.00, '2025-04-29', 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20');
+(27, 1, 'ORDEN DE VENTA', 5, 'DetalleOrden', 18, 'VENTA DE PRODUCTO (MODIFICACIÓN)', 100.50, 'EGRESO', NULL, 1, 18, 100.50, NULL, 100.50, 1809.00, '2025-04-29', 1, '2025-04-29 21:56:20', '2025-04-29 21:56:20'),
+(28, 2, 'INGRESO DE PRODUCTO', 5, 'IngresoDetalle', 15, 'VALOR INICIAL', 200.00, 'INGRESO', 100, NULL, 100, 200.00, 20000.00, NULL, 20000.00, '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57'),
+(29, 2, 'INGRESO DE PRODUCTO', 6, 'IngresoDetalle', 18, 'VALOR INICIAL', 100.50, 'INGRESO', 100, NULL, 100, 100.50, 10050.00, NULL, 10050.00, '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57'),
+(30, 2, 'INGRESO DE PRODUCTO', 7, 'IngresoDetalle', 19, 'VALOR INICIAL', 50.90, 'INGRESO', 100, NULL, 100, 50.90, 5090.00, NULL, 5090.00, '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57'),
+(31, 2, 'ORDEN DE VENTA', 8, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 1, 99, 200.00, NULL, 200.00, 19800.00, '2025-05-05', 1, '2025-05-05 21:52:39', '2025-05-05 21:52:39'),
+(32, 2, 'ORDEN DE VENTA', 9, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 2, 97, 200.00, NULL, 400.00, 19400.00, '2025-05-05', 1, '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(33, 2, 'ORDEN DE VENTA', 10, 'DetalleOrden', 18, 'VENTA DE PRODUCTO', 100.50, 'EGRESO', NULL, 2, 98, 100.50, NULL, 201.00, 9849.00, '2025-05-05', 1, '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(34, 1, 'ORDEN DE VENTA', 11, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 14, 0, 200.00, NULL, 2800.00, 0.00, '2025-05-05', 1, '2025-05-05 22:12:39', '2025-05-05 22:12:39'),
+(35, 2, 'ORDEN DE VENTA', 12, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 2, 95, 200.00, NULL, 400.00, 19000.00, '2025-05-05', 1, '2025-05-05 22:20:32', '2025-05-05 22:20:32'),
+(36, 2, 'ORDEN DE VENTA', 13, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 2, 93, 200.00, NULL, 400.00, 18600.00, '2025-05-05', 1, '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(37, 2, 'ORDEN DE VENTA', 14, 'DetalleOrden', 18, 'VENTA DE PRODUCTO', 100.50, 'EGRESO', NULL, 1, 97, 100.50, NULL, 100.50, 9748.50, '2025-05-05', 1, '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(38, 2, 'ORDEN DE VENTA', 15, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 1, 92, 200.00, NULL, 200.00, 18400.00, '2025-05-05', 1, '2025-05-05 22:21:44', '2025-05-05 22:21:44'),
+(39, 2, 'ORDEN DE VENTA', 16, 'DetalleOrden', 15, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 3, 89, 200.00, NULL, 600.00, 17800.00, '2025-05-05', 1, '2025-05-05 22:22:14', '2025-05-05 22:22:14'),
+(40, 2, 'ORDEN DE VENTA', 17, 'DetalleOrden', 18, 'VENTA DE PRODUCTO', 100.50, 'EGRESO', NULL, 3, 94, 100.50, NULL, 301.50, 9447.00, '2025-05-05', 1, '2025-05-05 22:22:14', '2025-05-05 22:22:14');
 
 -- --------------------------------------------------------
 
@@ -482,7 +529,10 @@ INSERT INTO `notificacions` (`id`, `descripcion`, `fecha`, `hora`, `tipo`, `sucu
 (4, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-29', '17:13:13', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-04-29 21:13:13', '2025-04-29 21:13:13'),
 (5, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-29', '17:13:13', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-04-29 21:13:13', '2025-04-29 21:13:13'),
 (6, 'STOCK DEL PRODUCTO PRODUCTO A1 ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-04-29', '17:54:26', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 2, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
-(7, 'EL PRODUCTO PRODUCTO B ESTA A 12 MESES DE SU FECHA DE VENCIMIENTO', '2025-04-29', '17:54:26', '12 MESES', 1, 'ProductoSucursal', 3, '2025-04-29 21:54:26', '2025-04-29 21:54:26');
+(7, 'EL PRODUCTO PRODUCTO B ESTA A 12 MESES DE SU FECHA DE VENCIMIENTO', '2025-04-29', '17:54:26', '12 MESES', 1, 'ProductoSucursal', 3, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
+(8, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-05', '17:29:28', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
+(9, 'STOCK DEL PRODUCTO PRODUCTO A1 ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-05', '17:29:28', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 2, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
+(10, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-05', '17:29:28', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-05 21:29:28', '2025-05-05 21:29:28');
 
 -- --------------------------------------------------------
 
@@ -512,7 +562,13 @@ INSERT INTO `notificacion_users` (`id`, `user_id`, `notificacion_id`, `visto`, `
 (12, 4, 6, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
 (13, 1, 7, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
 (14, 3, 7, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
-(15, 4, 7, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26');
+(15, 4, 7, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
+(16, 1, 8, 0, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
+(17, 4, 8, 0, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
+(18, 1, 9, 0, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
+(19, 4, 9, 0, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
+(20, 1, 10, 0, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
+(21, 4, 10, 0, '2025-05-05 21:29:28', '2025-05-05 21:29:28');
 
 -- --------------------------------------------------------
 
@@ -542,7 +598,14 @@ CREATE TABLE `orden_ventas` (
 
 INSERT INTO `orden_ventas` (`id`, `nro`, `user_id`, `sucursal_id`, `cliente_id`, `nit_ci`, `factura`, `tipo_pago`, `descripcion`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
 (4, 1, 1, 1, 1, '3222323', 'SI', 'EFECTIVO', 'SE REALIZO FACTURA N° 234234 A NOMBRE GONZALES', '2025-04-29', 1, '2025-04-29 21:13:13', '2025-04-29 21:31:31'),
-(5, 2, 1, 1, 2, '0', 'NO', 'EFECTIVO', NULL, '2025-04-29', 1, '2025-04-29 21:25:27', '2025-04-29 21:25:27');
+(5, 2, 1, 1, 2, '0', 'NO', 'EFECTIVO', NULL, '2025-04-29', 1, '2025-04-29 21:25:27', '2025-04-29 21:25:27'),
+(6, 3, 1, 2, 1, '3222323', 'NO', 'EFECTIVO', '', '2025-05-05', 1, '2025-05-05 21:52:39', '2025-05-05 21:52:39'),
+(7, 4, 1, 2, 2, '0', 'SI', 'EFECTIVO', '', '2025-05-05', 1, '2025-05-05 22:10:11', '2025-05-05 22:10:11'),
+(8, 5, 1, 1, 1, '3222323', 'NO', 'EFECTIVO', '', '2025-05-05', 1, '2025-05-05 22:12:39', '2025-05-05 22:12:39'),
+(9, 6, 1, 2, 2, '0', 'SI', 'EFECTIVO', '', '2025-05-05', 1, '2025-05-05 22:20:32', '2025-05-05 22:20:32'),
+(10, 7, 1, 2, 1, '3222323', 'SI', 'EFECTIVO', 'DESCRIPCION VENTA', '2025-05-05', 1, '2025-05-05 22:21:16', '2025-05-05 22:21:16'),
+(11, 8, 1, 2, 1, '3222323', 'NO', 'EFECTIVO', '', '2025-05-05', 1, '2025-05-05 22:21:44', '2025-05-05 22:21:44'),
+(12, 9, 1, 2, 1, '3222323', 'SI', 'EFECTIVO', '', '2025-05-05', 1, '2025-05-05 22:22:14', '2025-05-05 22:22:14');
 
 -- --------------------------------------------------------
 
@@ -665,10 +728,13 @@ CREATE TABLE `producto_sucursals` (
 --
 
 INSERT INTO `producto_sucursals` (`id`, `sucursal_id`, `producto_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 14, '2025-04-29 21:11:56', '2025-04-29 21:56:20'),
+(1, 1, 15, 0, '2025-04-29 21:11:56', '2025-05-05 22:12:39'),
 (2, 1, 16, 20, '2025-04-29 21:11:56', '2025-04-29 21:11:56'),
 (3, 1, 18, 18, '2025-04-29 21:11:56', '2025-04-29 21:56:20'),
-(4, 1, 19, 20, '2025-04-29 21:11:56', '2025-04-29 21:11:56');
+(4, 1, 19, 20, '2025-04-29 21:11:56', '2025-04-29 21:11:56'),
+(10, 2, 15, 89, '2025-05-05 21:49:57', '2025-05-05 22:22:14'),
+(11, 2, 18, 94, '2025-05-05 21:49:57', '2025-05-05 22:22:14'),
+(12, 2, 19, 100, '2025-05-05 21:49:57', '2025-05-05 21:49:57');
 
 -- --------------------------------------------------------
 
@@ -852,7 +918,8 @@ INSERT INTO `users` (`id`, `usuario`, `nombres`, `paterno`, `materno`, `ci`, `ci
 (1, 'admin', 'admin', 'admin', NULL, '0', '', 'admin@admin.com', '$2y$12$65d4fgZsvBV5Lc/AxNKh4eoUdbGyaczQ4sSco20feSQANshNLuxSC', 1, 1, NULL, NULL, '2025-04-13', 1, 1, NULL, NULL),
 (3, 'JPERES', 'JUAN', 'PERES', 'MAMANI', '444444', 'LP', 'juan@gmail.com', '$2y$12$b4EOhFH4jgoCw9XCTTsbdehEOeVBFNysg7RG2Kqe9r/0Is4./A6sK', 2, 1, NULL, '31744662841.jpg', '2025-04-14', 1, 1, '2025-04-14 19:39:54', '2025-04-14 20:34:01'),
 (4, 'MCONDORI', 'MARCOS', 'CONDORI', '', '555555', 'LP', NULL, '$2y$12$s7fcK8m0793KQtkTF51EZuoGHJgn0/6N6OykmnjDTrUeS14mihzQC', 3, 0, 1, '41744662862.jpg', '2025-04-14', 1, 1, '2025-04-14 19:52:56', '2025-04-14 20:34:22'),
-(7, 'RPAREDES', 'RAMIRO', 'PAREDES', 'CONDE', '1020301', 'LP', NULL, '$2y$12$FLJiBq/b.fbUdOchpgIIU.sSs3gcZwdIc.I5I2DSEArYRi1gwRYoS', 3, 0, 2, NULL, '2025-04-29', 1, 1, '2025-04-29 13:23:31', '2025-04-29 13:23:31');
+(7, 'RPAREDES', 'RAMIRO', 'PAREDES', 'CONDE', '1020301', 'LP', NULL, '$2y$12$FLJiBq/b.fbUdOchpgIIU.sSs3gcZwdIc.I5I2DSEArYRi1gwRYoS', 3, 0, 2, NULL, '2025-04-29', 1, 1, '2025-04-29 13:23:31', '2025-04-29 13:23:31'),
+(9, 'JPERES1', 'JAVIER', 'PERES', 'CONDORI', '123123123', 'LP', NULL, '$2y$12$r9wXC33iewWBm0BaoshcSOmKVwAP7DLN2LSKoo4qLAgA0u.w/1XGu', 3, 0, 2, NULL, '2025-05-05', 1, 1, '2025-05-05 21:34:21', '2025-05-05 21:34:21');
 
 --
 -- Índices para tablas volcadas
@@ -1068,7 +1135,7 @@ ALTER TABLE `configuracions`
 -- AUTO_INCREMENT de la tabla `detalle_ordens`
 --
 ALTER TABLE `detalle_ordens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_proformas`
@@ -1080,7 +1147,7 @@ ALTER TABLE `detalle_proformas`
 -- AUTO_INCREMENT de la tabla `detalle_usos`
 --
 ALTER TABLE `detalle_usos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `devolucions`
@@ -1092,25 +1159,25 @@ ALTER TABLE `devolucions`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_detalles`
 --
 ALTER TABLE `ingreso_detalles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -1128,19 +1195,19 @@ ALTER TABLE `modulos`
 -- AUTO_INCREMENT de la tabla `notificacions`
 --
 ALTER TABLE `notificacions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion_users`
 --
 ALTER TABLE `notificacion_users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_ventas`
 --
 ALTER TABLE `orden_ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
@@ -1164,7 +1231,7 @@ ALTER TABLE `producto_relacions`
 -- AUTO_INCREMENT de la tabla `producto_sucursals`
 --
 ALTER TABLE `producto_sucursals`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `proformas`
@@ -1206,7 +1273,7 @@ ALTER TABLE `ubicacion_productos`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
