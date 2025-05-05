@@ -47,7 +47,7 @@ export const useOrdenVentas = () => {
         oOrdenVenta.value.tipo_pago = "EFECTIVO";
         oOrdenVenta.value.fecha_registro = "";
         oOrdenVenta.value.detalle_ordens = [];
-        oOrdenVenta.value.descripcion = [];
+        oOrdenVenta.value.descripcion = "";
         oOrdenVenta.value.eliminados = [];
         oOrdenVenta.value.total = "0.00";
         oOrdenVenta.value._method = "POST";

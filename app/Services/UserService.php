@@ -26,8 +26,18 @@ class UserService
     public function getNombreUsuario(string $nom, string $apep): string
     {
         //determinando el nombre de usuario inicial del 1er_nombre+apep+tipoUser
-        $nombre_user = substr(mb_strtoupper($nom), 0, 1); //inicial 1er_nombre
-        $nombre_user .= mb_strtoupper($apep);
+        $existe = null;
+        $cont = 0;
+        do {
+            $nombre_user = substr(mb_strtoupper($nom), 0, 1); //inicial 1er_nombre
+            $nombre_user .= mb_strtoupper($apep);
+            if ($cont > 0) {
+                $nombre_user = $nombre_user . $cont;
+            }
+            $existe = User::where("usuario", $nombre_user)->get()->first();
+            $cont++;
+        } while ($existe);
+
         return $nombre_user;
     }
 
