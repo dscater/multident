@@ -11,7 +11,7 @@ const oIngresoProducto = ref({
 });
 
 export const useIngresoProductos = () => {
-    const setIngresoProducto = (item = null) => {
+    const setIngresoProducto = (item = null, show_ = false) => {
         if (item) {
             oIngresoProducto.value.id = item.id;
             oIngresoProducto.value.sucursal_id = item.sucursal_id;
@@ -19,6 +19,10 @@ export const useIngresoProductos = () => {
             oIngresoProducto.value.descripcion = item.descripcion;
             oIngresoProducto.value.ingreso_detalles = item.ingreso_detalles;
             oIngresoProducto.value.eliminados = [];
+            if (show_) {
+                oIngresoProducto.value.sucursal = item.sucursal;
+                oIngresoProducto.value.fecha_registro_t = item.fecha_registro_t;
+            }
             oIngresoProducto.value._method = "PUT";
             return oIngresoProducto;
         }

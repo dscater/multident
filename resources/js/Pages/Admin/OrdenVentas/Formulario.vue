@@ -68,6 +68,7 @@ const enviarFormulario = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
             });
+            limpiarOrdenVenta();
             emits("envio-formulario");
         },
         onError: (err) => {

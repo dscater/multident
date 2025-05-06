@@ -215,69 +215,73 @@
             <h4 class="fecha">(Expresado en bolivianos)</h4>
         </div>
         @foreach ($productos as $registro)
-            <br><br>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <td class="centreado" colspan="9"><strong>{{ $registro->nombre }}</strong></td>
-                    </tr>
-                    <tr>
-                        <th rowspan="2" width="20px">FECHA</th>
-                        <th rowspan="2">DETALLE</th>
-                        <th colspan="3">CANTIDADES</th>
-                        <th rowspan="2">P/U</th>
-                        <th colspan="3">BOLIVIANOS</th>
-                    </tr>
-                    <tr>
-                        <th>ENTRADA</th>
-                        <th>SALIDA</th>
-                        <th>SALDO</th>
-                        <th>ENTRADA</th>
-                        <th>SALIDA</th>
-                        <th>SALDO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (count($kardex_sucursals[$sucursal->id]['array_kardex'][$registro->id]) > 0 ||
-                            $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['sw']
-                    )
-                        @if ($kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['sw'])
+            @if (count($kardex_sucursals[$sucursal->id]['array_kardex'][$registro->id]) > 0 ||
+                    $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['sw']
+            )
+                <br><br>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td class="centreado" colspan="9"><strong>{{ $registro->nombre }}</strong></td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" width="20px">FECHA</th>
+                            <th rowspan="2">DETALLE</th>
+                            <th colspan="3">CANTIDADES</th>
+                            <th rowspan="2">P/U</th>
+                            <th colspan="3">BOLIVIANOS</th>
+                        </tr>
+                        <tr>
+                            <th>ENTRADA</th>
+                            <th>SALIDA</th>
+                            <th>SALDO</th>
+                            <th>ENTRADA</th>
+                            <th>SALIDA</th>
+                            <th>SALDO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (count($kardex_sucursals[$sucursal->id]['array_kardex'][$registro->id]) > 0 ||
+                                $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['sw']
+                        )
+                            @if ($kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['sw'])
+                                <tr>
+                                    <td></td>
+                                    <td>SALDO ANTERIOR</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="centreado">
+                                        {{ $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['cantidad_saldo'] }}
+                                    </td>
+                                    <td class="centreado">{{ $registro->precio }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="centreado">
+                                        {{ number_format($kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['monto_saldo'], 2, '.', ',') }}
+                                    </td>
+                                </tr>
+                            @endif
+                            @foreach ($kardex_sucursals[$sucursal->id]['array_kardex'][$registro->id] as $value)
+                                <tr>
+                                    <td>{{ date('d-m-Y', strtotime($value['fecha'])) }}</td>
+                                    <td>{{ $value['detalle'] }}</td>
+                                    <td class="centreado">{{ $value['cantidad_ingreso'] }}</td>
+                                    <td class="centreado">{{ $value['cantidad_salida'] }}</td>
+                                    <td class="centreado">{{ $value['cantidad_saldo'] }}</td>
+                                    <td class="centreado">{{ number_format($value['cu'], 2, '.', ',') }}</td>
+                                    <td class="centreado">{{ $value['monto_ingreso'] }}</td>
+                                    <td class="centreado">{{ $value['monto_salida'] }}</td>
+                                    <td class="centreado">{{ number_format($value['monto_saldo'], 2, '.', ',') }}</td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
-                                <td></td>
-                                <td>SALDO ANTERIOR</td>
-                                <td></td>
-                                <td></td>
-                                <td class="centreado">
-                                    {{ $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['cantidad_saldo'] }}
-                                </td>
-                                <td class="centreado">{{ $registro->precio }}</td>
-                                <td></td>
-                                <td></td>
-                                <td class="centreado">
-                                    {{ number_format($kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['monto_saldo'], 2, '.', ',') }}
-                                </td>
+                                <td colspan="9" class="centreado">NO SE ENCONTRARON REGISTROS</td>
                             </tr>
                         @endif
-                        @foreach ($kardex_sucursals[$sucursal->id]['array_kardex'][$registro->id] as $value)
-                            <tr>
-                                <td>{{ date('d-m-Y', strtotime($value['fecha'])) }}</td>
-                                <td>{{ $value['detalle'] }}</td>
-                                <td class="centreado">{{ $value['cantidad_ingreso'] }}</td>
-                                <td class="centreado">{{ $value['cantidad_salida'] }}</td>
-                                <td class="centreado">{{ $value['cantidad_saldo'] }}</td>
-                                <td class="centreado">{{ number_format($value['cu'], 2, '.', ',') }}</td>
-                                <td class="centreado">{{ $value['monto_ingreso'] }}</td>
-                                <td class="centreado">{{ $value['monto_salida'] }}</td>
-                                <td class="centreado">{{ number_format($value['monto_saldo'], 2, '.', ',') }}</td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="9" class="centreado">NO SE ENCONTRARON REGISTROS</td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            @endif
         @endforeach
 
         @php

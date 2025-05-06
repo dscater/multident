@@ -58,7 +58,11 @@ class OrdenVentaController extends Controller
         $page = (int)(($start / $length) + 1); // Cálculo de la página actual
         $search = (string)$request->input('search', '');
 
-        $orden_ventas = $this->ordenVentaService->listadoPaginado($length, $page, $search);
+        $orderBy = [
+            ["orden_ventas.id", "desc"],
+        ];
+
+        $orden_ventas = $this->ordenVentaService->listadoPaginado($length, $page, $search, [], [], [], $orderBy);
 
         return response()->JSON([
             'data' => $orden_ventas->items(),

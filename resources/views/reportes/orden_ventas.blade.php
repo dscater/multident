@@ -227,8 +227,9 @@
                             ->where('status', 1)
                             ->get()
                             ->first();
+
                         $sgtes = App\Models\DetalleOrden::where('orden_venta_id', $orden_venta->id)
-                            ->where('id', '!=', $primero->id)
+                            ->where('id', '!=', $primero ? $primero->id : 0)
                             ->where('status', 1)
                             ->get();
                     @endphp

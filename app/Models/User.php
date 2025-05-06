@@ -81,7 +81,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->nombres . ' ' . $this->paterno . ($this->materno ?? ' ' . $this->materno);
+        return $this->nombres . ' ' . $this->paterno . ($this->materno != NULL && $this->materno != '' ? ' ' . $this->materno : '');
     }
 
     public function getFullCiAttribute()

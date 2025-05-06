@@ -48,6 +48,15 @@ const columns = [
             if (
                 props_page.auth?.user.permisos == "*" ||
                 props_page.auth?.user.permisos.includes(
+                    "ingreso_productos.index"
+                )
+            ) {
+                buttons += `<button class="mx-1 rounded-0 btn btn-primary ver" data-id="${row.id}"><i class="fa fa-eye"></i></button>`;
+            }
+
+            if (
+                props_page.auth?.user.permisos == "*" ||
+                props_page.auth?.user.permisos.includes(
                     "ingreso_productos.edit"
                 )
             ) {
@@ -62,7 +71,9 @@ const columns = [
             ) {
                 buttons += ` <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}"
-                 data-nombre="${row.sucursal.nombre} | ${row.fecha_registro_t} | ${row.ingreso_detalles.length}"
+                 data-nombre="${row.sucursal.nombre} | ${
+                    row.fecha_registro_t
+                } | ${row.ingreso_detalles.length}"
                  data-url="${route(
                      "ingreso_productos.destroy",
                      row.id
@@ -80,6 +91,13 @@ const agregarRegistro = () => {
 };
 
 const accionesRow = () => {
+    // ver
+    $("#table-ingreso_producto").on("click", "button.ver", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        router.get(route("ingreso_productos.show", id));
+    });
+
     // editar
     $("#table-ingreso_producto").on("click", "button.editar", function (e) {
         e.preventDefault();

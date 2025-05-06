@@ -100,8 +100,11 @@ class IngresoProductoController extends Controller
         }
     }
 
-    public function show(IngresoProducto $ingreso_producto) {}
-
+    public function show(IngresoProducto $ingreso_producto)
+    {
+        $ingreso_producto = $ingreso_producto->load(["ingreso_detalles.producto", "ingreso_detalles.ubicacion_producto", "sucursal"]);
+        return Inertia::render("Admin/IngresoProductos/Show", compact("ingreso_producto"));
+    }
 
     /**
      * Página edit

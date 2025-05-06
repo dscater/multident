@@ -20,6 +20,7 @@ const { axiosGet } = useAxios();
 const accion = ref(props.accion_dialog);
 const dialog = ref(props.open_dialog);
 let form = useForm(oDevolucion.value);
+const oOrdenVenta = ref(null);
 watch(
     () => props.open_dialog,
     async (newValue) => {
@@ -140,6 +141,7 @@ const getOrdenVenta = (params = {}) => {
             .then((response) => {
                 listDetalleOrdens.value =
                     response.data.orden_venta.detalle_ordens;
+                oOrdenVenta.value = response.data.orden_venta;
             });
     }
 };
@@ -304,6 +306,57 @@ onMounted(() => {
                                     </li>
                                 </ul>
                             </div>
+                            <div class="col-12 mt-3 overflow-auto">
+                                <h5 class="text-center">Detalle</h5>
+                                <table class="table table-bordered">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th class="text-white">#</th>
+                                            <th class="text-white">PRODUCTO</th>
+                                            <th class="text-white">CANTIDAD</th>
+                                            <th class="text-white">P/U</th>
+                                            <th class="text-white">
+                                                PROMOCIÓN
+                                            </th>
+                                            <th class="text-white">SUBTOTAL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            v-for="(
+                                                item, index
+                                            ) in listDetalleOrdens"
+                                            :class="{
+                                                seleccionado:
+                                                    item.id ==
+                                                    form.detalle_orden_id,
+                                            }"
+                                        >
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ item.producto.nombre }}</td>
+                                            <td>{{ item.cantidad }}</td>
+                                            <td>{{ item.precio }}</td>
+                                            <td>
+                                                {{ item.promocion_descuento }}%
+                                            </td>
+                                            <td>{{ item.subtotal }}</td>
+                                        </tr>
+                                        <tr class="bg-primary">
+                                            <td
+                                                class="text-white font-weight-bold"
+                                                colspan="5"
+                                            >
+                                                TOTAL
+                                            </td>
+                                            <td
+                                                class="text-white font-weight-bold"
+                                            >
+                                                {{ oOrdenVenta?.total ?? 0 }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -327,3 +380,8 @@ onMounted(() => {
         </div>
     </div>
 </template>
+<style scoped>
+.seleccionado {
+    background-color: rgb(252, 215, 146);
+}
+</style>
