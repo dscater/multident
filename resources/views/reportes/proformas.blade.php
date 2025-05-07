@@ -11,9 +11,9 @@
 
         @page {
             margin-top: 1.5cm;
-            margin-bottom: 0.3cm;
-            margin-left: 0.3cm;
-            margin-right: 0.3cm;
+            margin-bottom: 1cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
         }
 
         table {
@@ -45,7 +45,7 @@
 
         .logo img {
             position: absolute;
-            height: 100px;
+            height: 70px;
             top: -20px;
             left: 0px;
         }
@@ -60,7 +60,7 @@
         }
 
         .texto {
-            width: 250px;
+            width: 400px;
             text-align: center;
             margin: auto;
             margin-top: 15px;
@@ -69,7 +69,7 @@
         }
 
         .fecha {
-            width: 250px;
+            width: 400px;
             text-align: center;
             margin: auto;
             margin-top: 15px;
@@ -104,7 +104,7 @@
             margin-left: 15px;
             border-top: solid 1px;
             border-collapse: collapse;
-            width: 250px;
+            width: 400px;
         }
 
         .txt {
@@ -130,7 +130,7 @@
         }
 
         .gray {
-            background: rgb(202, 202, 202);
+            background: rgb(236, 236, 236)
         }
 
         .bg-principal {
@@ -138,10 +138,28 @@
             color: white;
         }
 
-        .txt_rojo {}
+        .page_break {
+            page-break-after: always;
+        }
 
         .img_celda img {
             width: 45px;
+        }
+
+        .lista {
+            padding-left: 8px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .text-md {
+            font-size: 9pt;
+        }
+
+        .derecha {
+            text-align: right;
         }
     </style>
 </head>
@@ -158,39 +176,120 @@
         <h4 class="texto">PROFORMAS</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
+
+    @php
+        $contador = 0;
+    @endphp
+
     <table border="1">
-        <thead class="bg-principal">
-            <tr>
-                <th width="3%">N°</th>
+        <thead>
+            <tr class="bg-principal">
+                <th width="3%">NRO.</th>
                 <th>SUCURSAL</th>
                 <th>USUARIO</th>
                 <th>CLIENTE</th>
                 <th>NIT/C.I.</th>
-                <th>FACTURA</th>
-                <th>HASTA FECHA DE VALIDEZ</th>
-                <th>CANTIDAD PRODS.</th>
-                <th>TOTAL</th>
-                <th width="9%">FECHA DE REGISTRO</th>
+                <th width="7%">PRODUCTO</th>
+                <th width="7%">CANTIDAD</th>
+                <th width="7%">P/U</th>
+                <th width="7%">DESC. PROMOCIÓN %</th>
+                <th width="7%">SUBTOTAL</th>
+                <th width="7%">IMPORTE TOTAL</th>
+                <th width="5%">FECHA VALIDEZ HASTA</th>
+                <th width="5%">FACTURA</th>
+                <th width="9%">FECHA</th>
             </tr>
         </thead>
         <tbody>
             @php
-                $cont = 1;
+                $suma_total = 0;
             @endphp
-            @foreach ($proformas as $proforma)
-                <tr>
-                    <td class="centreado">{{ $proforma->nro }}</td>
-                    <td class="">{{ $proforma->sucursal->nombre }}</td>
-                    <td class="">{{ $proforma->user->usuario }}</td>
-                    <td class="">{{ $proforma->cliente->full_name }}</td>
-                    <td class="">{{ $proforma->nit_ci }}</td>
-                    <td class="">{{ $proforma->factura }}</td>
-                    <td class="">{{ $proforma->fecha_validez_t }}</td>
-                    <td class="">{{ $proforma->detalle_proformas->count() }}</td>
-                    <td class="">{{ $proforma->total }}</td>
-                    <td class="centreado">{{ $proforma->fecha_registro_t }}</td>
+            @foreach ($proformas as $key => $proforma)
+                @php
+                    $class = '';
+                    if ($key % 2 != 0) {
+                        $class = 'gray';
+                    }
+
+                    $total_filas = count($proforma->detalle_proformas);
+                @endphp
+                <tr class="{{ $class }}">
+                    <td rowspan="{{ $total_filas }}">{{ $proforma->nro }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $proforma->sucursal->nombre }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $proforma->user->usuario }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $proforma->cliente->full_name }}
+                    </td>
+                    <td rowspan="{{ $total_filas }}">{{ $proforma->nit_ci }}</td>
+                    @php
+                        $primero = App\Models\DetalleProforma::where('proforma_id', $proforma->id)
+                            ->where('status', 1)
+                            ->get()
+                            ->first();
+
+                        $sgtes = App\Models\DetalleProforma::where('proforma_id', $proforma->id)
+                            ->where('id', '!=', $primero ? $primero->id : 0)
+                            ->where('status', 1)
+                            ->get();
+                    @endphp
+                    <td>
+                        {{ $primero->producto->nombre }}
+                    </td>
+                    <td class="centreado">
+                        {{ $primero->cantidad }}
+                    </td>
+                    <td class="derecha">
+                        {{ number_format($primero->precio, 2, '.', ',') }}
+                    </td>
+                    <td class="derecha">
+                        {{ $primero->promocion_descuento }}%
+                    </td>
+                    <td class="derecha">
+                        {{ number_format($primero->subtotal, 2, '.', ',') }}
+                    </td>
+                    <td class="derecha">
+                        @if (count($sgtes) == 0)
+                            {{ number_format($proforma->total, 2, '.', ',') }}
+                        @endif
+                    </td>
+                    <td rowspan="{{ $total_filas }}" class="centreado">{{ $proforma->fecha_validez_t }}</td>
+                    <td rowspan="{{ $total_filas }}" class="centreado">{{ $proforma->factura }}</td>
+                    <td rowspan="{{ $total_filas }}">{{ $proforma->fecha_registro_t }}</td>
                 </tr>
+                @foreach ($sgtes as $key_det => $det)
+                    <tr class="{{ $class }}">
+                        <td>
+                            {{ $det->producto->nombre }}
+                        </td>
+                        <td class="centreado">
+                            {{ $det->cantidad }}
+                        </td>
+                        <td class="derecha">
+                            {{ number_format($det->precio, 2, '.', ',') }}
+                        </td>
+                        <td class="derecha">
+                            {{ $det->promocion_descuento }}%
+                        </td>
+                        <td class="derecha">
+                            {{ number_format($det->subtotal, 2, '.', ',') }}
+                        </td>
+                        <td class="derecha">
+                            @if ($key_det == count($sgtes) - 1)
+                                {{ number_format($proforma->total, 2, '.', ',') }}
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+                @php
+                    $suma_total += (float) $proforma->total;
+                @endphp
             @endforeach
+            <tr class="bg-principal">
+                <td colspan="10" class="text-md bold derecha">
+                    TOTAL
+                </td>
+                <td class="text-md bold derecha">{{ number_format($suma_total, 2, '.', ',') }}</td>
+                <td colspan="3"></td>
+            </tr>
         </tbody>
     </table>
 </body>

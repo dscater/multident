@@ -32,6 +32,8 @@
         table thead tr th,
         tbody tr td {
             font-size: 0.63em;
+            word-break: break-all;
+            word-wrap: break-word;
         }
 
         .encabezado {
@@ -226,7 +228,7 @@
                         </tr>
                         <tr>
                             <th rowspan="2" width="20px">FECHA</th>
-                            <th rowspan="2">DETALLE</th>
+                            <th rowspan="2" width="13%">DETALLE</th>
                             <th colspan="3">CANTIDADES</th>
                             <th rowspan="2">P/U</th>
                             <th colspan="3">BOLIVIANOS</th>

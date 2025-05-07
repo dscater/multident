@@ -50,6 +50,23 @@ onBeforeUnmount(() => {});
                         <strong>Descripción: </strong>
                         {{ props.notificacion_user.notificacion.descripcion }}
                     </p>
+                    <p
+                        v-if="
+                            props.notificacion_user.notificacion.ingreso_detalle
+                            && props.notificacion_user.notificacion.modulo == 'IngresoDetalle'
+                        "
+                    >
+                        <strong>Ubicación: </strong>
+                        {{
+                            props.notificacion_user.notificacion.ingreso_detalle
+                                .ubicacion_producto?.lugar
+                        }}
+                        -
+                        {{
+                            props.notificacion_user.notificacion.ingreso_detalle
+                                .fila
+                        }}
+                    </p>
                     <p>
                         <strong>Fecha: </strong>
                         {{ props.notificacion_user.notificacion.fecha_t }}

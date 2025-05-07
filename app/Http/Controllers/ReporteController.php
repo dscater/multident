@@ -1274,7 +1274,7 @@ class ReporteController extends Controller
         $proformas = $proformas->where("status", 1)->get();
 
         if ($formato === 'pdf') {
-            $pdf = PDF::loadView('reportes.proformas', compact('proformas'))->setPaper('legal', 'portrait');
+            $pdf = PDF::loadView('reportes.proformas', compact('proformas'))->setPaper('legal', 'landscape');
 
             // ENUMERAR LAS PÁGINAS USANDO CANVAS
             $pdf->output();
@@ -1315,71 +1315,112 @@ class ReporteController extends Controller
 
             $fila = 2;
             $sheet->setCellValue('A' . $fila, $this->configuracion->nombre_sistema);
-            $sheet->mergeCells("A" . $fila . ":J" . $fila);  //COMBINAR CELDAS
-            $sheet->getStyle('A' . $fila . ':J' . $fila)->getAlignment()->setHorizontal('center');
-            $sheet->getStyle('A' . $fila . ':J' . $fila)->applyFromArray($this->titulo);
+            $sheet->mergeCells("A" . $fila . ":O" . $fila);  //COMBINAR CELDAS
+            $sheet->getStyle('A' . $fila . ':O' . $fila)->getAlignment()->setHorizontal('center');
+            $sheet->getStyle('A' . $fila . ':O' . $fila)->applyFromArray($this->titulo);
             $fila++;
             $sheet->setCellValue('A' . $fila, "PROFORMAS");
-            $sheet->mergeCells("A" . $fila . ":J" . $fila);  //COMBINAR CELDAS
-            $sheet->getStyle('A' . $fila . ':J' . $fila)->getAlignment()->setHorizontal('center');
-            $sheet->getStyle('A' . $fila . ':J' . $fila)->applyFromArray($this->titulo);
+            $sheet->mergeCells("A" . $fila . ":O" . $fila);  //COMBINAR CELDAS
+            $sheet->getStyle('A' . $fila . ':O' . $fila)->getAlignment()->setHorizontal('center');
+            $sheet->getStyle('A' . $fila . ':O' . $fila)->applyFromArray($this->titulo);
             $fila++;
             $fila++;
-            $sheet->setCellValue('A' . $fila, 'N°');
+
+            $sheet->setCellValue('A' . $fila, 'NRO');
             $sheet->setCellValue('B' . $fila, 'SUCURSAL');
             $sheet->setCellValue('C' . $fila, 'USUARIO');
             $sheet->setCellValue('D' . $fila, 'CLIENTE');
             $sheet->setCellValue('E' . $fila, 'NIT/C.I.');
-            $sheet->setCellValue('F' . $fila, 'FACTURA');
-            $sheet->setCellValue('G' . $fila, 'HASTA FECHA DE VALIDEZ');
-            $sheet->setCellValue('H' . $fila, 'CANTIDAD PRODS.');
-            $sheet->setCellValue('I' . $fila, 'TOTAL');
-            $sheet->setCellValue('J' . $fila, 'FECHA DE REGISTRO');
-            $sheet->getStyle('A' . $fila . ':J' . $fila)->applyFromArray($this->headerTabla);
+            $sheet->setCellValue('F' . $fila, 'DESCRIPCIÓN');
+            $sheet->setCellValue('G' . $fila, 'PRODUCTO');
+            $sheet->setCellValue('H' . $fila, 'CANTIDAD');
+            $sheet->setCellValue('I' . $fila, 'P/U');
+            $sheet->setCellValue('J' . $fila, 'DESC. PROMOCIÓN %');
+            $sheet->setCellValue('K' . $fila, 'SUBTOTAL');
+            $sheet->setCellValue('L' . $fila, 'IMPORTE TOTAL');
+            $sheet->setCellValue('M' . $fila, 'FECHA DE VALIDEZ HASTA');
+            $sheet->setCellValue('N' . $fila, 'FACTURA');
+            $sheet->setCellValue('O' . $fila, 'FECHA');
+            $sheet->getStyle('A' . $fila . ':O' . $fila)->applyFromArray($this->headerTabla);
             $fila++;
 
-            foreach ($proformas as $key => $proforma) {
+            $fila_comb = $fila;
+            $suma_total = 0;
+            foreach ($proformas as $proforma) {
+                $fila_comb = $fila;
                 $sheet->setCellValue('A' . $fila, $proforma->nro);
                 $sheet->setCellValue('B' . $fila, $proforma->sucursal->nombre);
                 $sheet->setCellValue('C' . $fila, $proforma->user->usuario);
                 $sheet->setCellValue('D' . $fila, $proforma->cliente->full_name);
                 $sheet->setCellValue('E' . $fila, $proforma->nit_ci);
-                $sheet->setCellValue('F' . $fila, $proforma->factura);
-                $sheet->setCellValue('G' . $fila, $proforma->fecha_validez_t);
-                $sheet->setCellValue('H' . $fila, $proforma->detalle_proformas->count());
-                $sheet->setCellValue('I' . $fila, $proforma->total);
-                $sheet->setCellValue('J' . $fila, $proforma->fecha_registro_t);
-                $sheet->getStyle('A' . $fila . ':J' . $fila)->applyFromArray($this->bodyTabla);
-                $fila++;
+                $sheet->setCellValue('F' . $fila, $proforma->descripcion);
+                $sheet->setCellValue('O' . $fila, $proforma->fecha_registro_t);
+                foreach ($proforma->detalle_proformas as $key_det => $det) {
+                    $sheet->setCellValue('G' . $fila, $det->producto->nombre . ' - ' . $fila);
+                    $sheet->setCellValue('H' . $fila, $det->cantidad);
+                    $sheet->setCellValue('I' . $fila, number_format($det->precio, 2, ".", ","));
+                    $sheet->setCellValue('J' . $fila, $det->promocion_descuento . '%');
+                    $sheet->setCellValue('K' . $fila, number_format($det->subtotal, 2, ".", ","));
+                    if ($key_det == count($proforma->detalle_proformas) - 1) {
+                        $sheet->setCellValue('L' . $fila, number_format($proforma->total, 2, ".", ","));
+                        $sheet->setCellValue('M' . $fila, $proforma->fecha_validez_t);
+                        $sheet->setCellValue('N' . $fila, $proforma->factura);
+                    }
+                    $sheet->getStyle('A' . $fila . ':O' . $fila)->applyFromArray($this->bodyTabla);
+                    $sheet->getStyle('K' . $fila . ':L' . $fila)->applyFromArray($this->textRight);
+                    $fila++;
+                }
+                $sheet->mergeCells("A" . $fila_comb . ":A" . $fila - 1);  //COMBINAR CELDAS
+                $sheet->mergeCells("B" . $fila_comb . ":B" . $fila - 1);  //COMBINAR CELDAS
+                $sheet->mergeCells("C" . $fila_comb . ":C" . $fila - 1);  //COMBINAR CELDAS
+                $sheet->mergeCells("D" . $fila_comb . ":D" . $fila - 1);  //COMBINAR CELDAS
+                $sheet->mergeCells("E" . $fila_comb . ":E" . $fila - 1);  //COMBINAR CELDAS
+                $sheet->mergeCells("F" . $fila_comb . ":F" . $fila - 1);  //COMBINAR CELDAS
+                // $sheet->mergeCells("M" . $fila_comb . ":M" . $fila - 1);  //COMBINAR CELDAS
+                // $sheet->mergeCells("N" . $fila_comb . ":N" . $fila - 1);  //COMBINAR CELDAS
+                $sheet->mergeCells("O" . $fila_comb . ":O" . $fila - 1);  //COMBINAR CELDAS
+                // $fila++;
+                $suma_total += (float) $proforma->total;
             }
+            // $fila++;
+            $sheet->setCellValue('A' . $fila, "TOTAL");
+            $sheet->mergeCells("A" . $fila . ":K" . $fila);  //COMBINAR CELDAS
+            $sheet->setCellValue('L' . $fila, number_format($suma_total, 2, ".", ","));
+            $sheet->getStyle("A" . $fila . ":L" . $fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+            $sheet->getStyle('A' . $fila . ':O' . $fila)->applyFromArray($this->headerTabla);
 
-            $sheet->getColumnDimension('A')->setWidth(6);
-            $sheet->getColumnDimension('B')->setWidth(15);
-            $sheet->getColumnDimension('C')->setWidth(15);
-            $sheet->getColumnDimension('D')->setWidth(30);
-            $sheet->getColumnDimension('E')->setWidth(10);
-            $sheet->getColumnDimension('F')->setWidth(15);
-            $sheet->getColumnDimension('G')->setWidth(20);
+            $sheet->getColumnDimension('A')->setWidth(8);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(13);
+            $sheet->getColumnDimension('D')->setWidth(18);
+            $sheet->getColumnDimension('E')->setWidth(15);
+            $sheet->getColumnDimension('F')->setWidth(30);
+            $sheet->getColumnDimension('G')->setWidth(26);
             $sheet->getColumnDimension('H')->setWidth(15);
             $sheet->getColumnDimension('I')->setWidth(15);
             $sheet->getColumnDimension('J')->setWidth(15);
+            $sheet->getColumnDimension('K')->setWidth(15);
+            $sheet->getColumnDimension('L')->setWidth(15);
+            $sheet->getColumnDimension('M')->setWidth(15);
+            $sheet->getColumnDimension('N')->setWidth(15);
+            $sheet->getColumnDimension('O')->setWidth(15);
 
-            foreach (range('A', 'J') as $columnID) {
+            foreach (range('A', 'O') as $columnID) {
                 $sheet->getStyle($columnID)->getAlignment()->setWrapText(true);
             }
 
-            $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_PORTRAIT);
+            $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
             $sheet->getPageMargins()->setTop(0.5);
             $sheet->getPageMargins()->setRight(0.1);
             $sheet->getPageMargins()->setLeft(0.1);
             $sheet->getPageMargins()->setBottom(0.1);
-            $sheet->getPageSetup()->setPrintArea('A:J');
+            $sheet->getPageSetup()->setPrintArea('A:O');
             $sheet->getPageSetup()->setFitToWidth(1);
             $sheet->getPageSetup()->setFitToHeight(0);
 
             // DESCARGA DEL ARCHIVO
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="proformas' . time() . '.xlsx"');
+            header('Content-Disposition: attachment;filename="proformas_' . time() . '.xlsx"');
             header('Cache-Control: max-age=0');
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save('php://output');

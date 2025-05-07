@@ -41,4 +41,9 @@ class Notificacion extends Model
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
+
+    public function ingreso_detalle()
+    {
+        return $this->belongsTo(IngresoDetalle::class, "registro_id");
+    }
 }

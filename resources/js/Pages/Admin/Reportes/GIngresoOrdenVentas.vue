@@ -110,9 +110,13 @@ const generarGrafico = async () => {
 };
 
 const renderChart = (containerId, categories, data) => {
+    const rowHeight = 80;
+    const minHeight = 200;
+    const calculatedHeight = Math.max(minHeight, categories.length * rowHeight);
     Highcharts.chart(containerId, {
         chart: {
-            type: "column",
+            type: "bar",
+            height: calculatedHeight,
         },
         title: {
             align: "center",
@@ -306,7 +310,7 @@ onMounted(() => {
             </div>
         </div>
     </div>
-    <div class="row mt-3" id="contenedor">
+    <div class="row overflow-auto" style="max-height: 600px">
         <div class="col-12 mt-3" id="container"></div>
     </div>
 </template>

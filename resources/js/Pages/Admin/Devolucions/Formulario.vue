@@ -37,6 +37,7 @@ watch(
             form = useForm(oDevolucion.value);
 
             if (form.orden_venta_id) {
+                cargarOrdenVentas();
                 getOrdenVenta({
                     detalle_orden_id: form.detalle_orden_id,
                 });
@@ -59,8 +60,8 @@ const listDetalleOrdens = ref([]);
 const listRazonDevolucions = ref(["DEFECTUOSO", "INCORRECTO", "VENCIDO"]);
 const tituloDialog = computed(() => {
     return accion.value == 0
-        ? `<i class="fa fa-plus"></i> Nueva Promoción`
-        : `<i class="fa fa-edit"></i> Editar Promoción`;
+        ? `<i class="fa fa-plus"></i> Nueva Devolución`
+        : `<i class="fa fa-edit"></i> Editar Devolución`;
 });
 
 const enviarFormulario = () => {
@@ -118,7 +119,9 @@ const cerrarDialog = () => {
 
 const cargarListas = () => {
     cargarSucursals();
-    cargarOrdenVentas();
+    if (props_page.auth?.user.sucursals_todo == 0) {
+        cargarOrdenVentas();
+    }
 };
 
 const cargarSucursals = async () => {
@@ -128,20 +131,25 @@ const cargarSucursals = async () => {
 };
 
 const cargarOrdenVentas = async () => {
-    axios.get(route("orden_ventas.listado")).then((response) => {
-        listOrdenVentas.value = response.data.orden_ventas;
-    });
+    axios
+        .get(route("orden_ventas.listado"), {
+            params: { sucursal_id: form.sucursal_id },
+        })
+        .then((response) => {
+            listOrdenVentas.value = response.data.orden_ventas;
+        });
 };
 
 const getOrdenVenta = (params = {}) => {
     listDetalleOrdens.value = [];
     if (form.orden_venta_id) {
         axios
-            .get(route("orden_ventas.show", form.orden_venta_id), params)
+            .get(route("orden_ventas.show", form.orden_venta_id), { params })
             .then((response) => {
                 listDetalleOrdens.value =
-                    response.data.orden_venta.detalle_ordens;
+                    response.data.detalle_ordens;
                 oOrdenVenta.value = response.data.orden_venta;
+                console.log(listDetalleOrdens)
             });
     }
 };
@@ -192,6 +200,7 @@ onMounted(() => {
                                     no-data-text="Sin datos"
                                     filterable
                                     v-model="form.sucursal_id"
+                                    @change="cargarOrdenVentas"
                                 >
                                     <el-option
                                         v-for="item in listSucursals"
@@ -218,7 +227,7 @@ onMounted(() => {
                                     no-data-text="Sin datos"
                                     filterable
                                     v-model="form.orden_venta_id"
-                                    @change="getOrdenVenta"
+                                    @change="getOrdenVenta()"
                                 >
                                     <el-option
                                         v-for="item in listOrdenVentas"

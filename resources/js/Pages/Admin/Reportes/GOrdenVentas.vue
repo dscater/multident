@@ -86,7 +86,9 @@ const form = ref({
 const generarGrafico = async () => {
     generando.value = true;
     axios
-        .get(route("reportes.r_g_cantidad_orden_ventas"), { params: form.value })
+        .get(route("reportes.r_g_cantidad_orden_ventas"), {
+            params: form.value,
+        })
         .then((response) => {
             nextTick(() => {
                 const containerId = `container`;
@@ -108,9 +110,13 @@ const generarGrafico = async () => {
 };
 
 const renderChart = (containerId, categories, data) => {
+    const rowHeight = 80;
+    const minHeight = 200;
+    const calculatedHeight = Math.max(minHeight, categories.length * rowHeight);
     Highcharts.chart(containerId, {
         chart: {
-            type: "column",
+            type: "bar",
+            height: calculatedHeight,
         },
         title: {
             align: "center",
@@ -182,7 +188,9 @@ onMounted(() => {
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Gráficas > Cantidad de Ordenes de Ventas</li>
+        <li class="breadcrumb-item active">
+            Gráficas > Cantidad de Ordenes de Ventas
+        </li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
@@ -302,7 +310,7 @@ onMounted(() => {
             </div>
         </div>
     </div>
-    <div class="row mt-3" id="contenedor">
+    <div class="row overflow-auto" style="max-height: 600px">
         <div class="col-12 mt-3" id="container"></div>
     </div>
 </template>

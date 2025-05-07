@@ -21,7 +21,7 @@ class NotificacionController extends Controller
     public function listadoPorUsuario(): JsonResponse
     {
         $user = Auth::user();
-        $notificacion_users = NotificacionUser::with(["notificacion"])
+        $notificacion_users = NotificacionUser::with(["notificacion.ingreso_detalle.ubicacion_producto"])
             ->select("notificacion_users.*")
             ->where("user_id", $user->id)
             ->where("visto", 0)
@@ -65,7 +65,7 @@ class NotificacionController extends Controller
     {
         $notificacion_user->visto = 1;
         $notificacion_user->save();
-        $notificacion_user = $notificacion_user->load(["notificacion"]);
+        $notificacion_user = $notificacion_user->load(["notificacion.ingreso_detalle.ubicacion_producto"]);
         return Inertia::render("Admin/NotificacionUsers/Show", compact('notificacion_user'));
     }
 }

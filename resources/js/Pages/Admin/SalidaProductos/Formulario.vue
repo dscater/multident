@@ -78,7 +78,9 @@ const emits = defineEmits(["envio-formulario"]);
 
 const agregarProductoTabla = () => {
     if (validaAgregarProducto() && !verificaExistente()) {
-        const producto = getProductoList(agregarProducto.value.producto_id);
+        const producto = getProductoSucursalList(
+            agregarProducto.value.producto_id
+        );
         if (producto) {
             form.salida_detalles.push({
                 id: 0,
@@ -121,8 +123,8 @@ const eliminarDetalle = (index) => {
     form.salida_detalles.splice(index, 1);
 };
 
-const getProductoList = (producto_id) => {
-    const producto = listProductos.value.filter(
+const getProductoSucursalList = (producto_id) => {
+    const producto = listProductosSucursals.value.filter(
         (elem) => elem.id === producto_id
     )[0];
     return producto;
@@ -166,7 +168,7 @@ const verificaExistente = () => {
 };
 
 const listSucursals = ref([]);
-const listProductos = ref([]);
+const listProductosSucursals = ref([]);
 
 const cargarSucursals = async () => {
     axios.get(route("sucursals.listado")).then((response) => {
@@ -176,12 +178,15 @@ const cargarSucursals = async () => {
 
 const cargarListas = () => {
     cargarSucursals();
-    cargarProductos();
+    cargarProductoSucursals();
 };
 
-const cargarProductos = async () => {
-    const data = await axiosGet(route("productos.listado"));
-    listProductos.value = data.productos;
+const cargarProductoSucursals = async () => {
+    const data = await axiosGet(route("producto_sucursals.listado"), {
+        con_stock: true,
+        sucursal_id: form.sucursal_id,
+    });
+    listProductosSucursals.value = data.producto_sucursals;
 };
 
 onMounted(() => {
@@ -212,6 +217,7 @@ onMounted(() => {
                     no-data-text="Sin datos"
                     filterable
                     v-model="form.sucursal_id"
+                    @change="cargarProductoSucursals()"
                 >
                     <el-option
                         v-for="item in listSucursals"
@@ -249,10 +255,10 @@ onMounted(() => {
                                     v-model="form.producto_id"
                                 >
                                     <el-option
-                                        v-for="item in listProductos"
+                                        v-for="item in listProductosSucursals"
                                         :key="item.id"
-                                        :value="item.id"
-                                        :label="item.nombre"
+                                        :value="item.producto_id"
+                                        :label="item.producto.nombre"
                                     />
                                 </el-select>
                                 <ul

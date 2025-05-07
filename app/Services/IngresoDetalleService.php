@@ -55,39 +55,47 @@ class IngresoDetalleService
 
                 $ingreso_detalle = IngresoDetalle::find($item["id"]);
                 if ($ingreso_detalle) {
-                    if ($ingreso_detalle->cantidad != $ingreso_detalle->disponible) {
-                        throw new Exception("No se puede actualizar el registro debido a que ya se usarón algunos de los registros");
-                    }
+                    // if ($ingreso_detalle->cantidad != $ingreso_detalle->disponible) {
+                    //     throw new Exception("No se puede actualizar el registro debido a que ya se usarón algunos de los registros");
+                    // }
 
                     //descontar stock
-                    $this->productoSucursalService->decrementarStock($producto, (float)$ingreso_detalle->cantidad, $old_sucursal != 0 ? $old_sucursal :  $sucursal->id);
+                    if ($ingreso_detalle->cantidad == $ingreso_detalle->disponible) {
+                        $this->productoSucursalService->decrementarStock($producto, (float)$ingreso_detalle->cantidad, $old_sucursal != 0 ? $old_sucursal :  $sucursal->id);
+                    } else {
+                        unset($datos["cantidad"]);
+                        unset($datos["disponible"]);
+                    }
+
 
                     //actualizar
                     $ingreso_detalle->update($datos);
 
-                    //incrementar stock
-                    $this->productoSucursalService->incrementarStock($producto, (float)$datos["cantidad"], $sucursal->id);
+                    if ($ingreso_detalle->cantidad == $ingreso_detalle->disponible) {
+                        //incrementar stock
+                        $this->productoSucursalService->incrementarStock($producto, (float)$datos["cantidad"], $sucursal->id);
 
-                    // actualizar kardex
-                    $kardex = KardexProducto::where("producto_id", $ingreso_detalle->producto_id)
-                        ->where("tipo_registro", "INGRESO DE PRODUCTO")
-                        ->where("modulo", "IngresoDetalle")
-                        ->where("registro_id", $ingreso_detalle->id)
-                        ->where("sucursal_id", $sucursal->id);
-                    $kardex = $kardex->get()->first();
-
-                    $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $sucursal->id);
-
-                    if ($old_sucursal != 0 && ($old_sucursal != $sucursal->id)) {
                         // actualizar kardex
                         $kardex = KardexProducto::where("producto_id", $ingreso_detalle->producto_id)
                             ->where("tipo_registro", "INGRESO DE PRODUCTO")
                             ->where("modulo", "IngresoDetalle")
                             ->where("registro_id", $ingreso_detalle->id)
-                            ->where("sucursal_id", $old_sucursal);
+                            ->where("sucursal_id", $sucursal->id);
                         $kardex = $kardex->get()->first();
 
-                        $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $old_sucursal);
+                        $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $sucursal->id);
+
+                        if ($old_sucursal != 0 && ($old_sucursal != $sucursal->id)) {
+                            // actualizar kardex
+                            $kardex = KardexProducto::where("producto_id", $ingreso_detalle->producto_id)
+                                ->where("tipo_registro", "INGRESO DE PRODUCTO")
+                                ->where("modulo", "IngresoDetalle")
+                                ->where("registro_id", $ingreso_detalle->id)
+                                ->where("sucursal_id", $old_sucursal);
+                            $kardex = $kardex->get()->first();
+
+                            $this->kardexProductoService->actualizaRegistrosKardex($kardex ? $kardex->id : 0, $producto->id, $old_sucursal);
+                        }
                     }
                 }
             }

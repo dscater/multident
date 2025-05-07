@@ -30,13 +30,18 @@ class OrdenVentaService
      *
      * @return Collection
      */
-    public function listado(): Collection
+    public function listado($sucursal_id = 0): Collection
     {
         $orden_ventas = OrdenVenta::select("orden_ventas.*");
 
         if (Auth::user()->sucursals_todo == 0) {
             $orden_ventas->where("sucursal_id", Auth::user()->sucursal_id);
         }
+
+        if ($sucursal_id != 0) {
+            $orden_ventas->where("sucursal_id", $sucursal_id);
+        }
+
 
         $orden_ventas->where("status", 1);
         $orden_ventas = $orden_ventas->get();

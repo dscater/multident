@@ -294,7 +294,7 @@ class NotificacionService
                             $tipo = "12 MESES";
                         }
                         if ($crear) {
-                            Log::debug("CREARA " . $mesesRestantes);
+                            // Log::debug("CREARA " . $mesesRestantes);
                             //Notificacion
                             $notificacion = Notificacion::create([
                                 "descripcion" => "EL PRODUCTO " . $detalle->producto->nombre . " ESTA A " . $mesesRestantes . " MESES DE SU FECHA DE VENCIMIENTO",
@@ -302,7 +302,7 @@ class NotificacionService
                                 "hora" => $hora,
                                 "tipo" => $tipo,
                                 "sucursal_id" =>  $detalle->ingreso_producto->sucursal_id,
-                                "modulo" => "ProductoSucursal",
+                                "modulo" => "IngresoDetalle",
                                 "registro_id" => $detalle->id,
                             ]);
 

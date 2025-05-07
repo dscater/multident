@@ -33,10 +33,10 @@ class ProductoSucursalController extends Controller
      *
      * @return JsonResponse
      */
-    public function listado(): JsonResponse
+    public function listado(Request $request): JsonResponse
     {
         return response()->JSON([
-            "producto_sucursals" => $this->productoSucursalService->listado()
+            "producto_sucursals" => $this->productoSucursalService->listado($request->sucursal_id ?? 0, $request->con_stock ?? false)
         ]);
     }
 

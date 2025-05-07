@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrdenVentaStoreRequest;
 use App\Http\Requests\OrdenVentaUpdateRequest;
 use App\Models\DetalleOrden;
+use App\Models\Devolucion;
 use App\Models\OrdenVenta;
 use App\Services\HistorialAccionService;
 use App\Services\OrdenVentaService;
@@ -38,10 +39,11 @@ class OrdenVentaController extends Controller
      *
      * @return JsonResponse
      */
-    public function listado(): JsonResponse
+    public function listado(Request $request): JsonResponse
     {
+        $sucursal_id = isset($request->sucursal_id) && $request->sucursal_id ? $request->sucursal_id : 0;
         return response()->JSON([
-            "orden_ventas" => $this->ordenVentaService->listado()
+            "orden_ventas" => $this->ordenVentaService->listado($sucursal_id)
         ]);
     }
 
@@ -113,15 +115,19 @@ class OrdenVentaController extends Controller
     {
         $detalle_ordens = [];
         if (isset($request->detalle_orden_id)) {
-            $detalle_ordens = DetalleOrden::where("status", 1)
+            $detalle_ordens = DetalleOrden::with(["producto"])->where("status", 1)
                 ->where("orden_venta_id", $orden_venta->id)
                 ->orWhere("id", $request->detalle_orden_id)
+                ->get();
+        } else {
+            $detalle_ordens = DetalleOrden::with(["producto"])->where("status", 1)
+                ->where("orden_venta_id", $orden_venta->id)
                 ->get();
         }
 
         return response()->JSON([
             "orden_venta" => $orden_venta->load(["detalle_ordens.producto"]),
-            "detalle_ordens" => $detalle_ordens
+            "detalle_ordens" => $detalle_ordens,
         ]);
     }
 
