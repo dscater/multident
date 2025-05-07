@@ -35,14 +35,7 @@ const columns = [
         data: null,
         render: function (data, type, row) {
             let buttons = ``;
-
-            if (
-                props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes("notificacions.edit")
-            ) {
-                buttons += `<button class="mx-0 rounded-0 btn btn-primary ver" data-id="${row.id}"><i class="fa fa-eye"></i></button>`;
-            }
-
+            buttons += `<button class="mx-0 rounded-0 btn btn-primary ver" data-id="${row.id}"><i class="fa fa-eye"></i></button>`;
             return buttons;
         },
     },

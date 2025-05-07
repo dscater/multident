@@ -228,6 +228,7 @@ onMounted(() => {
                                     :class="{
                                         'parsley-error': form.errors?.user_id,
                                     }"
+                                    placeholder="- Seleccione -"
                                     v-model="form.user_id"
                                 >
                                     <el-option

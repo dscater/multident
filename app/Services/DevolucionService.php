@@ -7,6 +7,7 @@ use App\Services\HistorialAccionService;
 use App\Models\Devolucion;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -18,7 +19,13 @@ class DevolucionService
 
     public function listado(): Collection
     {
-        $devolucions = Devolucion::with(["sucursal", "orden_venta", "producto", "detalle_orden"])->select("devolucions.*")->get();
+        $devolucions = Devolucion::with(["sucursal", "orden_venta", "producto", "detalle_orden"])->select("devolucions.*");
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $devolucions->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+
+        $devolucions = $devolucions->get();
         return $devolucions;
     }
 
@@ -30,6 +37,11 @@ class DevolucionService
             $devolucions->orWhere("fecha_ini", "LIKE", "%$search%");
             $devolucions->orWhere("fecha_fin", "LIKE", "%$search%");
         }
+
+        if (Auth::user()->sucursals_todo == 0) {
+            $devolucions->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+
         $devolucions = $devolucions->paginate($length, ['*'], 'page', $page);
         return $devolucions;
     }

@@ -222,7 +222,7 @@ onMounted(() => {});
                             <h4 class="w-100 text-center">
                                 Productos relacionados
                             </h4>
-                            <div
+                            <!-- <div
                                 class="row my-1"
                                 v-if="props_page.auth?.user.sucursals_todo == 1"
                             >
@@ -245,7 +245,7 @@ onMounted(() => {});
                                         </option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -253,7 +253,7 @@ onMounted(() => {});
                                         <th>C/U</th>
                                         <th>Con Factura</th>
                                         <th>Sin Factura</th>
-                                        <th>Stock Actual</th>
+                                        <!-- <th>Stock Actual</th> -->
                                         <th
                                             v-if="
                                                 props_page.auth?.user
@@ -286,9 +286,9 @@ onMounted(() => {});
                                                 item.o_producto_relacion.monto_sf
                                             }}
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             {{ item.stock_actual ?? "-" }}
-                                        </td>
+                                        </td> -->
                                         <td
                                             v-if="
                                                 props_page.auth?.user
