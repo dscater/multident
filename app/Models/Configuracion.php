@@ -12,29 +12,11 @@ class Configuracion extends Model
     protected $fillable = [
         "nombre_sistema",
         "alias",
+        "razon_social",
         "logo",
-        "fono",
-        "dir",
-        "conf_correos",
-        "conf_moneda",
-        "conf_captcha",
     ];
 
     protected $appends = ["url_logo", "logo_b64"];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'conf_correos' => "array",
-            'conf_moneda' => "array",
-            'conf_captcha' => "array",
-        ];
-    }
 
     /**
      * Url del logo
