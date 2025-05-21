@@ -540,9 +540,33 @@ class ReporteController extends Controller
         $factura =  $request->factura;
         $fecha_ini =  $request->fecha_ini;
         $fecha_fin =  $request->fecha_fin;
-        $orden_ventas = OrdenVenta::select("orden_ventas.*")
+        $orden_ventas = OrdenVenta::select(
+            "orden_ventas.id",
+            "orden_ventas.nro",
+            "orden_ventas.user_id",
+            "orden_ventas.sucursal_id",
+            "orden_ventas.cliente_id",
+            "orden_ventas.nit_ci",
+            "orden_ventas.factura",
+            "orden_ventas.tipo_pago",
+            "orden_ventas.descripcion",
+            "orden_ventas.fecha_registro",
+            "orden_ventas.status",
+        )
             ->join("detalle_ordens", "detalle_ordens.orden_venta_id", "=", "orden_ventas.id")
-            ->groupBy("orden_ventas.id");
+            ->groupBy(
+                "orden_ventas.id",
+                "orden_ventas.nro",
+                "orden_ventas.user_id",
+                "orden_ventas.sucursal_id",
+                "orden_ventas.cliente_id",
+                "orden_ventas.nit_ci",
+                "orden_ventas.factura",
+                "orden_ventas.tipo_pago",
+                "orden_ventas.descripcion",
+                "orden_ventas.fecha_registro",
+                "orden_ventas.status",
+            );
 
         if ($producto_id != 'todos') {
             $orden_ventas->where("detalle_ordens.producto_id", $producto_id);
