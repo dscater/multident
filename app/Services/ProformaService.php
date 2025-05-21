@@ -65,10 +65,33 @@ class ProformaService
         array $orderBy = []
     ): LengthAwarePaginator {
         $proformas = Proforma::with(["cliente", "sucursal", "user", "detalle_proformas.producto"])
-            ->select("proformas.*", \DB::raw("SUM(detalle_proformas.cantidad) AS total_vendido"))
+            ->select(
+                "proformas.id",
+                "proformas.nro",
+                "proformas.user_id",
+                "proformas.sucursal_id",
+                "proformas.cliente_id",
+                "proformas.nit_ci",
+                "proformas.factura",
+                "proformas.fecha_validez",
+                "proformas.fecha_registro",
+                "proformas.status",
+                \DB::raw("SUM(detalle_proformas.cantidad) AS total_vendido")
+            )
             ->leftJoin("detalle_proformas", "proformas.id", "=", "detalle_proformas.proforma_id")
-            ->groupBy("proformas.id")
-            ->where("proformas.status", 1);
+            ->where("proformas.status", 1)
+            ->groupBy(
+                "proformas.id",
+                "proformas.nro",
+                "proformas.user_id",
+                "proformas.sucursal_id",
+                "proformas.cliente_id",
+                "proformas.nit_ci",
+                "proformas.factura",
+                "proformas.fecha_validez",
+                "proformas.fecha_registro",
+                "proformas.status"
+            );
 
         if (Auth::user()->sucursals_todo == 0) {
             $proformas->where("sucursal_id", Auth::user()->sucursal_id);

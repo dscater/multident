@@ -43,10 +43,23 @@ class IngresoProductoService
      */
     public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $ingreso_productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])->select("ingreso_productos.*")
+        $ingreso_productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])
+            ->select(
+                "ingreso_productos.id",
+                "ingreso_productos.sucursal_id",
+                "ingreso_productos.fecha_registro",
+                "ingreso_productos.descripcion",
+                "ingreso_productos.status",
+            )
             ->leftJoin("ingreso_detalles", "ingreso_productos.id", "=", "ingreso_detalles.ingreso_producto_id")
             ->leftJoin("productos", "productos.id", "=", "ingreso_detalles.producto_id")
-            ->groupBy("ingreso_productos.id");
+            ->groupBy(
+                "ingreso_productos.id",
+                "ingreso_productos.sucursal_id",
+                "ingreso_productos.fecha_registro",
+                "ingreso_productos.descripcion",
+                "ingreso_productos.status",
+            );
 
         $ingreso_productos->where("ingreso_productos.status", 1);
 

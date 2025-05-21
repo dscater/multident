@@ -70,10 +70,35 @@ class OrdenVentaService
         array $orderBy = []
     ): LengthAwarePaginator {
         $ordenVentas = OrdenVenta::with(["cliente", "sucursal", "user", "detalle_ordens.producto"])
-            ->select("orden_ventas.*", \DB::raw("SUM(detalle_ordens.cantidad) AS total_vendido"))
+            ->select(
+                "orden_ventas.id",
+                "orden_ventas.nro",
+                "orden_ventas.user_id",
+                "orden_ventas.sucursal_id",
+                "orden_ventas.cliente_id",
+                "orden_ventas.nit_ci",
+                "orden_ventas.factura",
+                "orden_ventas.tipo_pago",
+                "orden_ventas.descripcion",
+                "orden_ventas.fecha_registro",
+                "orden_ventas.status",
+                \DB::raw("SUM(detalle_ordens.cantidad) AS total_vendido")
+            )
             ->leftJoin("detalle_ordens", "orden_ventas.id", "=", "detalle_ordens.orden_venta_id")
-            ->groupBy("orden_ventas.id")
-            ->where("orden_ventas.status", 1);
+            ->where("orden_ventas.status", 1)
+            ->groupBy(
+                "orden_ventas.id",
+                "orden_ventas.nro",
+                "orden_ventas.user_id",
+                "orden_ventas.sucursal_id",
+                "orden_ventas.cliente_id",
+                "orden_ventas.nit_ci",
+                "orden_ventas.factura",
+                "orden_ventas.tipo_pago",
+                "orden_ventas.descripcion",
+                "orden_ventas.fecha_registro",
+                "orden_ventas.status",
+            );
 
         if (Auth::user()->sucursals_todo == 0) {
             $ordenVentas->where("sucursal_id", Auth::user()->sucursal_id);

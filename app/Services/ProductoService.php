@@ -9,6 +9,7 @@ use App\Models\ProductoRelacion;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -53,10 +54,34 @@ class ProductoService
      */
     public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $productos = Producto::select("productos.*")
+        $productos = Producto::select(
+            "productos.id",
+            "productos.nombre",
+            "productos.descripcion",
+            "productos.precio_pred",
+            "productos.precio_min",
+            "productos.precio_fac",
+            "productos.precio_sf",
+            "productos.stock_maximo",
+            "productos.foto",
+            "productos.fecha_registro",
+            "productos.status",
+            DB::raw("SUM(detalle_ordens.cantidad) as total_vendido")
+        )
             ->leftJoin("detalle_ordens", "productos.id", "=", "detalle_ordens.producto_id")
-            ->selectRaw("SUM(detalle_ordens.cantidad) as total_vendido")
-            ->groupBy("productos.id");
+            ->groupBy(
+                "productos.id",
+                "productos.nombre",
+                "productos.descripcion",
+                "productos.precio_pred",
+                "productos.precio_min",
+                "productos.precio_fac",
+                "productos.precio_sf",
+                "productos.stock_maximo",
+                "productos.foto",
+                "productos.fecha_registro",
+                "productos.status",
+            );
 
         $productos->where("productos.status", 1);
 

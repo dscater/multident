@@ -42,9 +42,26 @@ class SalidaProductoService
      */
     public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $salida_productos = SalidaProducto::with(["sucursal", "producto"])->select("salida_productos.*")
+        $salida_productos = SalidaProducto::with(["sucursal", "producto"])
+            ->select(
+                "salida_productos.id",
+                "salida_productos.sucursal_id",
+                "salida_productos.producto_id",
+                "salida_productos.cantidad",
+                "salida_productos.descripcion",
+                "salida_productos.fecha_registro",
+                "salida_productos.status",
+            )
             ->leftJoin("productos", "productos.id", "=", "salida_productos.producto_id")
-            ->groupBy("salida_productos.id");
+            ->groupBy(
+                "salida_productos.id",
+                "salida_productos.sucursal_id",
+                "salida_productos.producto_id",
+                "salida_productos.cantidad",
+                "salida_productos.descripcion",
+                "salida_productos.fecha_registro",
+                "salida_productos.status",
+            );
 
         $salida_productos->where("salida_productos.status", 1);
 
