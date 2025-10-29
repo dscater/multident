@@ -578,7 +578,7 @@ const logout = () => {
                         <div class="menu-icon">
                             <i class="fa fa-list-alt"></i>
                         </div>
-                        <div class="menu-text">Ingreso de Productos</div>
+                        <div class="menu-text">Abastecimiento de Productos</div>
                     </Link>
                 </div>
                 <div
@@ -602,7 +602,7 @@ const logout = () => {
                         <div class="menu-icon">
                             <i class="fa fa-list-alt"></i>
                         </div>
-                        <div class="menu-text">Salida de Productos</div>
+                        <div class="menu-text">Productos retirados</div>
                     </Link>
                 </div>
                 <div
@@ -997,7 +997,7 @@ const logout = () => {
                         <div class="menu-icon">
                             <i class="fa fa-file-alt"></i>
                         </div>
-                        <div class="menu-text">Ingresos de Productos</div>
+                        <div class="menu-text">Abastecimiento de Productos</div>
                     </Link>
                 </div>
                 <div
@@ -1021,7 +1021,7 @@ const logout = () => {
                         <div class="menu-icon">
                             <i class="fa fa-file-alt"></i>
                         </div>
-                        <div class="menu-text">Salidas de Productos</div>
+                        <div class="menu-text">Productos retirados</div>
                     </Link>
                 </div>
                 <div

@@ -183,9 +183,11 @@ Route::middleware(['auth', 'permisoUsuario'])->prefix("admin")->group(function (
     // NOTIFICACIONS
     Route::get("notificacions/listadoPorUsuario", [NotificacionController::class, "listadoPorUsuario"])->name("notificacions.listadoPorUsuario");
     Route::get("notificacions/api", [NotificacionController::class, 'api'])->name("notificacions.api");
+    Route::get("notificacions/apiVencimiento", [NotificacionController::class, 'apiVencimiento'])->name("notificacions.apiVencimiento");
     Route::get("notificacions/paginado", [NotificacionController::class, 'paginado'])->name("notificacions.paginado");
     Route::get("notificacions/listado", [NotificacionController::class, 'listado'])->name("notificacions.listado");
     Route::get("notificacions/show/{notificacion_user}", [NotificacionController::class, 'show'])->name("notificacions.show");
+    Route::get("notificacions/vencimiento", [NotificacionController::class, 'vencimiento'])->name("notificacions.vencimiento");
     Route::resource("notificacions", NotificacionController::class)->only(
         ["index"]
     );

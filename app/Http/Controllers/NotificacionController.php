@@ -36,6 +36,10 @@ class NotificacionController extends Controller
     {
         return Inertia::render("Admin/NotificacionUsers/Index");
     }
+    public function vencimiento(Request $request)
+    {
+        return Inertia::render("Admin/NotificacionUsers/IndexVencimiento");
+    }
 
     /**
      * Endpoint para obtener la lista de notificacion_users paginado para data table
@@ -60,6 +64,22 @@ class NotificacionController extends Controller
         ]);
     }
 
+    public function apiVencimiento(Request $request): JsonResponse
+    {
+        $length = (int)$request->input('length', 10); // Valor de `length` enviado por DataTable
+        $start = (int)$request->input('start', 0); // Índice de inicio enviado por DataTable
+        $page = (int)(($start / $length) + 1); // Cálculo de la página actual
+        $search = (string)$request->input('search', '');
+
+        $notificacion_users = $this->notificacionUserService->listadoPaginadoUserVencimiento($length, $page, $search, Auth::user()->id);
+
+        return response()->JSON([
+            'data' => $notificacion_users->items(),
+            'recordsTotal' => $notificacion_users->total(),
+            'recordsFiltered' => $notificacion_users->total(),
+            'draw' => intval($request->input('draw')),
+        ]);
+    }
 
     public function show(NotificacionUser $notificacion_user)
     {

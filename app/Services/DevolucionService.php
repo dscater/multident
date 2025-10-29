@@ -70,7 +70,7 @@ class DevolucionService
         $detalle_orden->status = 0;
         $detalle_orden->save();
 
-        $this->kardexProductoService->registroIngreso($devolucion->sucursal_id, "DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_pred, "INGRESO POR DEVOLUCIÓN DE PRODUCTO POR " . $devolucion->razon, "Devolucion", $devolucion->id);
+        $this->kardexProductoService->registroIngreso($devolucion->sucursal_id, "DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_min, "INGRESO POR DEVOLUCIÓN DE PRODUCTO POR " . $devolucion->razon, "Devolucion", $devolucion->id);
 
         $this->detalleUsoService->restablecerUso($detalle_orden);
         // registrar accion
@@ -96,7 +96,7 @@ class DevolucionService
         // kardex egreso
         $detalle_orden_old->status = 1;
         $detalle_orden_old->save();
-        $this->kardexProductoService->registroEgreso("DEVOLUCIÓN", $detalle_orden_old->producto, $detalle_orden_old->cantidad, $detalle_orden_old->producto->precio_pred, "EGRESO POR MODIFICACIÓN DE DEVOLUCIÓN" . $old_devolucion->razon, $old_devolucion->sucursal_id, "Devolucion", $old_devolucion->id);
+        $this->kardexProductoService->registroEgreso("DEVOLUCIÓN", $detalle_orden_old->producto, $detalle_orden_old->cantidad, $detalle_orden_old->producto->precio_min, "EGRESO POR MODIFICACIÓN DE DEVOLUCIÓN" . $old_devolucion->razon, $old_devolucion->sucursal_id, "Devolucion", $old_devolucion->id);
         $this->detalleUsoService->registrarUsos($detalle_orden_old);
 
         $devolucion->update([
@@ -112,7 +112,7 @@ class DevolucionService
         // kardex ingreso
         $detalle_orden->status = 0;
         $detalle_orden->save();
-        $this->kardexProductoService->registroIngreso($devolucion->sucursal_id, "DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_pred, "INGRESO POR DEVOLUCIÓN POR PRODUCTO POR " . $devolucion->razon, "Devolucion", $devolucion->id);
+        $this->kardexProductoService->registroIngreso($devolucion->sucursal_id, "DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_min, "INGRESO POR DEVOLUCIÓN POR PRODUCTO POR " . $devolucion->razon, "Devolucion", $devolucion->id);
 
         $this->detalleUsoService->registrarUsos($detalle_orden);
 
@@ -140,7 +140,7 @@ class DevolucionService
 
         $this->detalleUsoService->eliminarUsos($detalle_orden->id);
 
-        $this->kardexProductoService->registroEgreso("DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_pred, "EGRESO POR MODIFICACIÓN DE DEVOLUCIÓN" . $old_devolucion->razon, $old_devolucion->sucursal_id, "Devolucion", $old_devolucion->id);
+        $this->kardexProductoService->registroEgreso("DEVOLUCIÓN", $detalle_orden->producto, $detalle_orden->cantidad, $detalle_orden->producto->precio_min, "EGRESO POR MODIFICACIÓN DE DEVOLUCIÓN" . $old_devolucion->razon, $old_devolucion->sucursal_id, "Devolucion", $old_devolucion->id);
 
         $this->detalleUsoService->registrarUsos($detalle_orden->id);
 

@@ -143,7 +143,7 @@ onMounted(() => {});
                                     </p>
                                     <p>
                                         <strong>C/U: </strong
-                                        >{{ oProducto.precio_pred }}
+                                        >{{ oProducto.precio_min }}
                                     </p>
                                     <p>
                                         <strong>C/F: </strong
@@ -185,7 +185,7 @@ onMounted(() => {});
                                         <td>
                                             {{
                                                 item.o_producto_relacion
-                                                    .precio_pred
+                                                    .precio_min
                                             }}
                                         </td>
                                         <td>

@@ -20,6 +20,8 @@ const form = ref({
     formato: "pdf",
     sucursal_id:
         auth?.user.sucursals_todo == 0 ? user.value.sucursal_id : "todos",
+    stock: "todos",
+    vencido: "todos",
 });
 
 const generando = ref(false);
@@ -29,6 +31,17 @@ const txtBtn = computed(() => {
     }
     return "Generar Reporte";
 });
+
+const listStock = ref([
+    { value: "todos", label: "TODOS" },
+    { value: "50", label: "DEBAJO DE 50% DE STOCK" },
+]);
+
+const listVencido = ref([
+    { value: "todos", label: "TODOS" },
+    { value: "vencidos", label: "VENCIDOS" },
+    { value: "porvencer", label: "POR VENCER" },
+]);
 
 const listFormato = ref([
     { value: "pdf", label: "PDF" },
@@ -104,6 +117,52 @@ onMounted(() => {
                                     >
                                     </el-option>
                                 </el-select>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <label>Filtrar stock*</label>
+                                <select
+                                    :hide-details="
+                                        form.errors?.stock ? false : true
+                                    "
+                                    :error="form.errors?.stock ? true : false"
+                                    :error-messages="
+                                        form.errors?.stock
+                                            ? form.errors?.stock
+                                            : ''
+                                    "
+                                    v-model="form.stock"
+                                    class="form-control"
+                                >
+                                    <option
+                                        v-for="item in listStock"
+                                        :value="item.value"
+                                    >
+                                        {{ item.label }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <label>Filtrar vencimiento*</label>
+                                <select
+                                    :hide-details="
+                                        form.errors?.vencido ? false : true
+                                    "
+                                    :error="form.errors?.vencido ? true : false"
+                                    :error-messages="
+                                        form.errors?.vencido
+                                            ? form.errors?.vencido
+                                            : ''
+                                    "
+                                    v-model="form.vencido"
+                                    class="form-control"
+                                >
+                                    <option
+                                        v-for="item in listVencido"
+                                        :value="item.value"
+                                    >
+                                        {{ item.label }}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-md-12 mt-2">
                                 <label>Seleccionar formato*</label>

@@ -63,7 +63,7 @@ onMounted(async () => {
     datatable = initDataTable(
         "#table-notificacion",
         columns,
-        route("notificacions.api")
+        route("notificacions.apiVencimiento")
     );
     input_search = document.querySelector('input[type="search"]');
 
@@ -90,24 +90,22 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-    <Head title="Notificaciones > Stock"></Head>
+    <Head title="Notificaciones > Vencimiento"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Notificaciones > Stock</li>
+        <li class="breadcrumb-item active">Notificaciones > Vencimiento</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Notificaciones > Stock</h1>
+    <h1 class="page-header">Notificaciones > Vencimiento</h1>
     <!-- END page-header -->
 
     <div class="row">
         <div class="col-md-3 mb-2">
-            <Link
-                :href="route('notificacions.vencimiento')"
-                class="btn btn-primary"
-                >Notificaciones Vencimiento</Link
+            <Link :href="route('notificacions.index')" class="btn btn-info"
+                >Notificaciones Stock</Link
             >
         </div>
         <div class="col-md-12">

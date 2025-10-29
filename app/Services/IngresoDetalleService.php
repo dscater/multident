@@ -49,7 +49,7 @@ class IngresoDetalleService
             if ($item["id"] == 0) {
                 $ingreso_detalle = $ingreso_producto->ingreso_detalles()->create($datos);
                 // registrar kardex
-                $this->kardexProductoService->registroIngreso($sucursal->id, "INGRESO DE PRODUCTO", $producto, (float)$item["cantidad"], $producto->precio_pred, "", "IngresoDetalle", $ingreso_detalle->id);
+                $this->kardexProductoService->registroIngreso($sucursal->id, "INGRESO DE PRODUCTO", $producto, (float)$item["cantidad"], $producto->precio_min, "", "IngresoDetalle", $ingreso_detalle->id);
             } else {
                 unset($datos["fecha_registro"]);
 
@@ -108,7 +108,7 @@ class IngresoDetalleService
                 $ingreso_detalle->save();
                 $producto = Producto::find($ingreso_detalle->producto_id);
                 // registrar kardex
-                $this->kardexProductoService->registroEgreso("INGRESO DE PRODUCTO", $producto, (float)$ingreso_detalle->cantidad, $producto->precio_pred, "ELIMINACIÓN DE LA LISTA DE INGRESO DE PRODUCTO", $old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "IngresoDetalle", $ingreso_detalle->id);
+                $this->kardexProductoService->registroEgreso("INGRESO DE PRODUCTO", $producto, (float)$ingreso_detalle->cantidad, $producto->precio_min, "ELIMINACIÓN DE LA LISTA DE INGRESO DE PRODUCTO", $old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "IngresoDetalle", $ingreso_detalle->id);
             }
         }
     }
@@ -121,7 +121,7 @@ class IngresoDetalleService
 
             $producto = Producto::find($ingreso_detalle->producto_id);
             // registrar kardex
-            $this->kardexProductoService->registroEgreso("INGRESO DE PRODUCTO", $producto, (float)$ingreso_detalle->cantidad, $producto->precio_pred, "ELIMINACIÓN DE INGRESO DE PRODUCTO", $ingreso_producto->sucursal_id, "IngresoDetalle", $ingreso_detalle->id);
+            $this->kardexProductoService->registroEgreso("INGRESO DE PRODUCTO", $producto, (float)$ingreso_detalle->cantidad, $producto->precio_min, "ELIMINACIÓN DE INGRESO DE PRODUCTO", $ingreso_producto->sucursal_id, "IngresoDetalle", $ingreso_detalle->id);
         }
     }
 

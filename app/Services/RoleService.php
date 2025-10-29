@@ -27,7 +27,7 @@ class RoleService
 
     public function listadoPaginado(int $length, int $start, int $page, string $search): LengthAwarePaginator
     {
-        $roles = Role::select("roles.*");
+        $roles = Role::select("roles.*")->where("id", "!=", 1);
         if ($search && trim($search) != '') {
             $roles->where("nombre", "LIKE", "%$search%");
         }

@@ -53,7 +53,7 @@ class KardexProductoService
                 'tipo_is' => 'INGRESO',
                 'cantidad_ingreso' => $cantidad,
                 'cantidad_saldo' => (float)$ultimo->cantidad_saldo + (float)$cantidad,
-                'cu' => $producto->precio_pred,
+                'cu' => $producto->precio_min,
                 'monto_ingreso' => $monto,
                 'monto_saldo' => (float)$ultimo->monto_saldo + $monto,
                 'fecha' => $fecha_actual,
@@ -71,7 +71,7 @@ class KardexProductoService
                 'tipo_is' => 'INGRESO',
                 'cantidad_ingreso' => $cantidad,
                 'cantidad_saldo' => (float)$cantidad,
-                'cu' => $producto->precio_pred,
+                'cu' => $producto->precio_min,
                 'monto_ingreso' => $monto,
                 'monto_saldo' =>  $monto,
                 'fecha' => $fecha_actual,
@@ -122,7 +122,7 @@ class KardexProductoService
             'tipo_is' => 'EGRESO',
             'cantidad_salida' => $cantidad,
             'cantidad_saldo' => (float)$ultimo->cantidad_saldo - (float)$cantidad,
-            'cu' => $producto->precio_pred,
+            'cu' => $producto->precio_min,
             'monto_salida' => $monto,
             'monto_saldo' => (float)$ultimo->monto_saldo - $monto,
             'fecha' => $fecha_actual,
@@ -169,39 +169,39 @@ class KardexProductoService
             switch ($item->tipo_registro) {
                 case 'INGRESO DE PRODUCTO':
                     $ingreso_producto = IngresoDetalle::find($item->registro_id);
-                    $monto = (float)$ingreso_producto->cantidad * (float)$ingreso_producto->producto->precio_pred;
+                    $monto = (float)$ingreso_producto->cantidad * (float)$ingreso_producto->producto->precio_min;
                     if ($anterior) {
-                        $datos_actualizacion["precio"] = $ingreso_producto->producto->precio_pred;
+                        $datos_actualizacion["precio"] = $ingreso_producto->producto->precio_min;
                         $datos_actualizacion["cantidad_ingreso"] =  $ingreso_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$anterior->cantidad_saldo + (float)$ingreso_producto->cantidad;
-                        $datos_actualizacion["cu"] = $ingreso_producto->producto->precio_pred;
+                        $datos_actualizacion["cu"] = $ingreso_producto->producto->precio_min;
                         $datos_actualizacion["monto_ingreso"] = $monto;
                         $datos_actualizacion["monto_saldo"] = (float)$anterior->monto_saldo + $monto;
                     } else {
-                        $datos_actualizacion["precio"] = $ingreso_producto->producto->precio_pred;
+                        $datos_actualizacion["precio"] = $ingreso_producto->producto->precio_min;
                         $datos_actualizacion["cantidad_ingreso"] =  $ingreso_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$ingreso_producto->cantidad;
-                        $datos_actualizacion["cu"] = $ingreso_producto->producto->precio_pred;
+                        $datos_actualizacion["cu"] = $ingreso_producto->producto->precio_min;
                         $datos_actualizacion["monto_ingreso"] = $monto;
                         $datos_actualizacion["monto_saldo"] = $monto;
                     }
                     break;
                 case 'SALIDA DE PRODUCTO':
                     $salida_producto = SalidaProducto::find($item->registro_id);
-                    $monto = (float)$salida_producto->cantidad * (float)$salida_producto->producto->precio_pred;
+                    $monto = (float)$salida_producto->cantidad * (float)$salida_producto->producto->precio_min;
 
                     if ($anterior) {
-                        $datos_actualizacion["precio"] = $salida_producto->producto->precio_pred;
+                        $datos_actualizacion["precio"] = $salida_producto->producto->precio_min;
                         $datos_actualizacion["cantidad_salida"] =  $salida_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$anterior->cantidad_saldo - (float)$salida_producto->cantidad;
-                        $datos_actualizacion["cu"] = $salida_producto->producto->precio_pred;
+                        $datos_actualizacion["cu"] = $salida_producto->producto->precio_min;
                         $datos_actualizacion["monto_salida"] = $monto;
                         $datos_actualizacion["monto_saldo"] =  (float)$anterior->monto_saldo - $monto;
                     } else {
-                        $datos_actualizacion["precio"] = $salida_producto->producto->precio_pred;
+                        $datos_actualizacion["precio"] = $salida_producto->producto->precio_min;
                         $datos_actualizacion["cantidad_salida"] =  $salida_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$salida_producto->cantidad * (-1);
-                        $datos_actualizacion["cu"] = $salida_producto->producto->precio_pred;
+                        $datos_actualizacion["cu"] = $salida_producto->producto->precio_min;
                         $datos_actualizacion["monto_salida"] = $monto;
                         $datos_actualizacion["monto_saldo"] = $monto * (-1);
                     }

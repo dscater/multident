@@ -41,6 +41,10 @@ const columns = [
         data: "descripcion",
     },
     {
+        title: "USUARIO",
+        data: "user.usuario",
+    },
+    {
         title: "FECHA DE REGISTRO",
         data: "fecha_registro_t",
     },
@@ -52,9 +56,7 @@ const columns = [
 
             if (
                 props_page.auth?.user.permisos == "*" ||
-                props_page.auth?.user.permisos.includes(
-                    "salida_productos.edit"
-                )
+                props_page.auth?.user.permisos.includes("salida_productos.edit")
             ) {
                 buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
             }
@@ -67,7 +69,9 @@ const columns = [
             ) {
                 buttons += ` <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}"
-                 data-nombre="${row.sucursal.nombre}| ${row.producto.nombre} | ${row.cantidad} | ${row.fecha_registro_t}"
+                 data-nombre="${row.sucursal.nombre}| ${
+                    row.producto.nombre
+                } | ${row.cantidad} | ${row.fecha_registro_t}"
                  data-url="${route(
                      "salida_productos.destroy",
                      row.id
@@ -158,16 +162,16 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-    <Head title="Salida de Productos"></Head>
+    <Head title="Productos retirados"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Salida de Productos</li>
+        <li class="breadcrumb-item active">Productos retirados</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Salida de Productos</h1>
+    <h1 class="page-header">Productos retirados</h1>
     <!-- END page-header -->
 
     <div class="row">
@@ -207,6 +211,7 @@ onBeforeUnmount(() => {
                         <thead>
                             <tr>
                                 <th width="5%"></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

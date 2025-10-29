@@ -42,10 +42,11 @@ class SalidaProductoService
      */
     public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $salida_productos = SalidaProducto::with(["sucursal", "producto"])
+        $salida_productos = SalidaProducto::with(["sucursal", "producto", "user"])
             ->select(
                 "salida_productos.id",
                 "salida_productos.sucursal_id",
+                'salida_productos.user_id',
                 "salida_productos.producto_id",
                 "salida_productos.cantidad",
                 "salida_productos.descripcion",
@@ -56,6 +57,7 @@ class SalidaProductoService
             ->groupBy(
                 "salida_productos.id",
                 "salida_productos.sucursal_id",
+                'salida_productos.user_id',
                 "salida_productos.producto_id",
                 "salida_productos.cantidad",
                 "salida_productos.descripcion",
@@ -135,7 +137,8 @@ class SalidaProductoService
             "producto_id" => $datos["producto_id"],
             "cantidad" => $datos["cantidad"],
             "descripcion" => mb_strtoupper($datos["descripcion"]),
-            "fecha_registro" => date("Y-m-d")
+            "fecha_registro" => date("Y-m-d"),
+            "user_id" => Auth::user()->id
         ]);
 
         // registrar kardex

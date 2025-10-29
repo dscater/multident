@@ -135,7 +135,17 @@
             color: white;
         }
 
-        .txt_rojo {}
+        .rojo {
+            background-color: #f3b2b2;
+        }
+
+        .amarillo {
+            background-color: #f2fdb3;
+        }
+
+        .verde {
+            background-color: #c0faaa;
+        }
 
         .img_celda img {
             width: 45px;
@@ -176,26 +186,64 @@
             </thead>
             <tbody>
                 @php
-
+                    $producto_sucursals = [];
                     $producto_sucursals = App\Models\Producto::select(
                         'productos.*',
+
+                        // Subquery para el stock actual
                         DB::raw(
-                            '(
-                        SELECT COALESCE(stock_actual, 0)
-                            FROM producto_sucursals
-                            WHERE producto_sucursals.producto_id = productos.id
-                            AND producto_sucursals.sucursal_id = ' .
+                            'COALESCE((
+        SELECT ps.stock_actual
+        FROM producto_sucursals ps
+        WHERE ps.producto_id = productos.id
+          AND ps.sucursal_id = ' .
                                 $sucursal->id .
                                 '
-                            LIMIT 1
-                        ) as stock_actual',
+        LIMIT 1
+    ), 0) as stock_actual',
                         ),
-                    )
-                        ->where('status', 1)
-                        ->get();
+
+                        // Subquery para la fecha de vencimiento más cercana (solo si hay disponible)
+                        DB::raw('(
+        SELECT MIN(idet.fecha_vencimiento)
+        FROM ingreso_detalles idet
+        WHERE idet.producto_id = productos.id
+          AND idet.fecha_vencimiento IS NOT NULL
+          AND idet.disponible > 0
+    ) as fecha_vencimiento'),
+                    )->where('productos.status', 1);
+
+                    if ($stock != 'todos') {
+                        $producto_sucursals->havingRaw('stock_actual <= (productos.stock_maximo * 0.5)');
+                    }
+
+                    // Filtrar vencidos / por vencer
+                    if ($vencido != 'todos') {
+                        $today = now()->toDateString();
+                        $threeMonths = now()->addMonths(3)->toDateString();
+                        if ($vencido == 'vencidos') {
+                            $producto_sucursals->havingRaw("fecha_vencimiento < '{$today}'");
+                        }
+
+                        if ($vencido == 'porvencer') {
+                            $producto_sucursals->havingRaw("fecha_vencimiento BETWEEN '{$today}' AND '{$threeMonths}'");
+                        }
+                    }
+                    $producto_sucursals = $producto_sucursals->get();
                 @endphp
                 @foreach ($producto_sucursals as $producto_sucursal)
-                    <tr>
+                    @php
+                        $color = 'verde';
+                        $mitad = (float) $producto_sucursal->stock_maximo * 0.5;
+                        $cuarta = (float) $producto_sucursal->stock_maximo * 0.25;
+                        $diez = (float) $producto_sucursal->stock_maximo * 0.1;
+                        if ($producto_sucursal->stock_actual <= $cuarta) {
+                            $color = 'rojo';
+                        } elseif ($producto_sucursal->stock_actual <= $mitad) {
+                            $color = 'amarillo';
+                        }
+                    @endphp
+                    <tr class="{{ $color }}">
                         <td>{{ $producto_sucursal->nombre }}</td>
                         <td class="centreado">{{ $producto_sucursal->stock_actual ?? 0 }}</td>
                         <td class="centreado">{{ $producto_sucursal->stock_maximo }}</td>

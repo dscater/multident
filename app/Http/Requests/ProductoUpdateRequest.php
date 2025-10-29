@@ -25,6 +25,7 @@ class ProductoUpdateRequest extends FormRequest
         return [
             "nombre" => "required|min:2",
             "descripcion" => "required|min:2",
+            "marca" => "required|min:2",
             "precio_pred" => "required|numeric|min:1",
             "precio_min" => "required|numeric|min:1",
             "precio_fac" => "required|numeric|min:0",
@@ -41,6 +42,8 @@ class ProductoUpdateRequest extends FormRequest
             "nombre.min" => "Debes ingresar al menos :min caracteres",
             "descripcion.required" => "Debes completar este campo",
             "descripcion.min" => "Debes ingresar al menos :min caracteres",
+            "marca.required" => "Debes completar este campo",
+            "marca.min" => "Debes ingresar al menos :min caracteres",
             "precio_pred.required" => "Debes completar este campo",
             "precio_min.required" => "Debes completar este campo",
             "precio_fac.required" => "Debes completar este campo",

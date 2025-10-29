@@ -16,6 +16,7 @@ class SalidaProducto extends Model
         "descripcion",
         "fecha_registro",
         "status",
+        "user_id"
     ];
 
     protected $appends = ["fecha_registro_t"];
@@ -35,5 +36,9 @@ class SalidaProducto extends Model
     public function producto()
     {
         return $this->belongsTo(Producto::class, 'producto_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

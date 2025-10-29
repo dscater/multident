@@ -14,6 +14,7 @@ class IngresoProducto extends Model
         "fecha_registro",
         "descripcion",
         "status",
+        "user_id"
     ];
 
     protected $appends = ["fecha_registro_t"];
@@ -34,5 +35,9 @@ class IngresoProducto extends Model
     public function ingreso_detalles()
     {
         return $this->hasMany(IngresoDetalle::class, 'ingreso_producto_id')->where("status", 1);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

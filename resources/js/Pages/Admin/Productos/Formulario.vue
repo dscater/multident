@@ -108,8 +108,7 @@ const cerrarDialog = () => {
     document.getElementsByTagName("body")[0].classList.remove("modal-open");
 };
 
-const cargarListas = () => {
-};
+const cargarListas = () => {};
 
 onMounted(() => {
     cargarListas();
@@ -180,6 +179,26 @@ onMounted(() => {
                                 </ul>
                             </div>
                             <div class="col-md-4">
+                                <label>Marca o Proveedor*</label>
+                                <el-input
+                                    type="text"
+                                    :class="{
+                                        'is-invalid': form.errors?.marca,
+                                    }"
+                                    v-model="form.marca"
+                                    autosize
+                                >
+                                </el-input>
+                                <ul
+                                    v-if="form.errors?.marca"
+                                    class="parsley-errors-list filled"
+                                >
+                                    <li class="parsley-required">
+                                        {{ form.errors?.marca }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- <div class="col-md-4">
                                 <label>Precio Predeterminado*</label>
                                 <input
                                     type="number"
@@ -199,7 +218,7 @@ onMounted(() => {
                                         {{ form.errors?.precio_pred }}
                                     </li>
                                 </ul>
-                            </div>
+                            </div> -->
                             <div class="col-md-4">
                                 <label>Precio Mínimo*</label>
                                 <input
@@ -263,7 +282,7 @@ onMounted(() => {
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                <label>Stock Máximo*</label>
+                                <label>Alerta de stock mínimo*</label>
                                 <input
                                     type="number"
                                     step="0.01"

@@ -160,7 +160,7 @@ onMounted(() => {});
                                     </p>
                                     <p>
                                         <strong>C/U: </strong
-                                        >{{ oProducto.precio_pred }}
+                                        >{{ oProducto.precio_min }}
                                     </p>
                                     <p>
                                         <strong>C/F: </strong
@@ -268,22 +268,26 @@ onMounted(() => {});
                                 <tbody>
                                     <tr v-for="item in listProductoRelacions">
                                         <td>
-                                            {{ item.o_producto_relacion.nombre }}
+                                            {{
+                                                item.o_producto_relacion.nombre
+                                            }}
                                         </td>
                                         <td>
                                             {{
                                                 item.o_producto_relacion
-                                                    .precio_pred
+                                                    .precio_min
                                             }}
                                         </td>
                                         <td>
                                             {{
-                                                item.o_producto_relacion.monto_cf
+                                                item.o_producto_relacion
+                                                    .monto_cf
                                             }}
                                         </td>
                                         <td>
                                             {{
-                                                item.o_producto_relacion.monto_sf
+                                                item.o_producto_relacion
+                                                    .monto_sf
                                             }}
                                         </td>
                                         <!-- <td>

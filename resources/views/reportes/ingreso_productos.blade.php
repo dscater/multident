@@ -155,7 +155,7 @@
         <h2 class="titulo">
             {{ $configuracion->first()->nombre_sistema }}
         </h2>
-        <h4 class="texto">INGRESOS DE PRODUCTOS</h4>
+        <h4 class="texto">ABASTECIMIENTO DE PRODUCTOS</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
     <table border="1">

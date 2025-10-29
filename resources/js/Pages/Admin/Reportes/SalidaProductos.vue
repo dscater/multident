@@ -81,15 +81,15 @@ const generarReporte = () => {
 };
 </script>
 <template>
-    <Head title="Reporte Salidas de Productos"></Head>
+    <Head title="Reporte Productos retirados"></Head>
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Reportes > Salidas de Productos</li>
+        <li class="breadcrumb-item active">Reportes > Productos retirados</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Reportes > Salidas de Productos</h1>
+    <h1 class="page-header">Reportes > Productos retirados</h1>
     <!-- END page-header -->
     <div class="row">
         <div class="col-md-6 mx-auto">

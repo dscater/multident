@@ -155,7 +155,7 @@
         <h2 class="titulo">
             {{ $configuracion->first()->nombre_sistema }}
         </h2>
-        <h4 class="texto">SALIDAS DE PRODUCTOS</h4>
+        <h4 class="texto">PRODUCTOS RETIRADOS</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
     <table border="1">

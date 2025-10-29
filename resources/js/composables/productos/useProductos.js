@@ -4,6 +4,7 @@ const oProducto = ref({
     id: 0,
     nombre: "",
     descripcion: "",
+    marca: "",
     precio_pred: "",
     precio_min: "",
     precio_fac: "",
@@ -19,6 +20,7 @@ export const useProductos = () => {
             oProducto.value.id = item.id;
             oProducto.value.nombre = item.nombre;
             oProducto.value.descripcion = item.descripcion;
+            oProducto.value.marca = item.marca;
             oProducto.value.precio_pred = item.precio_pred;
             oProducto.value.precio_min = item.precio_min;
             oProducto.value.precio_fac = item.precio_fac;
@@ -34,6 +36,7 @@ export const useProductos = () => {
         oProducto.value.id = 0;
         oProducto.value.nombre = "";
         oProducto.value.descripcion = "";
+        oProducto.value.marca = "";
         oProducto.value.precio_pred = "";
         oProducto.value.precio_min = "";
         oProducto.value.precio_fac = "";

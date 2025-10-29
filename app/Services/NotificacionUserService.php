@@ -23,12 +23,35 @@ class NotificacionUserService
 
         return $notificacion_users;
     }
-
-
     public function listadoPaginadoUser(int $length, int $page, string $search, int $user_id): LengthAwarePaginator
     {
         $notificacion_users = NotificacionUser::with(["notificacion"])->select("notificacion_users.*")
-            ->where("user_id", $user_id);
+            ->join("notificacions", "notificacions.id", "=", "notificacion_users.notificacion_id")
+            ->where("user_id", $user_id)
+            ->whereIn("tipo", [
+                'STOCK BAJO',
+                'STOCK CUARTA PARTE',
+                'STOCK INTERMEDIO',
+            ]);
+        if ($search && trim($search) != '') {
+            $notificacion_users->where("nombre", "LIKE", "%$search%");
+        }
+        $notificacion_users = $notificacion_users->orderBy("created_at", "desc")->paginate($length, ['*'], 'page', $page);
+
+        return $notificacion_users;
+    }
+
+    public function listadoPaginadoUserVencimiento(int $length, int $page, string $search, int $user_id): LengthAwarePaginator
+    {
+        $notificacion_users = NotificacionUser::with(["notificacion"])->select("notificacion_users.*")
+            ->join("notificacions", "notificacions.id", "=", "notificacion_users.notificacion_id")
+            ->where("user_id", $user_id)
+            ->whereIn("tipo", [
+                '3 MESES',
+                '6 MESES',
+                '9 MESES',
+                '12 MESES',
+            ]);;
         if ($search && trim($search) != '') {
             $notificacion_users->where("nombre", "LIKE", "%$search%");
         }

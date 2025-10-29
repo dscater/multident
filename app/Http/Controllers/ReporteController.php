@@ -109,12 +109,28 @@ class ReporteController extends Controller
         ],
     ];
 
-    public $bgGanador = [
+    public $bgRojo = [
         'fill' => [
             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-            'color' => ['rgb' => 'e7ffe7']
+            'color' => ['rgb' => 'f3b2b2']
         ],
     ];
+
+    public $bgAmarillo = [
+        'fill' => [
+            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+            'color' => ['rgb' => 'f2fdb3']
+        ],
+    ];
+
+
+    public $bgVerde = [
+        'fill' => [
+            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+            'color' => ['rgb' => 'c0faaa']
+        ],
+    ];
+
 
     private $configuracion = null;
     public function __construct(private SedeUserService $sedeUserService)
@@ -749,11 +765,13 @@ class ReporteController extends Controller
     {
         $formato =  $request->formato;
         $estado =  $request->estado;
+        $stock =  $request->stock;
+        $vencido =  $request->vencido;
 
         $sucursals = Sucursal::where("status", 1)->get();
 
         if ($formato == "pdf") {
-            $pdf = PDF::loadView('reportes.stock_productos', compact('sucursals'))->setPaper('letter', 'portrait');
+            $pdf = PDF::loadView('reportes.stock_productos', compact('sucursals', 'stock', 'vencido'))->setPaper('letter', 'portrait');
 
             // ENUMERAR LAS PÁGINAS USANDO CANVAS
             $pdf->output();
@@ -820,25 +838,63 @@ class ReporteController extends Controller
 
                 $producto_sucursals = Producto::select(
                     'productos.*',
+
+                    // Subquery para el stock actual
                     DB::raw(
-                        '(
-                        SELECT COALESCE(stock_actual, 0)
-                            FROM producto_sucursals
-                            WHERE producto_sucursals.producto_id = productos.id
-                            AND producto_sucursals.sucursal_id = ' .
+                        'COALESCE((
+        SELECT ps.stock_actual
+        FROM producto_sucursals ps
+        WHERE ps.producto_id = productos.id
+          AND ps.sucursal_id = ' .
                             $sucursal->id .
                             '
-                            LIMIT 1
-                        ) as stock_actual',
+        LIMIT 1
+    ), 0) as stock_actual',
                     ),
-                )
-                    ->where('status', 1)
-                    ->get();
+
+                    // Subquery para la fecha de vencimiento más cercana (solo si hay disponible)
+                    DB::raw('(
+        SELECT MIN(idet.fecha_vencimiento)
+        FROM ingreso_detalles idet
+        WHERE idet.producto_id = productos.id
+          AND idet.fecha_vencimiento IS NOT NULL
+          AND idet.disponible > 0
+    ) as fecha_vencimiento'),
+                )->where('productos.status', 1);
+
+                if ($stock != 'todos') {
+                    $producto_sucursals->havingRaw('stock_actual <= (productos.stock_maximo * 0.5)');
+                }
+
+                // Filtrar vencidos / por vencer
+                if ($vencido != 'todos') {
+                    $today = now()->toDateString();
+                    $threeMonths = now()->addMonths(3)->toDateString();
+                    if ($vencido == 'vencidos') {
+                        $producto_sucursals->havingRaw("fecha_vencimiento < '{$today}'");
+                    }
+
+                    if ($vencido == 'porvencer') {
+                        $producto_sucursals->havingRaw("fecha_vencimiento BETWEEN '{$today}' AND '{$threeMonths}'");
+                    }
+                }
+                $producto_sucursals = $producto_sucursals->get();
+
                 foreach ($producto_sucursals as $producto_sucursal) {
                     $sheet->setCellValue('A' . $fila, $producto_sucursal->nombre);
                     $sheet->setCellValue('B' . $fila, $producto_sucursal->stock_actual ?? 0);
                     $sheet->setCellValue('C' . $fila, $producto_sucursal->stock_maximo);
                     $sheet->getStyle('A' . $fila . ':C' . $fila)->applyFromArray($this->bodyTabla);
+                    $mitad = (float) $producto_sucursal->stock_maximo * 0.5;
+                    $cuarta = (float) $producto_sucursal->stock_maximo * 0.25;
+                    // $diez = (float) $producto_sucursal->stock_maximo * 0.1;
+                    $sheet->getStyle('A' . $fila . ':C' . $fila)->applyFromArray($this->bgVerde);
+                    if ($producto_sucursal->stock_actual <= $cuarta) {
+                        $sheet->getStyle('A' . $fila . ':C' . $fila)->applyFromArray($this->bgRojo);
+                    } elseif ($producto_sucursal->stock_actual <= $mitad) {
+                        $sheet->getStyle('A' . $fila . ':C' . $fila)->applyFromArray($this->bgAmarillo);
+                    }
+
                     $fila++;
                 }
                 $fila += 3;

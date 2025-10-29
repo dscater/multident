@@ -43,10 +43,11 @@ class IngresoProductoService
      */
     public function listadoPaginado(int $length, int $page, string $search, array $columnsSerachLike = [], array $columnsFilter = [], array $columnsBetweenFilter = [], array $orderBy = []): LengthAwarePaginator
     {
-        $ingreso_productos = IngresoProducto::with(["sucursal", "ingreso_detalles"])
+        $ingreso_productos = IngresoProducto::with(["sucursal", "ingreso_detalles", "user"])
             ->select(
                 "ingreso_productos.id",
                 "ingreso_productos.sucursal_id",
+                'ingreso_productos.user_id',
                 "ingreso_productos.fecha_registro",
                 "ingreso_productos.descripcion",
                 "ingreso_productos.status",
@@ -56,6 +57,7 @@ class IngresoProductoService
             ->groupBy(
                 "ingreso_productos.id",
                 "ingreso_productos.sucursal_id",
+                'ingreso_productos.user_id',
                 "ingreso_productos.fecha_registro",
                 "ingreso_productos.descripcion",
                 "ingreso_productos.status",
@@ -123,7 +125,8 @@ class IngresoProductoService
         $ingreso_producto = IngresoProducto::create([
             "sucursal_id" => mb_strtoupper($datos["sucursal_id"]),
             "descripcion" => "",
-            "fecha_registro" => date("Y-m-d")
+            "fecha_registro" => date("Y-m-d"),
+            "user_id" => Auth::user()->id
         ]);
 
         // ingreso_detalles

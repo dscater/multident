@@ -40,6 +40,10 @@ const columns = [
         data: "fecha_registro_t",
     },
     {
+        title: "USUARIO",
+        data: "user.usuario",
+    },
+    {
         title: "ACCIONES",
         data: null,
         render: function (data, type, row) {
@@ -171,16 +175,16 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-    <Head title="Ingreso de Productos"></Head>
+    <Head title="Abastecimiento de Productos"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Ingreso de Productos</li>
+        <li class="breadcrumb-item active">Abastecimiento de Productos</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Ingreso de Productos</h1>
+    <h1 class="page-header">Abastecimiento de Productos</h1>
     <!-- END page-header -->
 
     <div class="row">
@@ -220,6 +224,7 @@ onBeforeUnmount(() => {
                         <thead>
                             <tr>
                                 <th width="5%"></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

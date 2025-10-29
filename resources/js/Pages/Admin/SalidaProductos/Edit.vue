@@ -27,26 +27,25 @@ const { setSalidaProducto, oSalidaProducto } = useSalidaProductos();
 setSalidaProducto(props.salida_producto);
 const { axiosDelete } = useAxios();
 
-onMounted(async () => {
-});
+onMounted(async () => {});
 onBeforeUnmount(() => {});
 </script>
 <template>
-    <Head title="Salida de Productos"></Head>
+    <Head title="Productos retirados"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
         <li class="breadcrumb-item">
             <Link :href="route('salida_productos.index')"
-                >Salida de Productos</Link
+                >Productos retirados</Link
             >
         </li>
         <li class="breadcrumb-item active">Editar</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Salida de Productos</h1>
+    <h1 class="page-header">Productos retirados</h1>
     <!-- END page-header -->
 
     <div class="row">

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("nombre", 500);
             $table->string("descripcion", 900);
-            $table->decimal("precio_pred", 24, 2);
+            $table->string("marca", 900)->nullable();
+            $table->decimal("precio_pred", 24, 2)->nullable();
             $table->decimal("precio_min", 24, 2);
             $table->decimal("precio_fac", 24, 2);
             $table->decimal("precio_sf", 24, 2);

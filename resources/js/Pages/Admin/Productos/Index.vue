@@ -61,12 +61,16 @@ const columns = [
         data: "descripcion",
     },
     {
-        title: "PRECIO PREDETERMINADO",
-        data: "precio_pred",
-        render: function (data, type, row) {
-            return getFormatoMoneda(row.precio_pred);
-        },
+        title: "MARCA/PROVEEDOR",
+        data: "marca",
     },
+    // {
+    //     title: "PRECIO PREDETERMINADO",
+    //     data: "precio_pred",
+    //     render: function (data, type, row) {
+    //         return getFormatoMoneda(row.precio_pred);
+    //     },
+    // },
     {
         title: "PRECIO MÍNIMO",
         data: "precio_min",

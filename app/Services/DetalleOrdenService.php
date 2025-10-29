@@ -53,7 +53,7 @@ class DetalleOrdenService
                     $detalle_orden = $ordenVenta->detalle_ordens()->create($datos);
 
                     //registrar kardex
-                    $this->kardexProductoService->registroEgreso("ORDEN DE VENTA", $producto, $cantidad, $producto->precio_pred, "VENTA DE PRODUCTO", $sucursal->id, "DetalleOrden", $detalle_orden->id);
+                    $this->kardexProductoService->registroEgreso("ORDEN DE VENTA", $producto, $cantidad, $producto->precio_min, "VENTA DE PRODUCTO", $sucursal->id, "DetalleOrden", $detalle_orden->id);
 
                     $this->detalleUsoService->registrarUsos($detalle_orden);
 
@@ -68,14 +68,14 @@ class DetalleOrdenService
                 if ($detalle_orden) {
                     $this->detalleUsoService->eliminarUsos($detalle_orden);
                     //registrar kardex por modificacion
-                    $this->kardexProductoService->registroIngreso($old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "ORDEN DE VENTA", $producto, $detalle_orden->cantidad, $producto->precio_pred, "POR MODIFICACIÓN DE ORDEN DE VENTA", "DetalleOrden", $detalle_orden->id);
+                    $this->kardexProductoService->registroIngreso($old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "ORDEN DE VENTA", $producto, $detalle_orden->cantidad, $producto->precio_min, "POR MODIFICACIÓN DE ORDEN DE VENTA", "DetalleOrden", $detalle_orden->id);
                     //actualizar
                     //validar stock
                     $resStock = $this->productoSucursalService->verificaStockSucursalProducto((int)$item["producto_id"], $sucursal->id, $cantidad);
 
                     if ($resStock[0]) {
                         //registrar kardex
-                        $this->kardexProductoService->registroEgreso("ORDEN DE VENTA", $producto, $cantidad, $producto->precio_pred, "VENTA DE PRODUCTO (MODIFICACIÓN)", $sucursal->id, "DetalleOrden", $detalle_orden->id);
+                        $this->kardexProductoService->registroEgreso("ORDEN DE VENTA", $producto, $cantidad, $producto->precio_min, "VENTA DE PRODUCTO (MODIFICACIÓN)", $sucursal->id, "DetalleOrden", $detalle_orden->id);
                         $detalle_orden->update($datos);
                         $this->detalleUsoService->registrarUsos($detalle_orden);
 
@@ -109,7 +109,7 @@ class DetalleOrdenService
                 $detalle_orden->save();
                 $producto = Producto::find($detalle_orden->producto_id);
                 // registrar kardex
-                $this->kardexProductoService->registroIngreso($old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "ORDEN DE VENTA", $producto, (float)$detalle_orden->cantidad, $producto->precio_pred, "ELIMINACIÓN DE PRODUCTO DETALLE DE ORDEN", "DetalleOrden", $detalle_orden->id);
+                $this->kardexProductoService->registroIngreso($old_sucursal != 0 ? $old_sucursal :  $sucursal->id, "ORDEN DE VENTA", $producto, (float)$detalle_orden->cantidad, $producto->precio_min, "ELIMINACIÓN DE PRODUCTO DETALLE DE ORDEN", "DetalleOrden", $detalle_orden->id);
 
                 $this->detalleUsoService->restablecerUso($detalle_orden);
             }

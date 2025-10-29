@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 07-05-2025 a las 00:58:00
+-- Tiempo de generación: 29-10-2025 a las 23:50:42
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -69,7 +69,7 @@ CREATE TABLE `configuracions` (
 --
 
 INSERT INTO `configuracions` (`id`, `nombre_sistema`, `alias`, `razon_social`, `logo`, `created_at`, `updated_at`) VALUES
-(1, 'MULTIDENT', 'MD', 'MULTIDENT S.A.', 'lg1744657735.png', '2025-04-14 01:39:41', '2025-04-14 19:09:03');
+(1, 'MULTIDENT', 'MD', 'MULTIDENT S.A.', 'lg1744657735.png', '2025-04-14 01:39:41', '2025-05-20 17:49:15');
 
 -- --------------------------------------------------------
 
@@ -255,7 +255,12 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (22, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN INGRESO DE PRODUCTOS', '{\"id\": 1, \"status\": 1, \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"sucursal_id\": 1, \"fecha_registro\": \"2025-04-29\", \"ingreso_detalles\": [{\"id\": 1, \"fila\": 1, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 0, \"updated_at\": \"2025-05-05T22:12:39.000000Z\", \"descripcion\": \"DESCRIPCION INGRESO 1\", \"producto_id\": 15, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2026-01-01\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"01/01/2026\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 2, \"fila\": 2, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 3, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 19, \"updated_at\": \"2025-05-06T14:53:44.000000Z\", \"descripcion\": \"\", \"producto_id\": 18, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2026-04-29\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"29/04/2026\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 4, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 19, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}]}', '{\"id\": 1, \"status\": 1, \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-04-29\", \"ingreso_detalles\": [{\"id\": 1, \"fila\": 1, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 0, \"updated_at\": \"2025-05-07T00:39:35.000000Z\", \"descripcion\": \"DESCRIPCION INGRESO 1\", \"producto_id\": 15, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2027-02-01\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"01/02/2027\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 2, \"fila\": 2, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 3, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 19, \"updated_at\": \"2025-05-06T14:53:44.000000Z\", \"descripcion\": \"\", \"producto_id\": 18, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2026-04-29\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"29/04/2026\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 4, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 19, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}]}', 'INGRESO DE PRODUCTOS', '2025-05-06', '20:39:35', '2025-05-07 00:39:35', '2025-05-07 00:39:35');
 INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `datos_original`, `datos_nuevo`, `modulo`, `fecha`, `hora`, `created_at`, `updated_at`) VALUES
 (23, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN INGRESO DE PRODUCTOS', '{\"id\": 1, \"status\": 1, \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"sucursal_id\": 1, \"fecha_registro\": \"2025-04-29\", \"ingreso_detalles\": [{\"id\": 1, \"fila\": 1, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 0, \"updated_at\": \"2025-05-07T00:39:35.000000Z\", \"descripcion\": \"DESCRIPCION INGRESO 1\", \"producto_id\": 15, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2027-02-01\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"01/02/2027\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 2, \"fila\": 2, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 3, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 19, \"updated_at\": \"2025-05-06T14:53:44.000000Z\", \"descripcion\": \"\", \"producto_id\": 18, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2026-04-29\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"29/04/2026\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 4, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 19, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}]}', '{\"id\": 1, \"status\": 1, \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-04-29\", \"ingreso_detalles\": [{\"id\": 1, \"fila\": 1, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 0, \"updated_at\": \"2025-05-07T00:39:59.000000Z\", \"descripcion\": \"DESCRIPCION INGRESO 1 MODIFICADO\", \"producto_id\": 15, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2027-02-01\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"01/02/2027\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 2, \"fila\": 2, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 3, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 19, \"updated_at\": \"2025-05-06T14:53:44.000000Z\", \"descripcion\": \"\", \"producto_id\": 18, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": \"2026-04-29\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"29/04/2026\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}, {\"id\": 4, \"fila\": 3, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-04-29T21:11:56.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-04-29T21:11:56.000000Z\", \"descripcion\": \"\", \"producto_id\": 19, \"fecha_registro\": \"2025-04-29\", \"fecha_registro_t\": \"29/04/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 1, \"ubicacion_producto_id\": 1}]}', 'INGRESO DE PRODUCTOS', '2025-05-06', '20:39:59', '2025-05-07 00:39:59', '2025-05-07 00:39:59'),
-(24, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN INGRESO DE PRODUCTOS', '{\"id\": 4, \"status\": 1, \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"updated_at\": \"2025-05-06T15:03:05.000000Z\", \"descripcion\": \"\", \"sucursal_id\": 1, \"fecha_registro\": \"2025-05-06\", \"ingreso_detalles\": [{\"id\": 9, \"fila\": 2, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-05-07T00:35:48.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-05-06\", \"fecha_registro_t\": \"06/05/2025\", \"fecha_vencimiento\": \"2027-03-03\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"03/03/2027\", \"ingreso_producto_id\": 4, \"ubicacion_producto_id\": 1}]}', '{\"id\": 4, \"status\": 1, \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"updated_at\": \"2025-05-06T15:03:05.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-05-06\", \"ingreso_detalles\": [{\"id\": 9, \"fila\": 2, \"status\": 1, \"cantidad\": 25, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"disponible\": 25, \"updated_at\": \"2025-05-07T00:40:33.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-05-06\", \"fecha_registro_t\": \"06/05/2025\", \"fecha_vencimiento\": \"2027-03-03\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"03/03/2027\", \"ingreso_producto_id\": 4, \"ubicacion_producto_id\": 1}]}', 'INGRESO DE PRODUCTOS', '2025-05-06', '20:40:33', '2025-05-07 00:40:33', '2025-05-07 00:40:33');
+(24, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN INGRESO DE PRODUCTOS', '{\"id\": 4, \"status\": 1, \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"updated_at\": \"2025-05-06T15:03:05.000000Z\", \"descripcion\": \"\", \"sucursal_id\": 1, \"fecha_registro\": \"2025-05-06\", \"ingreso_detalles\": [{\"id\": 9, \"fila\": 2, \"status\": 1, \"cantidad\": 20, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"disponible\": 20, \"updated_at\": \"2025-05-07T00:35:48.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-05-06\", \"fecha_registro_t\": \"06/05/2025\", \"fecha_vencimiento\": \"2027-03-03\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"03/03/2027\", \"ingreso_producto_id\": 4, \"ubicacion_producto_id\": 1}]}', '{\"id\": 4, \"status\": 1, \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"updated_at\": \"2025-05-06T15:03:05.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-05-06\", \"ingreso_detalles\": [{\"id\": 9, \"fila\": 2, \"status\": 1, \"cantidad\": 25, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-05-06T15:03:05.000000Z\", \"disponible\": 25, \"updated_at\": \"2025-05-07T00:40:33.000000Z\", \"descripcion\": \"\", \"producto_id\": 16, \"fecha_registro\": \"2025-05-06\", \"fecha_registro_t\": \"06/05/2025\", \"fecha_vencimiento\": \"2027-03-03\", \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"03/03/2027\", \"ingreso_producto_id\": 4, \"ubicacion_producto_id\": 1}]}', 'INGRESO DE PRODUCTOS', '2025-05-06', '20:40:33', '2025-05-07 00:40:33', '2025-05-07 00:40:33'),
+(25, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA RELACIÓN DE PRODUCTO', '{\"id\": 10, \"created_at\": \"2025-04-17T21:40:34.000000Z\", \"updated_at\": \"2025-04-17T21:40:34.000000Z\", \"producto_id\": 15, \"producto_relacion\": 17}', NULL, 'PRODUCTOS', '2025-05-07', '16:55:42', '2025-05-07 20:55:42', '2025-05-07 20:55:42'),
+(26, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO LA RELACIÓN DE UN PRODUCTO', '{\"id\": 12, \"created_at\": \"2025-05-07T20:55:50.000000Z\", \"updated_at\": \"2025-05-07T20:55:50.000000Z\", \"producto_id\": \"15\", \"producto_relacion\": \"17\"}', NULL, 'PRODUCTOS', '2025-05-07', '16:55:50', '2025-05-07 20:55:50', '2025-05-07 20:55:50'),
+(27, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN PRODUCTO', '{\"id\": 15, \"foto\": \"151744662823.png\", \"marca\": null, \"nombre\": \"PRODUCTO A\", \"status\": 1, \"precio_sf\": \"0.00\", \"created_at\": \"2025-04-14T20:26:05.000000Z\", \"precio_fac\": \"10.00\", \"precio_min\": \"160.00\", \"updated_at\": \"2025-04-22T21:28:09.000000Z\", \"descripcion\": \"DESCRIPCION PRODUCTO\", \"precio_pred\": \"200.00\", \"stock_maximo\": 50, \"fecha_registro\": \"2025-04-14\"}', '{\"id\": 15, \"foto\": \"151744662823.png\", \"marca\": \"MARCA\", \"nombre\": \"PRODUCTO A\", \"status\": 1, \"precio_sf\": \"0.00\", \"created_at\": \"2025-04-14T20:26:05.000000Z\", \"precio_fac\": \"10.00\", \"precio_min\": \"160.00\", \"updated_at\": \"2025-10-29T23:17:56.000000Z\", \"descripcion\": \"DESCRIPCION PRODUCTO\", \"precio_pred\": \"200.00\", \"stock_maximo\": \"50\", \"fecha_registro\": \"2025-04-14\"}', 'PRODUCTOS', '2025-10-29', '19:17:56', '2025-10-29 23:17:56', '2025-10-29 23:17:56'),
+(28, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTOS', '{\"id\": 5, \"user_id\": 1, \"created_at\": \"2025-10-29T23:21:39.000000Z\", \"updated_at\": \"2025-10-29T23:21:39.000000Z\", \"descripcion\": \"\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-10-29\", \"ingreso_detalles\": [{\"id\": 10, \"fila\": 1, \"status\": 1, \"cantidad\": 2, \"listFilas\": [{\"label\": 1, \"value\": 1}, {\"label\": 2, \"value\": 2}, {\"label\": 3, \"value\": 3}, {\"label\": 4, \"value\": 4}], \"created_at\": \"2025-10-29T23:21:39.000000Z\", \"disponible\": 2, \"updated_at\": \"2025-10-29T23:21:39.000000Z\", \"descripcion\": \"\", \"producto_id\": 15, \"fecha_registro\": \"2025-10-29\", \"fecha_registro_t\": \"29/10/2025\", \"fecha_vencimiento\": null, \"ubicacion_producto\": {\"id\": 1, \"lugar\": \"LUGAR A\", \"status\": 1, \"created_at\": \"2025-04-17T22:10:25.000000Z\", \"updated_at\": \"2025-04-29T12:39:36.000000Z\", \"numero_filas\": 4, \"fecha_registro\": \"2025-04-17\", \"fecha_registro_t\": \"17/04/2025\"}, \"fecha_vencimiento_t\": \"\", \"ingreso_producto_id\": 5, \"ubicacion_producto_id\": 1}]}', NULL, 'INGRESO DE PRODUCTOS', '2025-10-29', '19:21:39', '2025-10-29 23:21:39', '2025-10-29 23:21:39'),
+(29, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SALIDA DE PRODUCTOS', '{\"id\": 1, \"user_id\": 1, \"cantidad\": \"1\", \"created_at\": \"2025-10-29T23:30:28.000000Z\", \"updated_at\": \"2025-10-29T23:30:28.000000Z\", \"descripcion\": \"DESC\", \"producto_id\": \"15\", \"sucursal_id\": \"1\", \"fecha_registro\": \"2025-10-29\"}', NULL, 'SALIDA DE PRODUCTOS', '2025-10-29', '19:30:28', '2025-10-29 23:30:28', '2025-10-29 23:30:28');
 
 -- --------------------------------------------------------
 
@@ -291,8 +296,9 @@ INSERT INTO `ingreso_detalles` (`id`, `ingreso_producto_id`, `producto_id`, `can
 (5, 2, 15, 100, 89, 1, 1, '2028-01-01', '', '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 22:22:14'),
 (6, 2, 18, 100, 94, 1, 2, NULL, '', '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 22:22:14'),
 (7, 2, 19, 100, 100, 2, 1, NULL, '', '2025-05-05', 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57'),
-(8, 3, 15, 10, 10, 1, 1, NULL, '', '2025-05-06', 1, '2025-05-06 15:02:23', '2025-05-06 15:02:23'),
-(9, 4, 16, 25, 25, 1, 2, '2027-03-03', '', '2025-05-06', 1, '2025-05-06 15:03:05', '2025-05-07 00:40:33');
+(8, 3, 15, 10, 9, 1, 1, NULL, '', '2025-05-06', 1, '2025-05-06 15:02:23', '2025-10-29 23:30:28'),
+(9, 4, 16, 25, 25, 1, 2, '2027-03-03', '', '2025-05-06', 1, '2025-05-06 15:03:05', '2025-05-07 00:40:33'),
+(10, 5, 15, 2, 2, 1, 1, NULL, '', '2025-10-29', 1, '2025-10-29 23:21:39', '2025-10-29 23:21:39');
 
 -- --------------------------------------------------------
 
@@ -306,6 +312,7 @@ CREATE TABLE `ingreso_productos` (
   `fecha_registro` date DEFAULT NULL,
   `descripcion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int NOT NULL DEFAULT '1',
+  `user_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -314,11 +321,12 @@ CREATE TABLE `ingreso_productos` (
 -- Volcado de datos para la tabla `ingreso_productos`
 --
 
-INSERT INTO `ingreso_productos` (`id`, `sucursal_id`, `fecha_registro`, `descripcion`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '2025-04-29', '', 1, '2025-04-29 21:11:56', '2025-04-29 21:11:56'),
-(2, 2, '2025-05-05', '', 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57'),
-(3, 1, '2025-05-06', '', 1, '2025-05-06 15:02:23', '2025-05-06 15:02:23'),
-(4, 1, '2025-05-06', '', 1, '2025-05-06 15:03:05', '2025-05-06 15:03:05');
+INSERT INTO `ingreso_productos` (`id`, `sucursal_id`, `fecha_registro`, `descripcion`, `status`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2025-04-29', '', 1, 1, '2025-04-29 21:11:56', '2025-04-29 21:11:56'),
+(2, 2, '2025-05-05', '', 1, 1, '2025-05-05 21:49:57', '2025-05-05 21:49:57'),
+(3, 1, '2025-05-06', '', 1, 1, '2025-05-06 15:02:23', '2025-05-06 15:02:23'),
+(4, 1, '2025-05-06', '', 1, 1, '2025-05-06 15:03:05', '2025-05-06 15:03:05'),
+(5, 1, '2025-10-29', '', 1, 1, '2025-10-29 23:21:39', '2025-10-29 23:21:39');
 
 -- --------------------------------------------------------
 
@@ -393,7 +401,9 @@ INSERT INTO `kardex_productos` (`id`, `sucursal_id`, `tipo_registro`, `registro_
 (40, 2, 'ORDEN DE VENTA', 17, 'DetalleOrden', 18, 'VENTA DE PRODUCTO', 100.50, 'EGRESO', NULL, 3, 94, 100.50, NULL, 301.50, 9447.00, '2025-05-05', 1, '2025-05-05 22:22:14', '2025-05-05 22:22:14'),
 (41, 1, 'DEVOLUCIÓN', 1, 'Devolucion', 18, 'INGRESO POR DEVOLUCIÓN DE PRODUCTO POR INCORRECTO', 100.50, 'INGRESO', 1, NULL, 19, 100.50, 100.50, NULL, 1909.50, '2025-05-06', 1, '2025-05-06 14:53:44', '2025-05-06 14:53:44'),
 (42, 1, 'INGRESO DE PRODUCTO', 8, 'IngresoDetalle', 15, 'INGRESO DE PRODUCTO', 200.00, 'INGRESO', 10, NULL, 10, 200.00, 2000.00, NULL, 2000.00, '2025-05-06', 1, '2025-05-06 15:02:23', '2025-05-06 15:02:23'),
-(43, 1, 'INGRESO DE PRODUCTO', 9, 'IngresoDetalle', 16, 'INGRESO DE PRODUCTO', 200.00, 'INGRESO', 25, NULL, 45, 200.00, 5000.00, NULL, 9000.00, '2025-05-06', 1, '2025-05-06 15:03:05', '2025-05-07 00:40:33');
+(43, 1, 'INGRESO DE PRODUCTO', 9, 'IngresoDetalle', 16, 'INGRESO DE PRODUCTO', 200.00, 'INGRESO', 25, NULL, 45, 200.00, 5000.00, NULL, 9000.00, '2025-05-06', 1, '2025-05-06 15:03:05', '2025-05-07 00:40:33'),
+(44, 1, 'INGRESO DE PRODUCTO', 10, 'IngresoDetalle', 15, 'INGRESO DE PRODUCTO', 200.00, 'INGRESO', 2, NULL, 12, 200.00, 400.00, NULL, 2400.00, '2025-10-29', 1, '2025-10-29 23:21:39', '2025-10-29 23:21:39'),
+(45, 1, 'SALIDA DE PRODUCTO', 1, 'SalidaProducto', 15, 'DESC', 200.00, 'EGRESO', NULL, 1, 11, 200.00, NULL, 200.00, 2200.00, '2025-10-29', 1, '2025-10-29 23:30:28', '2025-10-29 23:30:28');
 
 -- --------------------------------------------------------
 
@@ -557,7 +567,23 @@ INSERT INTO `notificacions` (`id`, `descripcion`, `fecha`, `hora`, `tipo`, `sucu
 (10, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-05', '17:29:28', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-05 21:29:28', '2025-05-05 21:29:28'),
 (11, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-06', '10:12:47', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-05-06 14:12:48', '2025-05-06 14:12:48'),
 (12, 'STOCK DEL PRODUCTO PRODUCTO A1 ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-06', '10:12:47', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 2, '2025-05-06 14:12:48', '2025-05-06 14:12:48'),
-(13, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-06', '10:12:47', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-06 14:12:48', '2025-05-06 14:12:48');
+(13, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-06', '10:12:47', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-06 14:12:48', '2025-05-06 14:12:48'),
+(14, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-07', '16:50:42', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-05-07 20:50:42', '2025-05-07 20:50:42'),
+(15, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-07', '16:50:42', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-07 20:50:42', '2025-05-07 20:50:42'),
+(16, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-15', '16:03:23', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-05-15 20:03:23', '2025-05-15 20:03:23'),
+(17, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-15', '16:03:23', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-15 20:03:23', '2025-05-15 20:03:23'),
+(18, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-20', '13:46:11', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-05-20 17:46:11', '2025-05-20 17:46:11'),
+(19, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-20', '13:46:11', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-20 17:46:11', '2025-05-20 17:46:11'),
+(20, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-21', '17:03:42', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-05-21 21:03:42', '2025-05-21 21:03:42'),
+(21, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-05-21', '17:03:42', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-05-21 21:03:42', '2025-05-21 21:03:42'),
+(22, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-06-09', '19:10:06', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-06-09 23:10:06', '2025-06-09 23:10:06'),
+(23, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-06-09', '19:10:06', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-06-09 23:10:06', '2025-06-09 23:10:06'),
+(24, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-10-13', '09:23:33', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(25, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-10-13', '09:23:33', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(26, 'EL PRODUCTO PRODUCTO B ESTA A 6 MESES DE SU FECHA DE VENCIMIENTO', '2025-10-13', '09:23:33', '6 MESES', 1, 'IngresoDetalle', 3, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(27, 'STOCK DEL PRODUCTO PRODUCTO A ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-10-29', '18:42:52', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 1, '2025-10-29 22:42:52', '2025-10-29 22:42:52'),
+(28, 'STOCK DEL PRODUCTO PRODUCTO B ESTA POR DEBAJO DEL 50% DEL STOCK MAXIMO', '2025-10-29', '18:42:52', 'STOCK INTERMEDIO', 1, 'ProductoSucursal', 3, '2025-10-29 22:42:52', '2025-10-29 22:42:52'),
+(29, 'EL PRODUCTO PRODUCTO B ESTA A 6 MESES DE SU FECHA DE VENCIMIENTO', '2025-10-29', '18:42:52', '6 MESES', 1, 'IngresoDetalle', 3, '2025-10-29 22:42:53', '2025-10-29 22:42:53');
 
 -- --------------------------------------------------------
 
@@ -583,7 +609,7 @@ INSERT INTO `notificacion_users` (`id`, `user_id`, `notificacion_id`, `visto`, `
 (8, 4, 4, 0, '2025-04-29 21:13:13', '2025-04-29 21:13:13'),
 (9, 1, 5, 1, '2025-04-29 21:13:13', '2025-05-05 23:09:41'),
 (10, 4, 5, 0, '2025-04-29 21:13:13', '2025-04-29 21:13:13'),
-(11, 1, 6, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
+(11, 1, 6, 1, '2025-04-29 21:54:26', '2025-10-29 22:52:30'),
 (12, 4, 6, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
 (13, 1, 7, 1, '2025-04-29 21:54:26', '2025-05-07 00:46:00'),
 (14, 3, 7, 0, '2025-04-29 21:54:26', '2025-04-29 21:54:26'),
@@ -599,7 +625,41 @@ INSERT INTO `notificacion_users` (`id`, `user_id`, `notificacion_id`, `visto`, `
 (24, 1, 12, 1, '2025-05-06 14:12:48', '2025-05-07 00:51:22'),
 (25, 4, 12, 0, '2025-05-06 14:12:48', '2025-05-06 14:12:48'),
 (26, 1, 13, 0, '2025-05-06 14:12:48', '2025-05-06 14:12:48'),
-(27, 4, 13, 0, '2025-05-06 14:12:48', '2025-05-06 14:12:48');
+(27, 4, 13, 0, '2025-05-06 14:12:48', '2025-05-06 14:12:48'),
+(28, 1, 14, 0, '2025-05-07 20:50:42', '2025-05-07 20:50:42'),
+(29, 4, 14, 0, '2025-05-07 20:50:42', '2025-05-07 20:50:42'),
+(30, 1, 15, 0, '2025-05-07 20:50:42', '2025-05-07 20:50:42'),
+(31, 4, 15, 0, '2025-05-07 20:50:42', '2025-05-07 20:50:42'),
+(32, 1, 16, 0, '2025-05-15 20:03:23', '2025-05-15 20:03:23'),
+(33, 4, 16, 0, '2025-05-15 20:03:23', '2025-05-15 20:03:23'),
+(34, 1, 17, 0, '2025-05-15 20:03:23', '2025-05-15 20:03:23'),
+(35, 4, 17, 0, '2025-05-15 20:03:23', '2025-05-15 20:03:23'),
+(36, 1, 18, 0, '2025-05-20 17:46:11', '2025-05-20 17:46:11'),
+(37, 4, 18, 0, '2025-05-20 17:46:11', '2025-05-20 17:46:11'),
+(38, 1, 19, 0, '2025-05-20 17:46:11', '2025-05-20 17:46:11'),
+(39, 4, 19, 0, '2025-05-20 17:46:11', '2025-05-20 17:46:11'),
+(40, 1, 20, 0, '2025-05-21 21:03:42', '2025-05-21 21:03:42'),
+(41, 4, 20, 0, '2025-05-21 21:03:42', '2025-05-21 21:03:42'),
+(42, 1, 21, 0, '2025-05-21 21:03:42', '2025-05-21 21:03:42'),
+(43, 4, 21, 0, '2025-05-21 21:03:42', '2025-05-21 21:03:42'),
+(44, 1, 22, 0, '2025-06-09 23:10:06', '2025-06-09 23:10:06'),
+(45, 4, 22, 0, '2025-06-09 23:10:06', '2025-06-09 23:10:06'),
+(46, 1, 23, 0, '2025-06-09 23:10:06', '2025-06-09 23:10:06'),
+(47, 4, 23, 0, '2025-06-09 23:10:06', '2025-06-09 23:10:06'),
+(48, 1, 24, 0, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(49, 4, 24, 0, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(50, 1, 25, 0, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(51, 4, 25, 0, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(52, 1, 26, 0, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(53, 3, 26, 0, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(54, 4, 26, 0, '2025-10-13 13:23:33', '2025-10-13 13:23:33'),
+(55, 1, 27, 0, '2025-10-29 22:42:52', '2025-10-29 22:42:52'),
+(56, 4, 27, 0, '2025-10-29 22:42:52', '2025-10-29 22:42:52'),
+(57, 1, 28, 0, '2025-10-29 22:42:52', '2025-10-29 22:42:52'),
+(58, 4, 28, 0, '2025-10-29 22:42:52', '2025-10-29 22:42:52'),
+(59, 1, 29, 0, '2025-10-29 22:42:53', '2025-10-29 22:42:53'),
+(60, 3, 29, 0, '2025-10-29 22:42:53', '2025-10-29 22:42:53'),
+(61, 4, 29, 0, '2025-10-29 22:42:53', '2025-10-29 22:42:53');
 
 -- --------------------------------------------------------
 
@@ -693,7 +753,8 @@ CREATE TABLE `productos` (
   `id` bigint UNSIGNED NOT NULL,
   `nombre` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` varchar(900) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `precio_pred` decimal(24,2) NOT NULL,
+  `marca` varchar(900) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `precio_pred` decimal(24,2) DEFAULT NULL,
   `precio_min` decimal(24,2) NOT NULL,
   `precio_fac` decimal(24,2) NOT NULL,
   `precio_sf` decimal(24,2) NOT NULL,
@@ -709,12 +770,12 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio_pred`, `precio_min`, `precio_fac`, `precio_sf`, `stock_maximo`, `foto`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
-(15, 'PRODUCTO A', 'DESCRIPCION PRODUCTO', 200.00, 160.00, 10.00, 0.00, 50, '151744662823.png', '2025-04-14', 1, '2025-04-14 20:26:05', '2025-04-22 21:28:09'),
-(16, 'PRODUCTO A1', 'PARECIDO AL PROD A', 200.00, 170.00, 5.00, 0.00, 50, NULL, '2025-04-17', 1, '2025-04-17 20:07:08', '2025-04-17 20:07:08'),
-(17, 'PRODUCTO A2', 'PARECIDO A PROD A Y A1', 220.00, 200.00, 6.00, 0.00, 60, NULL, '2025-04-17', 1, '2025-04-17 20:07:30', '2025-04-17 20:07:30'),
-(18, 'PRODUCTO B', 'DESC PROD B', 100.50, 90.00, 10.00, 0.00, 40, NULL, '2025-04-17', 1, '2025-04-17 20:07:53', '2025-04-17 20:07:53'),
-(19, 'PRODUCTO C', 'DESC PROD C', 50.90, 48.00, 10.00, 0.00, 30, NULL, '2025-04-17', 1, '2025-04-17 20:08:15', '2025-04-17 20:08:15');
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `marca`, `precio_pred`, `precio_min`, `precio_fac`, `precio_sf`, `stock_maximo`, `foto`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
+(15, 'PRODUCTO A', 'DESCRIPCION PRODUCTO', 'MARCA', 200.00, 160.00, 10.00, 0.00, 50, '151744662823.png', '2025-04-14', 1, '2025-04-14 20:26:05', '2025-10-29 23:17:56'),
+(16, 'PRODUCTO A1', 'PARECIDO AL PROD A', NULL, 200.00, 170.00, 5.00, 0.00, 50, NULL, '2025-04-17', 1, '2025-04-17 20:07:08', '2025-04-17 20:07:08'),
+(17, 'PRODUCTO A2', 'PARECIDO A PROD A Y A1', NULL, 220.00, 200.00, 6.00, 0.00, 60, NULL, '2025-04-17', 1, '2025-04-17 20:07:30', '2025-04-17 20:07:30'),
+(18, 'PRODUCTO B', 'DESC PROD B', NULL, 100.50, 90.00, 10.00, 0.00, 40, NULL, '2025-04-17', 1, '2025-04-17 20:07:53', '2025-04-17 20:07:53'),
+(19, 'PRODUCTO C', 'DESC PROD C', NULL, 50.90, 48.00, 10.00, 0.00, 30, NULL, '2025-04-17', 1, '2025-04-17 20:08:15', '2025-04-17 20:08:15');
 
 -- --------------------------------------------------------
 
@@ -736,8 +797,8 @@ CREATE TABLE `producto_relacions` (
 
 INSERT INTO `producto_relacions` (`id`, `producto_id`, `producto_relacion`, `created_at`, `updated_at`) VALUES
 (9, 15, 16, '2025-04-17 21:40:31', '2025-04-17 21:40:31'),
-(10, 15, 17, '2025-04-17 21:40:34', '2025-04-17 21:40:34'),
-(11, 16, 15, '2025-04-19 14:31:00', '2025-04-19 14:31:00');
+(11, 16, 15, '2025-04-19 14:31:00', '2025-04-19 14:31:00'),
+(12, 15, 17, '2025-05-07 20:55:50', '2025-05-07 20:55:50');
 
 -- --------------------------------------------------------
 
@@ -759,7 +820,7 @@ CREATE TABLE `producto_sucursals` (
 --
 
 INSERT INTO `producto_sucursals` (`id`, `sucursal_id`, `producto_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 10, '2025-04-29 21:11:56', '2025-05-06 15:02:23'),
+(1, 1, 15, 11, '2025-04-29 21:11:56', '2025-10-29 23:30:28'),
 (2, 1, 16, 45, '2025-04-29 21:11:56', '2025-05-07 00:40:33'),
 (3, 1, 18, 19, '2025-04-29 21:11:56', '2025-05-06 14:53:44'),
 (4, 1, 19, 20, '2025-04-29 21:11:56', '2025-05-07 00:39:59'),
@@ -858,9 +919,17 @@ CREATE TABLE `salida_productos` (
   `descripcion` varchar(800) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_registro` date NOT NULL,
   `status` int NOT NULL DEFAULT '1',
+  `user_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `salida_productos`
+--
+
+INSERT INTO `salida_productos` (`id`, `sucursal_id`, `producto_id`, `cantidad`, `descripcion`, `fecha_registro`, `status`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 15, 1, 'DESC', '2025-10-29', 1, 1, '2025-10-29 23:30:28', '2025-10-29 23:30:28');
 
 -- --------------------------------------------------------
 
@@ -1190,25 +1259,25 @@ ALTER TABLE `devolucions`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_detalles`
 --
 ALTER TABLE `ingreso_detalles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -1226,13 +1295,13 @@ ALTER TABLE `modulos`
 -- AUTO_INCREMENT de la tabla `notificacions`
 --
 ALTER TABLE `notificacions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion_users`
 --
 ALTER TABLE `notificacion_users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_ventas`
@@ -1256,7 +1325,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `producto_relacions`
 --
 ALTER TABLE `producto_relacions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `producto_sucursals`
@@ -1286,7 +1355,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `salida_productos`
 --
 ALTER TABLE `salida_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursals`
