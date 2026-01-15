@@ -133,11 +133,7 @@ const updateDatatable = () => {
 };
 
 onMounted(async () => {
-    datatable = initDataTable(
-        "#table-cliente",
-        columns,
-        route("clientes.api")
-    );
+    datatable = initDataTable("#table-cliente", columns, route("clientes.api"));
     input_search = document.querySelector('input[type="search"]');
 
     // Agregar un evento 'keyup' al input de búsqueda con debounce

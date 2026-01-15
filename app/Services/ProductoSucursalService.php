@@ -21,19 +21,16 @@ class ProductoSucursalService
      */
     public function listado($sucursal_id = -1, bool $con_stock = false): Collection
     {
-        $producto_sucursals = ProductoSucursal::with(["sucursal", "producto"])->select("producto_sucursals.*");
-
-        if (Auth::user()->sucursals_todo == 0) {
-            $producto_sucursals->where("sucursal_id", Auth::user()->sucursal_id);
-        }
-
-        if ($sucursal_id != -1) {
-            $producto_sucursals->where("sucursal_id", $sucursal_id);
-        }
-
-        if ($con_stock) {
-            $producto_sucursals->where("stock_actual", ">", 0)->get();
-        }
+        $producto_sucursals = Producto::select(
+            'productos.*',
+            DB::raw('(
+            SELECT COALESCE(stock_actual, 0)
+                FROM producto_sucursals
+                WHERE producto_sucursals.producto_id = productos.id
+                AND producto_sucursals.sucursal_id = ' . $sucursal_id . '
+                LIMIT 1
+            ) as stock_actual')
+        );
 
         $producto_sucursals = $producto_sucursals->get();
         return $producto_sucursals;
